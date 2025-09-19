@@ -8,10 +8,10 @@ A minimal, elegant, glassmorphism-themed landing page for the cosmic rock band *
 
 ## 🎼 Purpose
 
-Showcase Stellarmelt’s story, music, and upcoming moments in one immersive page:
+Showcase Stellarmelt's story, music, and upcoming moments in one immersive page:
 
 - a bold hero,
-- a “Meet the Band” section,
+- a "Meet the Band" section,
 - an interactive timeline with visuals,
 - a discography with playable links,
 - and quick links to platforms.
@@ -46,17 +46,17 @@ Showcase Stellarmelt’s story, music, and upcoming moments in one immersive pag
 
   - glassy note tile,
   - length pill,
-  - “Play” buttons linking to Suno,
+  - "Play" buttons linking to Suno,
   - soft scroll-reveal animations.
 
 - **Contact**  
-  Minimal SVG icons (Spotify, YouTube, Tidal) — currently pointing to GitHub placeholders.
+  Minimal SVG icons (Spotify, YouTube, Tidal) - currently pointing to GitHub placeholders.
 
 - **Accessibility touches**  
   Skip link, visible focus rings, ARIA labels, semantic landmarks, and Reduced Motion support.
 
 - **Zero extra libs**  
-  No framer-motion, no icon libraries — just React, TypeScript, and Tailwind.
+  No framer-motion, no icon libraries - just React, TypeScript, and Tailwind.
 
 ---
 
@@ -83,7 +83,7 @@ npm install
 # or: pnpm install / yarn
 ```
 
-### 2) Add assets (if you haven’t already)
+### 2) Add assets (if you haven't already)
 
 Place these files in /public to match the code:
 
@@ -111,5 +111,5 @@ Then open the printed local URL (usually http://localhost:5173).
 
 ## 📜 License
 
-- Code: MIT License — feel free to use, modify, and share.
-- Brand & media: “Stellarmelt” name, logo, and any custom images/artwork are © 2025 Tora Blaze. Please don’t reuse brand assets without permission.
+- Code: [MIT License](./LICENSE) - feel free to use, modify, and share.
+- Brand & media: "Stellarmelt" name, logo, and any custom images/artwork are Copyright 2025 Tora Blaze. Please don't reuse brand assets without permission.

@@ -10,23 +10,24 @@ Stellarmelt is a static landing page built in React (TypeScript) + Tailwind.
 
 ```
 .
-├─ public/                 # Static assets served at root
-│  ├─ favicon.png
-│  ├─ hero-art.png
-│  └─ timeline-*.png
-├─ src/                    # Application source (React + TS)
-│  ├─ App.tsx              # Root UI component
-│  ├─ main.tsx             # App entry, mounts React
-│  ├─ index.css            # Tailwind v4 import + globals
-│  └─ vite-env.d.ts        # Vite type declarations
-├─ index.html              # Vite HTML entry
-├─ vite.config.ts          # Vite + React + Tailwind plugins
-├─ eslint.config.js        # ESLint configuration
-├─ tsconfig*.json          # TypeScript project configs
-├─ package.json            # Scripts and dependencies (npm)
-├─ package-lock.json       # Lockfile (package manager: npm)
-├─ AGENTS.md               # This guide
-└─ README.md               # Project overview and usage
+|- public/                 # Static assets served at root
+|  |- favicon.png
+|  |- hero-art.png
+|  \- timeline-*.png
+|- src/                    # Application source (React + TS)
+|  |- App.tsx              # Root UI component
+|  |- main.tsx             # App entry, mounts React
+|  |- index.css            # Tailwind v4 import + globals
+|  \- vite-env.d.ts        # Vite type declarations
+|- index.html              # Vite HTML entry
+|- vite.config.ts          # Vite + React + Tailwind plugins
+|- eslint.config.js        # ESLint configuration
+|- tsconfig*.json          # TypeScript project configs
+|- package.json            # Scripts and dependencies (npm)
+|- package-lock.json       # Lockfile (package manager: npm)
+|- AGENTS.md               # This guide
+|- LICENSE                 # MIT license
+\- README.md               # Project overview and usage
 ```
 
 - Assets in `public/` are available at `/filename.ext` (no import required).
