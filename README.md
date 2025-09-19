@@ -62,7 +62,7 @@ Showcase Stellarmelt's story, music, and upcoming moments in one immersive page:
 
 ## 🛠️ Tech Stack
 
-- **React 18** + **TypeScript**
+- **React 19** + **TypeScript**
 - **Tailwind CSS**
 - Build tooling: works great with **Vite** (recommended) or **Create React App**.  
   Deployed on **Vercel**.
