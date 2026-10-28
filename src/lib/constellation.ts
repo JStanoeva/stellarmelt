@@ -23,7 +23,10 @@ const random = createRandom(42);
 export const stars: Star[] = Array.from({ length: 120 }, () => ({
   top: random() * 100,
   left: random() * 100,
-  size: random() < 0.8 ? Math.floor(random() * 2) + 1 : Math.floor(random() * 3) + 2,
+  size:
+    random() < 0.8
+      ? Math.floor(random() * 2) + 1
+      : Math.floor(random() * 3) + 2,
   delay: random() * 8,
   duration: 6 + random() * 8,
   opacity: 0.4 + random() * 0.6,

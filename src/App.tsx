@@ -49,7 +49,7 @@ export default function App() {
   // Scroll-reveal for About + Discography cards
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(
-      "#about [data-reveal], #discography [data-reveal]"
+      "#about [data-reveal], #discography [data-reveal]",
     );
     if (!els.length) return;
 
@@ -62,7 +62,7 @@ export default function App() {
           }
         });
       },
-      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" },
     );
 
     els.forEach((el) => io.observe(el));
@@ -165,7 +165,7 @@ export default function App() {
   useEffect(() => {
     // Respect Reduced Motion
     const prefersReduced = window.matchMedia?.(
-      "(prefers-reduced-motion: reduce)"
+      "(prefers-reduced-motion: reduce)",
     ).matches;
     if (prefersReduced || isTimelinePaused) return;
 
@@ -263,11 +263,11 @@ export default function App() {
       `}</style>
 
       {/* Animated background */}
-      <div className="fixed inset-0 -z-30 bg-cosmic" aria-hidden="true" />
+      <div className="bg-cosmic fixed inset-0 -z-30" aria-hidden="true" />
 
       {/* Stars */}
       <div
-        className="fixed inset-0 -z-20 pointer-events-none"
+        className="pointer-events-none fixed inset-0 -z-20"
         aria-hidden="true"
       >
         {stars.map((s, i) => {
@@ -290,30 +290,21 @@ export default function App() {
       {/* Skip link */}
       <a
         href="#hero"
-        className="
-        sr-only 
-        focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60]
-        focus:rounded-xl focus:px-4 focus:py-2
-        focus:text-sm focus:font-medium
-        focus:outline-none
-        glass
-        focus:ring-2 focus:ring-[#dd819c]
-        focus:shadow-lg focus:shadow-[#dd819c]/30
-      "
+        className="glass sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-xl focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:ring-2 focus:shadow-[#dd819c]/30 focus:ring-[#dd819c] focus:outline-none"
       >
         Skip to content
       </a>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50">
+      <header className="fixed top-0 right-0 left-0 z-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <nav
             aria-label="Primary"
-            className="mt-4 flex items-center justify-between rounded-2xl glass px-4 py-3"
+            className="glass mt-4 flex items-center justify-between rounded-2xl px-4 py-3"
           >
             <a
               href="#hero"
-              className="flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#dd819c] rounded-md"
+              className="flex items-center gap-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#dd819c]"
               onClick={() => setMenuOpen(false)}
             >
               {/* Logo image */}
@@ -325,18 +316,18 @@ export default function App() {
               />
 
               {/* Band name */}
-              <span className="text-lg font-semibold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-[#dd819c] via-[#a05987] to-[#3b1f52]">
+              <span className="bg-gradient-to-r from-[#dd819c] via-[#a05987] to-[#3b1f52] bg-clip-text text-lg font-semibold tracking-wide text-transparent">
                 Stellarmelt
               </span>
             </a>
 
             {/* Desktop menu */}
-            <ul className="hidden md:flex items-center gap-6 text-sm">
+            <ul className="hidden items-center gap-6 text-sm md:flex">
               {sections.map((s) => (
                 <li key={s.id}>
                   <a
                     href={`#${s.id}`}
-                    className="opacity-90 hover:opacity-100 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[#dd819c] rounded-md px-2 py-1"
+                    className="rounded-md px-2 py-1 opacity-90 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#dd819c]"
                   >
                     {s.label}
                   </a>
@@ -349,7 +340,7 @@ export default function App() {
               aria-label="Toggle menu"
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              className="md:hidden rounded-md p-2 btn"
+              className="btn rounded-md p-2 md:hidden"
               onClick={() => setMenuOpen((v) => !v)}
             >
               <svg
@@ -380,7 +371,7 @@ export default function App() {
           {menuOpen && (
             <div
               id="mobile-menu"
-              className="md:hidden mt-2 rounded-xl glass px-4 py-3 fade-in-up"
+              className="glass fade-in-up mt-2 rounded-xl px-4 py-3 md:hidden"
               role="dialog"
               aria-modal="true"
             >
@@ -407,15 +398,15 @@ export default function App() {
         {/* HERO */}
         <section id="hero" className="scroll-mt-24 pb-10 sm:pb-12 lg:pb-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="glass rounded-3xl p-6 sm:p-10 lg:p-14 fade-in-up">
-              <div className="flex flex-col md:flex-row items-center gap-10">
+            <div className="glass fade-in-up rounded-3xl p-6 sm:p-10 lg:p-14">
+              <div className="flex flex-col items-center gap-10 md:flex-row">
                 {/* Left: Headline + CTA */}
-                <div className="md:flex-1 w-full">
-                  <p className="uppercase tracking-[.35em] text-xs sm:text-sm opacity-80 mb-3">
+                <div className="w-full md:flex-1">
+                  <p className="mb-3 text-xs tracking-[.35em] uppercase opacity-80 sm:text-sm">
                     Cosmic Rock • Love • Stardust
                   </p>
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#dd819c] via-[#a05987] to-[#3b1f52]">
+                  <h1 className="text-4xl leading-tight font-extrabold sm:text-5xl lg:text-6xl">
+                    <span className="bg-gradient-to-r from-[#dd819c] via-[#a05987] to-[#3b1f52] bg-clip-text text-transparent">
                       Stellarmelt
                     </span>
                   </h1>
@@ -441,23 +432,18 @@ export default function App() {
                 </div>
 
                 {/* Right: Hero art contained inside card (desktop only) */}
-                <div className="hidden lg:block lg:flex-1 w-full">
-                  <div className="relative mx-auto w-full max-w-xl rounded-2xl overflow-hidden">
+                <div className="hidden w-full lg:block lg:flex-1">
+                  <div className="relative mx-auto w-full max-w-xl overflow-hidden rounded-2xl">
                     <img
                       src="/hero-art.png"
                       alt="Cosmic nebulae and planets with music notes"
-                      className="
-                      relative block w-full h-auto object-contain select-none
-                      drop-shadow-[0_16px_24px_rgba(221,129,156,0.28)]
-                      md:drop-shadow-[0_16px_24px_rgba(221,129,156,0.28)]
-                      xl:drop-shadow-[0_16px_24px_rgba(221,129,156,0.28)]
-                    "
+                      className="relative block h-auto w-full object-contain drop-shadow-[0_16px_24px_rgba(221,129,156,0.28)] select-none md:drop-shadow-[0_16px_24px_rgba(221,129,156,0.28)] xl:drop-shadow-[0_16px_24px_rgba(221,129,156,0.28)]"
                       loading="eager"
                       decoding="async"
                       draggable={false}
                     />
                     <div
-                      className="pointer-events-none absolute -z-10 right-[6%] bottom-[6%] h-56 w-56 rounded-full blur-2xl"
+                      className="pointer-events-none absolute right-[6%] bottom-[6%] -z-10 h-56 w-56 rounded-full blur-2xl"
                       aria-hidden="true"
                       style={{
                         background:
@@ -475,9 +461,9 @@ export default function App() {
         <section id="about" className="scroll-mt-24 py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <header className="mb-10">
-              <h2 className="text-3xl sm:text-4xl font-bold">
+              <h2 className="text-3xl font-bold sm:text-4xl">
                 About{" "}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#dd819c] to-[#a05987]">
+                <span className="bg-gradient-to-r from-[#dd819c] to-[#a05987] bg-clip-text text-transparent">
                   Stellarmelt
                 </span>
               </h2>
@@ -489,7 +475,7 @@ export default function App() {
               </p>
             </header>
 
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {members.map((m, idx) => (
                 <li
                   key={m.name}
@@ -497,9 +483,9 @@ export default function App() {
                   data-reveal
                   style={{ transitionDelay: `${idx * 90}ms` }}
                 >
-                  <div className="glass rounded-2xl p-5 h-full transition-transform duration-200 group-hover:-translate-y-1">
+                  <div className="glass h-full rounded-2xl p-5 transition-transform duration-200 group-hover:-translate-y-1">
                     <div className="flex items-center gap-4">
-                      <div className="h-11 w-11 rounded-full ring-1 ring-white/30 bg-gradient-to-br from-white/20 to-white/5 grid place-items-center">
+                      <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-white/20 to-white/5 ring-1 ring-white/30">
                         <img
                           src="/favicon.png"
                           alt="Stellarmelt logo"
@@ -524,10 +510,10 @@ export default function App() {
         <section id="timeline" className="scroll-mt-24 py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {/* Two-column layout on lg+ */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
               {/* Left: timeline content */}
               <div className="lg:col-span-2">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-10">
+                <h2 className="mb-10 text-3xl font-bold sm:text-4xl">
                   Timeline
                 </h2>
                 <ol className="relative ml-3 border-l border-white/20">
@@ -545,7 +531,7 @@ export default function App() {
                         onMouseLeave={resumeTimeline}
                       >
                         <span
-                          className={`absolute -left-3 top-0 grid h-6 w-6 place-items-center rounded-full ring-2 ${
+                          className={`absolute top-0 -left-3 grid h-6 w-6 place-items-center rounded-full ring-2 ${
                             isActive ? "ring-[#dd819c]" : "ring-white/40"
                           }`}
                           style={{
@@ -559,12 +545,12 @@ export default function App() {
                         >
                           <span className="h-2.5 w-2.5 rounded-full bg-white" />
                         </span>
-                        <time className="text-xs uppercase tracking-widest text-white/70">
+                        <time className="text-xs tracking-widest text-white/70 uppercase">
                           {e.date}
                         </time>
                         <h3
                           tabIndex={0}
-                          className={`mt-1 font-semibold text-lg outline-none transition-colors ${
+                          className={`mt-1 text-lg font-semibold transition-colors outline-none ${
                             isActive ? "text-white" : ""
                           }`}
                           onFocus={() => {
@@ -591,8 +577,8 @@ export default function App() {
                   onMouseEnter={pauseTimeline}
                   onMouseLeave={resumeTimeline}
                 >
-                  <figure className="glass rounded-2xl overflow-hidden">
-                    <div className="relative w-full aspect-[3/4]">
+                  <figure className="glass overflow-hidden rounded-2xl">
+                    <div className="relative aspect-[3/4] w-full">
                       {/* Base cosmic tint so it looks good even with no image */}
                       <div
                         className="absolute inset-0"
@@ -625,7 +611,7 @@ export default function App() {
 
                       {/* Soft overlay to unify look */}
                       <div
-                        className="absolute inset-0 pointer-events-none"
+                        className="pointer-events-none absolute inset-0"
                         aria-hidden="true"
                         style={{
                           background:
@@ -654,20 +640,20 @@ export default function App() {
         <section id="discography" className="scroll-mt-24 py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <header className="mb-8">
-              <h2 className="text-3xl sm:text-4xl font-bold">Discography</h2>
+              <h2 className="text-3xl font-bold sm:text-4xl">Discography</h2>
               <p className="mt-2 text-white/80">
                 <span className="font-semibold">Album:</span>{" "}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#dd819c] to-[#3b1f52]">
+                <span className="bg-gradient-to-r from-[#dd819c] to-[#3b1f52] bg-clip-text text-transparent">
                   Snow and the AI Mind
                 </span>
               </p>
             </header>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
               {/* Album Card */}
               <div className="lg:col-span-1">
-                <div className="glass rounded-2xl p-6 h-full">
-                  <div className="relative aspect-square w-full rounded-xl overflow-hidden">
+                <div className="glass h-full rounded-2xl p-6">
+                  <div className="relative aspect-square w-full overflow-hidden rounded-xl">
                     {/* Your real cover */}
                     <img
                       src="/album-cover.png"
@@ -701,7 +687,7 @@ export default function App() {
               </div>
 
               {/* Track List */}
-              <ul className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-2">
                 {tracks.map((t, idx) => (
                   <li
                     key={t.no}
@@ -709,13 +695,13 @@ export default function App() {
                     data-reveal
                     style={{ transitionDelay: `${idx * 90}ms` }}
                   >
-                    <div className="glass rounded-2xl p-5 h-full flex flex-col justify-between transition-transform duration-200 group-hover:-translate-y-1">
+                    <div className="glass flex h-full flex-col justify-between rounded-2xl p-5 transition-transform duration-200 group-hover:-translate-y-1">
                       {/* Header */}
                       <div className="flex items-start justify-between gap-4">
                         {/* LEFT: icon + text */}
                         <div className="flex items-center gap-3">
                           {/* Glassy note tile */}
-                          <div className="relative grid h-10 w-10 place-items-center rounded-xl glass overflow-hidden">
+                          <div className="glass relative grid h-10 w-10 place-items-center overflow-hidden rounded-xl">
                             <div
                               className="pointer-events-none absolute inset-0 rounded-xl"
                               aria-hidden="true"
@@ -766,10 +752,10 @@ export default function App() {
                           </div>
 
                           <div>
-                            <p className="text-xs uppercase tracking-widest text-white/70">
+                            <p className="text-xs tracking-widest text-white/70 uppercase">
                               Track {t.no}
                             </p>
-                            <h4 className="mt-1 font-semibold text-lg">
+                            <h4 className="mt-1 text-lg font-semibold">
                               {t.title}
                             </h4>
                           </div>
@@ -778,7 +764,7 @@ export default function App() {
                         {/* RIGHT: length pill + play button */}
                         <div className="flex items-center gap-2">
                           <span
-                            className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-white/20 bg-white/10"
+                            className="inline-flex items-center rounded-full bg-white/10 px-2.5 py-1 text-xs font-medium ring-1 ring-white/20"
                             title="Track length"
                           >
                             {t.length}
@@ -804,13 +790,13 @@ export default function App() {
                       </div>
 
                       {/* One-line about */}
-                      <p className="mt-3 text-sm text-white/80 leading-relaxed">
+                      <p className="mt-3 text-sm leading-relaxed text-white/80">
                         {t.about}
                       </p>
 
                       {/* Decorative progress bar */}
                       <div
-                        className="mt-4 h-2 w-full rounded-full bg-white/10 overflow-hidden"
+                        className="mt-4 h-2 w-full overflow-hidden rounded-full bg-white/10"
                         aria-hidden="true"
                       >
                         <div
@@ -833,9 +819,9 @@ export default function App() {
         {/* CONTACT */}
         <section id="contact" className="scroll-mt-24 py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-8">Contact</h2>
-            <div className="glass rounded-2xl p-8 flex flex-col items-center">
-              <p className="text-white/80 mb-6 text-center">
+            <h2 className="mb-8 text-3xl font-bold sm:text-4xl">Contact</h2>
+            <div className="glass flex flex-col items-center rounded-2xl p-8">
+              <p className="mb-6 text-center text-white/80">
                 Follow Stellarmelt across the cosmos. Links will point to the
                 official profiles soon—in the meantime, they orbit GitHub.
               </p>
