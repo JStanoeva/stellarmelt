@@ -64,14 +64,14 @@ Showcase Stellarmelt's story, music, and upcoming moments in one immersive page:
 
 - **React 19** + **TypeScript**
 - **Tailwind CSS**
-- Build tooling: works great with **Vite** (recommended) or **Create React App**.  
+- Build tooling: **Vite**.  
   Deployed on **Vercel**.
 
 ---
 
 ## 🚀 Run Locally
 
-> **Prereqs:** Node 18+ and a package manager (npm, pnpm, or yarn).
+> **Prereqs:** Node 20.19+ or 22.12+, and npm.
 
 ### 1) Clone & install
 
@@ -79,8 +79,6 @@ Showcase Stellarmelt's story, music, and upcoming moments in one immersive page:
 git clone https://github.com/JStanoeva/stellarmelt.git
 cd stellarmelt
 npm install
-
-# or: pnpm install / yarn
 ```
 
 ### 2) Add assets (if you haven't already)
@@ -99,12 +97,8 @@ Place these files in /public to match the code:
 
 ### 3) Start the dev server
 
-If using Vite (recommended):
-
 ```bash
 npm run dev
-
-# pnpm dev / yarn dev
 ```
 
 Then open the printed local URL (usually http://localhost:5173).
