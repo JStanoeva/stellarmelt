@@ -71,7 +71,7 @@ Showcase Stellarmelt's story, music, and upcoming moments in one immersive page:
 
 ## 🚀 Run Locally
 
-> **Prereqs:** Node 20.19+ or 22.12+, and npm.
+> **Prereqs:** Node 24 or 26 (LTS), and npm.
 
 ### 1) Clone & install
 
