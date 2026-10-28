@@ -1,13 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-
-type Star = {
-  top: number;
-  left: number;
-  size: number;
-  delay: number;
-  duration: number;
-  opacity: number;
-};
+import React, { useEffect, useState } from "react";
+import { stars } from "./lib/constellation";
 
 type Track = {
   no: number;
@@ -42,23 +34,6 @@ export default function App() {
     { id: "discography", label: "Discography" },
     { id: "contact", label: "Contact" },
   ];
-
-  // Tiny starfield (twinkling)
-  const stars = useMemo<Star[]>(
-    () =>
-      Array.from({ length: 120 }, () => ({
-        top: Math.random() * 100,
-        left: Math.random() * 100,
-        size:
-          Math.random() < 0.8
-            ? Math.floor(Math.random() * 2) + 1
-            : Math.floor(Math.random() * 3) + 2,
-        delay: Math.random() * 8,
-        duration: 6 + Math.random() * 8,
-        opacity: 0.4 + Math.random() * 0.6,
-      })),
-    []
-  );
 
   // Close mobile menu when viewport changes
   useEffect(() => {
