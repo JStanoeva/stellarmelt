@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { timeline } from "../../content/timeline";
+import { formatDate } from "../../lib/dates";
 
 export default function TimelineSection() {
   const [activeTimelineIdx, setActiveTimelineIdx] = useState(0);
-
-  // NEW: pause flag for timeline auto-rotate
   const [isTimelinePaused, setIsTimelinePaused] = useState(false);
   const pauseTimeline = () => setIsTimelinePaused(true);
   const resumeTimeline = () => setIsTimelinePaused(false);
+  const activeEvent = timeline[activeTimelineIdx];
 
-  // NEW: Auto-rotate timeline images every 5s (pausable + reduced motion aware)
   useEffect(() => {
-    // Respect Reduced Motion
     const prefersReduced = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -27,19 +25,16 @@ export default function TimelineSection() {
   return (
     <section id="timeline" className="scroll-mt-24 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Two-column layout on lg+ */}
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
-          {/* Left: timeline content */}
           <div className="lg:col-span-2">
             <h2 className="mb-10 text-3xl font-bold sm:text-4xl">Timeline</h2>
             <ol className="relative ml-3 border-l border-white/20">
-              {timeline.map((e, idx) => {
+              {timeline.map((event, idx) => {
                 const isActive = activeTimelineIdx === idx;
                 return (
                   <li
-                    key={idx}
+                    key={event.id}
                     className="mb-10 ml-6"
-                    // Pause when pointer is over this event; resume when leaving it
                     onMouseEnter={() => {
                       setActiveTimelineIdx(idx);
                       pauseTimeline();
@@ -48,10 +43,11 @@ export default function TimelineSection() {
                   >
                     <span
                       className={`absolute top-0 -left-3 grid h-6 w-6 place-items-center rounded-full ring-2 ${
-                        isActive ? "ring-[#dd819c]" : "ring-white/40"
+                        isActive ? "ring-v1-rose" : "ring-white/40"
                       }`}
                       style={{
-                        background: "linear-gradient(135deg, #dd819c, #a05987)",
+                        background:
+                          "linear-gradient(135deg, var(--color-v1-rose), var(--color-v1-violet))",
                         boxShadow: isActive
                           ? "0 0 24px rgba(221,129,156,0.35)"
                           : "none",
@@ -61,7 +57,7 @@ export default function TimelineSection() {
                       <span className="h-2.5 w-2.5 rounded-full bg-white" />
                     </span>
                     <time className="text-xs tracking-widest text-white/70 uppercase">
-                      {e.date}
+                      {formatDate(event.date)}
                     </time>
                     <h3
                       tabIndex={0}
@@ -74,19 +70,16 @@ export default function TimelineSection() {
                       }}
                       onBlur={resumeTimeline}
                     >
-                      {e.title}
+                      {event.title}
                     </h3>
-                    <p className="text-white/80">{e.detail}</p>
+                    <p className="text-white/80">{event.summary}</p>
                   </li>
                 );
               })}
             </ol>
           </div>
 
-          {/* Right: large-screen image (hidden on mobile/tablet) */}
           <aside className="hidden lg:block">
-            {/* sticky keeps the image in view as you scroll the timeline
-                also pause rotation while user hovers image */}
             <div
               className="sticky top-28"
               onMouseEnter={pauseTimeline}
@@ -94,7 +87,6 @@ export default function TimelineSection() {
             >
               <figure className="glass overflow-hidden rounded-2xl">
                 <div className="relative aspect-[3/4] w-full">
-                  {/* Base cosmic tint so it looks good even with no image */}
                   <div
                     className="absolute inset-0"
                     aria-hidden="true"
@@ -104,11 +96,10 @@ export default function TimelineSection() {
                     }}
                   />
 
-                  {/* Cross-fade stack: one image per event */}
-                  {timeline.map((e, idx) => (
+                  {timeline.map((event, idx) => (
                     <img
-                      key={idx}
-                      src={e.image}
+                      key={event.id}
+                      src={event.image}
                       alt=""
                       aria-hidden="true"
                       className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out ${
@@ -121,7 +112,6 @@ export default function TimelineSection() {
                     />
                   ))}
 
-                  {/* Soft overlay to unify look */}
                   <div
                     className="pointer-events-none absolute inset-0"
                     aria-hidden="true"
@@ -137,9 +127,9 @@ export default function TimelineSection() {
                   aria-live="polite"
                 >
                   <span className="opacity-70">
-                    {timeline[activeTimelineIdx].date} •{" "}
+                    {formatDate(activeEvent.date)} •{" "}
                   </span>
-                  {timeline[activeTimelineIdx].title}
+                  {activeEvent.title}
                 </figcaption>
               </figure>
             </div>

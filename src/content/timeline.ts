@@ -1,35 +1,34 @@
-export type TimelineEvent = {
-  date: string;
-  title: string;
-  detail: string;
-  image: string;
-};
+import type { TimelineEvent } from "./types";
 
-export const timeline: TimelineEvent[] = [
+export const timeline = [
   {
-    date: "July 27, 2025",
+    id: "stellarmelt-is-born",
+    date: "2025-07-27",
     title: "Stellarmelt is born",
-    detail: "Band founded—constellations rearranged in celebration.",
+    summary: "Band founded—constellations rearranged in celebration.",
     image: "/timeline-born.png",
   },
   {
-    date: "July 27, 2025",
+    id: "debut-single-melt",
+    date: "2025-07-27",
     title: "Debut single “Melt”",
-    detail: "First spark released into the void. Goosebumps at light-speed.",
+    summary: "First spark released into the void. Goosebumps at light-speed.",
     image: "/timeline-debut.png",
   },
   {
-    date: "September 29, 2025",
+    id: "live-celestial-dome",
+    date: "2025-09-29",
     title: "Live: Celestial Dome, Earth Orbit",
     // TODO(Tora): the concert's status instead of "(upcoming)" (Q-09)
-    detail: "Immersive zero-G concert (upcoming).",
+    summary: "Immersive zero-G concert (upcoming).",
     image: "/timeline-concert.png",
   },
   {
-    date: "October 14, 2025",
+    id: "album-snow-and-the-ai-mind",
+    date: "2025-10-14",
     title: "Album: Snow and the AI Mind",
     // TODO(Tora): the album's date label instead of "(upcoming)" (Q-08)
-    detail: "A winter galaxy of memory and fire (upcoming).",
+    summary: "A winter galaxy of memory and fire (upcoming).",
     image: "/timeline-album.png",
   },
-];
+] as const satisfies readonly TimelineEvent[];

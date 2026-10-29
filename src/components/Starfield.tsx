@@ -1,11 +1,11 @@
-import React from "react";
+import type { CSSProperties } from "react";
 import { stars } from "../lib/constellation";
 
 export default function Starfield() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-20" aria-hidden="true">
       {stars.map((s, i) => {
-        const style: React.CSSProperties = {
+        const style: CSSProperties = {
           position: "absolute",
           top: `${s.top}%`,
           left: `${s.left}%`,

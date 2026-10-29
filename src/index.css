@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
-/* Unlayered on purpose: these rules must keep beating Tailwind's layered utilities. */
-:root {
-  --rose: #dd819c;
-  --violet: #a05987;
-  --plum: #3b1f52;
-  --midnight: #1e142b;
+@theme {
+  --color-v1-rose: #dd819c;
+  --color-v1-violet: #a05987;
+  --color-v1-plum: #3b1f52;
+  --color-v1-midnight: #1e142b;
 }
+
+/* Unlayered on purpose: these rules must keep beating Tailwind's layered utilities. */
 html {
   scroll-behavior: smooth;
 }
@@ -20,7 +21,13 @@ html {
     radial-gradient(60% 100% at 20% 10%, rgba(221, 129, 156, 0.12) 0%, transparent 60%),
     radial-gradient(70% 90% at 80% 20%, rgba(160, 89, 135, 0.12) 0%, transparent 60%),
     radial-gradient(80% 120% at 50% 120%, rgba(59, 31, 82, 0.2) 0%, transparent 70%),
-    linear-gradient(135deg, var(--midnight), var(--plum), var(--violet), var(--rose));
+    linear-gradient(
+      135deg,
+      var(--color-v1-midnight),
+      var(--color-v1-plum),
+      var(--color-v1-violet),
+      var(--color-v1-rose)
+    );
   background-size:
     120% 120%,
     120% 120%,
@@ -111,7 +118,6 @@ html {
   transform: translateY(0);
 }
 
-/* Scroll-reveal utility */
 .reveal {
   opacity: 0;
   transform: translateY(12px);

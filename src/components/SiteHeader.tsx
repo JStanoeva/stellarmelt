@@ -11,7 +11,6 @@ export default function SiteHeader() {
     { id: "contact", label: "Contact" },
   ];
 
-  // Close mobile menu when viewport changes
   useEffect(() => {
     const onResize = () => setMenuOpen(false);
     window.addEventListener("resize", onResize);
@@ -31,30 +30,26 @@ export default function SiteHeader() {
         >
           <a
             href="#hero"
-            className="flex items-center gap-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#dd819c]"
+            className="flex items-center gap-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-v1-rose"
             onClick={() => setMenuOpen(false)}
           >
-            {/* Logo image */}
             <img
               src="/favicon.png"
               alt="Stellarmelt logo"
               className="h-7 w-7 object-contain select-none"
               draggable={false}
             />
-
-            {/* Band name */}
-            <span className="bg-gradient-to-r from-[#dd819c] via-[#a05987] to-[#3b1f52] bg-clip-text text-lg font-semibold tracking-wide text-transparent">
+            <span className="bg-linear-to-r from-v1-rose via-v1-violet to-v1-plum bg-clip-text text-lg font-semibold tracking-wide text-transparent">
               Stellarmelt
             </span>
           </a>
 
-          {/* Desktop menu */}
           <ul className="hidden items-center gap-6 text-sm md:flex">
             {sections.map((s) => (
               <li key={s.id}>
                 <a
                   href={`#${s.id}`}
-                  className="rounded-md px-2 py-1 opacity-90 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#dd819c]"
+                  className="rounded-md px-2 py-1 opacity-90 transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-v1-rose"
                 >
                   {s.label}
                 </a>
@@ -62,7 +57,6 @@ export default function SiteHeader() {
             ))}
           </ul>
 
-          {/* Mobile hamburger */}
           <button
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
@@ -108,7 +102,7 @@ export default function SiteHeader() {
                   <a
                     href={`#${s.id}`}
                     onClick={() => setMenuOpen(false)}
-                    className="block rounded-md px-3 py-2 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#dd819c]"
+                    className="block rounded-md px-3 py-2 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-v1-rose"
                   >
                     {s.label}
                   </a>

@@ -1,4 +1,5 @@
 import { members } from "../../content/members";
+import MemberCard from "./MemberCard";
 
 export default function AboutSection() {
   return (
@@ -7,7 +8,7 @@ export default function AboutSection() {
         <header className="mb-10">
           <h2 className="text-3xl font-bold sm:text-4xl">
             About{" "}
-            <span className="bg-gradient-to-r from-[#dd819c] to-[#a05987] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-v1-rose to-v1-violet bg-clip-text text-transparent">
               Stellarmelt
             </span>
           </h2>
@@ -20,31 +21,8 @@ export default function AboutSection() {
         </header>
 
         <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {members.map((m, idx) => (
-            <li
-              key={m.name}
-              className="group reveal"
-              data-reveal
-              style={{ transitionDelay: `${idx * 90}ms` }}
-            >
-              <div className="glass h-full rounded-2xl p-5 transition-transform duration-200 group-hover:-translate-y-1">
-                <div className="flex items-center gap-4">
-                  <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-white/20 to-white/5 ring-1 ring-white/30">
-                    <img
-                      src="/favicon.png"
-                      alt="Stellarmelt logo"
-                      className="h-7 w-7 object-contain select-none"
-                      draggable={false}
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">{m.name}</h3>
-                    <p className="text-sm text-white/70">{m.role}</p>
-                  </div>
-                </div>
-                <p className="mt-4 text-white/80">{m.blurb}</p>
-              </div>
-            </li>
+          {members.map((member, index) => (
+            <MemberCard key={member.slug} member={member} index={index} />
           ))}
         </ul>
       </div>
