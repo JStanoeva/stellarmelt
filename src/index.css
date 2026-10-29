@@ -1,1 +1,136 @@
 @import "tailwindcss";
+
+/* Unlayered on purpose: these rules must keep beating Tailwind's layered utilities. */
+:root {
+  --rose: #dd819c;
+  --violet: #a05987;
+  --plum: #3b1f52;
+  --midnight: #1e142b;
+}
+html {
+  scroll-behavior: smooth;
+}
+::selection {
+  background: rgba(221, 129, 156, 0.3);
+  color: #ffffff;
+}
+
+.bg-cosmic {
+  background:
+    radial-gradient(60% 100% at 20% 10%, rgba(221, 129, 156, 0.12) 0%, transparent 60%),
+    radial-gradient(70% 90% at 80% 20%, rgba(160, 89, 135, 0.12) 0%, transparent 60%),
+    radial-gradient(80% 120% at 50% 120%, rgba(59, 31, 82, 0.2) 0%, transparent 70%),
+    linear-gradient(135deg, var(--midnight), var(--plum), var(--violet), var(--rose));
+  background-size:
+    120% 120%,
+    120% 120%,
+    140% 140%,
+    400% 400%;
+  background-position:
+    20% 10%,
+    80% 20%,
+    50% 100%,
+    0% 50%;
+  animation: gradientShift 24s ease-in-out infinite;
+}
+@keyframes gradientShift {
+  0% {
+    background-position:
+      20% 10%,
+      80% 20%,
+      50% 100%,
+      0% 50%;
+  }
+  50% {
+    background-position:
+      30% 20%,
+      70% 30%,
+      50% 90%,
+      100% 50%;
+  }
+  100% {
+    background-position:
+      20% 10%,
+      80% 20%,
+      50% 100%,
+      0% 50%;
+  }
+}
+.twinkle {
+  animation-name: twinkle;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeInUp 0.9s ease-out forwards;
+}
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.glass {
+  backdrop-filter: blur(16px);
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.btn {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+  backdrop-filter: blur(8px);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 2px rgba(221, 129, 156, 0.25),
+    0 8px 28px rgba(221, 129, 156, 0.25);
+  border-color: rgba(221, 129, 156, 0.6);
+}
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Scroll-reveal utility */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  will-change: opacity, transform;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
