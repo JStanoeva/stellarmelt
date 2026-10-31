@@ -11,7 +11,8 @@ export type Anchors = {
 // Views without pinned copy (the 404).
 export const noAnchors: Anchors = { width: 1, height: 1 };
 
-function pagePosition(element: HTMLElement) {
+// Layout position, so transforms (a line mid-animation) and transitions don't skew it.
+export function pagePosition(element: HTMLElement) {
   let left = 0;
   let top = 0;
   for (

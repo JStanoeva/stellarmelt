@@ -4,7 +4,9 @@ export type Member = {
   slug: string;
   name: string;
   role: string;
-  blurb: string;
+  tagline: string;
+  // One string per paragraph.
+  note: readonly string[];
 };
 
 export type Song = {
