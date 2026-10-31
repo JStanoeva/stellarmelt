@@ -43,8 +43,7 @@
   --ease-condense: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-orbit: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* The dots run once per step, so nothing on the stage moves for longer than 5 s; the motion toggle's moon is its own pause control. */
-  --animate-orbit: orbit 7s linear infinite;
+  /* Both run once per step, so nothing on the stage moves for longer than 5 s. */
   --animate-orbit-once: orbit 3.2s var(--ease-condense);
   --animate-breathe: breathe 2.4s ease-in-out 2;
 

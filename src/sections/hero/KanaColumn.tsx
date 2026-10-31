@@ -6,7 +6,7 @@ import {
   easeCondense,
   easeDrift,
   easeFade,
-  fade,
+  fadeVariants,
   StageMotion,
 } from "../stageMotion";
 
@@ -14,6 +14,7 @@ import {
 const column: Variants = {
   hidden: { filter: "blur(10px)" },
   shown: {
+    opacity: 1,
     filter: "blur(0px)",
     transition: {
       duration: 0.7,
@@ -47,7 +48,9 @@ function glyphVariants(index: number): Variants {
 }
 
 // Under reduced motion the glyphs hold still and the column just fades.
-const still: Variants = { hidden: {}, shown: {}, gone: {} };
+const resting = { opacity: 1, y: 0 };
+const still: Variants = { hidden: resting, shown: resting, gone: resting };
+const columnFade = fadeVariants({ filter: "none" });
 
 // The vertical ステラメルト beside the wordmark.
 export default function KanaColumn({ className = "" }: { className?: string }) {
@@ -57,7 +60,7 @@ export default function KanaColumn({ className = "" }: { className?: string }) {
       lang="ja"
       aria-hidden="true"
       data-dust
-      variants={reduced ? fade : column}
+      variants={reduced ? columnFade : column}
       className={`font-kana leading-none text-rose-300 [writing-mode:vertical-rl] ${className}`}
     >
       {Array.from(kana, (glyph, index) => (

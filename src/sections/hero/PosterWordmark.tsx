@@ -5,7 +5,7 @@ import {
   easeCondense,
   easeDrift,
   easeFade,
-  fade,
+  fadeVariants,
   StageMotion,
 } from "../stageMotion";
 
@@ -21,6 +21,7 @@ function lineVariants(line: number): Variants {
       filter: "blur(10px)",
     }),
     shown: {
+      opacity: 1,
       y: 0,
       letterSpacing: tracking,
       filter: "blur(0px)",
@@ -60,7 +61,13 @@ function letterVariants(line: number, letter: number): Variants {
 }
 
 // Under reduced motion the letters hold still and the line just fades.
-const still: Variants = { hidden: {}, shown: {}, gone: {} };
+const lit = { opacity: 1 };
+const still: Variants = { hidden: lit, shown: lit, gone: lit };
+const lineFade = fadeVariants({
+  y: 0,
+  letterSpacing: tracking,
+  filter: "none",
+});
 
 // The poster's stacked STELLAR / MELT: the h1's visual copy (aria-hidden), set in inline letter spans to keep Syne's kerning.
 export default function PosterWordmark({
@@ -81,7 +88,7 @@ export default function PosterWordmark({
           data-wordmark-line
           custom={direction}
           className="block"
-          variants={reduced ? fade : lineVariants(lineIndex)}
+          variants={reduced ? lineFade : lineVariants(lineIndex)}
           style={{ letterSpacing: tracking }}
         >
           {Array.from(line, (letter, letterIndex) => (

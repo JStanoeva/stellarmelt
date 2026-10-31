@@ -9,7 +9,7 @@ import {
   easeCondense,
   easeDrift,
   easeFade,
-  fade,
+  fadeVariants,
   StageMotion,
 } from "./stageMotion";
 
@@ -79,7 +79,15 @@ export default function Dissolve({
     <m.div
       data-dust
       custom={direction}
-      variants={reduced ? fade : condense(order, tracking, loosen, blur)}
+      variants={
+        reduced
+          ? fadeVariants({
+              y: 0,
+              ...(blur ? { filter: "none" } : {}),
+              ...(loosen ? { letterSpacing: `${tracking}em` } : {}),
+            })
+          : condense(order, tracking, loosen, blur)
+      }
       style={{ letterSpacing: `${tracking}em` }}
       className={className}
     >

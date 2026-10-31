@@ -1,4 +1,4 @@
-import type { Variants } from "motion/react";
+import type { Target, Variants } from "motion/react";
 import { createContext } from "react";
 
 // The ethereal fade in seconds: the last line leaves by 0.48 s and lands by 1.16 s, inside a 1.18 s step.
@@ -32,12 +32,18 @@ export const StageMotion = createContext<StageMotionValue>({
   motionReady: true,
 });
 
-// Reduced motion: a plain 200 ms cross-fade, nothing moves.
-export const fade: Variants = {
-  hidden: { opacity: 0 },
-  shown: {
-    opacity: 1,
-    transition: { duration: 0.16, delay: 0.04, ease: "linear" },
-  },
-  gone: { opacity: 0, transition: { duration: 0.12, ease: "linear" } },
-};
+// Reduced motion: a 200 ms cross-fade. `rest` lists the element's other animated values at rest,
+// because Motion sends a value missing from new variants back to its hidden state (blurred or invisible).
+export function fadeVariants(rest: Target = {}): Variants {
+  return {
+    hidden: { opacity: 0, ...rest },
+    shown: {
+      opacity: 1,
+      ...rest,
+      transition: { duration: 0.16, delay: 0.04, ease: "linear" },
+    },
+    gone: { opacity: 0, transition: { duration: 0.12, ease: "linear" } },
+  };
+}
+
+export const fade = fadeVariants();

@@ -6,7 +6,7 @@ import { useMotionPreference } from "./hooks/useMotionPreference";
 import HomeStage from "./sections/HomeStage";
 
 export default function App() {
-  const { reduced, toggle } = useMotionPreference();
+  const reduced = useMotionPreference();
   const [motionReady, setMotionReady] = useState(false);
 
   // Motion's animation features load in their own chunk once the page is up.
@@ -20,7 +20,7 @@ export default function App() {
     <LazyMotion features={loadMotionFeatures} strict>
       <MotionConfig reducedMotion={reduced ? "always" : "never"}>
         <SkipLink />
-        <SiteNav reduced={reduced} onToggleMotion={toggle} />
+        <SiteNav />
         <HomeStage reduced={reduced} motionReady={motionReady} />
       </MotionConfig>
     </LazyMotion>

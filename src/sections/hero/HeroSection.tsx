@@ -2,7 +2,6 @@ import { m, type Variants } from "motion/react";
 import { use } from "react";
 import { hero } from "../../content/homeSections";
 import Dissolve from "../Dissolve";
-import SectionIndex from "../SectionIndex";
 import StageSection from "../StageSection";
 import { ENTER_DELAY, fade, StageMotion } from "../stageMotion";
 import KanaColumn from "./KanaColumn";
@@ -84,14 +83,6 @@ export default function HeroSection() {
           </Dissolve>
         </div>
       </div>
-      <Dissolve
-        order={4}
-        tracking={0.24}
-        loosen
-        className="absolute bottom-[4.5dvh] left-[clamp(1.25rem,3.4vw,3.5rem)] narrow:hidden short:hidden"
-      >
-        <SectionIndex index={0} />
-      </Dissolve>
     </StageSection>
   );
 }
