@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .lit { fill: #e37093 }
+    .shade { fill: #643769 }
+    .ring { stroke: #422751 }
+    .moon { fill: #bc5080 }
+    @media (prefers-color-scheme: dark) {
+      .lit { fill: #f48fa6 }
+      .shade { fill: #9a4f80 }
+      .ring { stroke: #fdd0d3 }
+      .moon { fill: #fbf1e1 }
+    }
+  </style>
+  <mask id="front">
+    <rect width="32" height="32" fill="#fff"/>
+    <path d="M29.89 22.18A15.2 4.3 24 0 1 2.11 9.82" fill="none" stroke="#000" stroke-width="4"/>
+  </mask>
+  <g mask="url(#front)">
+    <circle class="lit" cx="16" cy="16" r="11"/>
+    <path class="shade" d="M22.37 7.03A11 11 0 1 1 7.03 22.37A11 11 0 0 0 22.37 7.03Z"/>
+  </g>
+  <path class="ring" d="M26.32 23.32A15.2 4.3 24 1 1 6.45 8.74" fill="none" stroke-width="2"/>
+  <circle class="moon" cx="29.37" cy="22.77" r="2.2"/>
+</svg>

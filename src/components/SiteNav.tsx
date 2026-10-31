@@ -1,4 +1,5 @@
 import { hero } from "../content/homeSections";
+import LogoMark from "./LogoMark";
 
 // The header spans the width, but only its links take clicks, so it never covers the top dot on a short screen.
 export default function SiteNav() {
@@ -11,8 +12,10 @@ export default function SiteNav() {
       >
         <a
           href="#hero"
-          className="pointer-events-auto inline-flex min-h-11 items-center font-display text-[1.0625rem] font-extrabold tracking-[0.02em] text-stardust-50 uppercase transition-colors duration-300 hover:text-rose-200"
+          className="pointer-events-auto inline-flex min-h-11 items-center gap-2.5 font-display text-[1.0625rem] font-extrabold tracking-[0.02em] text-stardust-50 uppercase transition-colors duration-300 hover:text-rose-200"
         >
+          {/* text-shadow skips SVG, so the mark gets the same halo as a filter. */}
+          <LogoMark className="h-7 w-auto shrink-0 drop-shadow-[0_0_4px_var(--color-night-950)]" />
           {hero.title}
         </a>
       </nav>
