@@ -18,8 +18,6 @@ export type Song = {
 
 export type Album = {
   title: string;
-  cover: string;
-  coverAlt: string;
   blurb: string;
 };
 
@@ -28,5 +26,4 @@ export type TimelineEvent = {
   date: IsoDate;
   title: string;
   summary: string;
-  image: string;
 };

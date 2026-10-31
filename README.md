@@ -81,21 +81,7 @@ cd stellarmelt
 npm install
 ```
 
-### 2) Add assets (if you haven't already)
-
-Place these files in /public to match the code:
-
-```bash
-/public/favicon.png
-/public/hero-art.png
-/public/album-cover.png
-/public/timeline-born.png
-/public/timeline-debut.png
-/public/timeline-concert.png
-/public/timeline-album.png
-```
-
-### 3) Start the dev server
+### 2) Start the dev server
 
 ```bash
 npm run dev

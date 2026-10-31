@@ -6,14 +6,12 @@ export const timeline = [
     date: "2025-07-27",
     title: "Stellarmelt is born",
     summary: "Band founded—constellations rearranged in celebration.",
-    image: "/timeline-born.png",
   },
   {
     id: "debut-single-melt",
     date: "2025-07-27",
     title: "Debut single “Melt”",
     summary: "First spark released into the void. Goosebumps at light-speed.",
-    image: "/timeline-debut.png",
   },
   {
     id: "live-celestial-dome",
@@ -21,7 +19,6 @@ export const timeline = [
     title: "Live: Celestial Dome, Earth Orbit",
     // TODO(Tora): the concert's status instead of "(upcoming)" (Q-09)
     summary: "Immersive zero-G concert (upcoming).",
-    image: "/timeline-concert.png",
   },
   {
     id: "album-snow-and-the-ai-mind",
@@ -29,6 +26,5 @@ export const timeline = [
     title: "Album: Snow and the AI Mind",
     // TODO(Tora): the album's date label instead of "(upcoming)" (Q-08)
     summary: "A winter galaxy of memory and fire (upcoming).",
-    image: "/timeline-album.png",
   },
 ] as const satisfies readonly TimelineEvent[];
