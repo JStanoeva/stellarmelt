@@ -1,13 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
+import { useLocation, useNavigationType } from "react-router";
 
-type StepSource = "wheel" | "key" | "swipe" | "link" | "hash";
+// "route" is a router link (such as the logo); "hash" is Back, Forward or an edited URL.
+type StepSource = "wheel" | "key" | "swipe" | "link" | "route" | "hash";
 
 type StageState = {
   index: number;
   direction: 1 | -1;
   moveFocus: boolean;
-  // False until the first step, so the art can skip its glide on load.
-  stepped: boolean;
 };
 
 type Options = {
@@ -68,7 +74,6 @@ export function useHomeStage({
     index: Math.max(indexFromHash(sectionIds), 0),
     direction: 1,
     moveFocus: false,
-    stepped: false,
   }));
 
   const indexRef = useRef(stage.index);
@@ -78,7 +83,9 @@ export function useHomeStage({
     (target: number, source: StepSource) => {
       const from = indexRef.current;
       if (target < 0 || target >= sectionIds.length || target === from) return;
-      if (source !== "hash" && performance.now() < busyUntil.current) return;
+      // The URL has already changed for router and hash steps, so they go through even mid-step.
+      const fromUrl = source === "route" || source === "hash";
+      if (!fromUrl && performance.now() < busyUntil.current) return;
 
       const focusWasInside =
         document.activeElement?.closest("[data-stage-section]") != null;
@@ -87,9 +94,12 @@ export function useHomeStage({
       setStage({
         index: target,
         direction: target > from ? 1 : -1,
-        // Key and link steps (the dots are links) move focus, and so does a step that unmounts the focused element.
-        moveFocus: source === "key" || source === "link" || focusWasInside,
-        stepped: true,
+        // Key and link steps (the dots and the logo are links) move focus, and so does a step that unmounts the focused element.
+        moveFocus:
+          source === "key" ||
+          source === "link" ||
+          source === "route" ||
+          focusWasInside,
       });
       if (window.location.hash !== `#${sectionIds[target]}`) {
         history.replaceState(history.state, "", `#${sectionIds[target]}`);
@@ -104,13 +114,18 @@ export function useHomeStage({
     [goTo],
   );
 
-  // No pull-to-refresh or rubber-banding while the stage is mounted.
+  // No page scroll, pull-to-refresh or rubber-banding while the stage is mounted; other pages scroll normally.
   useEffect(() => {
     const root = document.documentElement;
-    const previous = root.style.overscrollBehavior;
+    const previous = {
+      overflow: root.style.overflow,
+      overscrollBehavior: root.style.overscrollBehavior,
+    };
+    root.style.overflow = "hidden";
     root.style.overscrollBehavior = "none";
     return () => {
-      root.style.overscrollBehavior = previous;
+      root.style.overflow = previous.overflow;
+      root.style.overscrollBehavior = previous.overscrollBehavior;
     };
   }, []);
 
@@ -352,15 +367,25 @@ export function useHomeStage({
     return () => document.removeEventListener("click", onClick);
   }, [goTo, sectionIds]);
 
-  // Back, Forward and edited URLs change the hash without a click.
+  // The stage's own steps rewrite the hash with replaceState, which the router never sees, so read the real URL.
+  const followUrl = useEffectEvent((source: StepSource) => {
+    const index = indexFromHash(sectionIds);
+    if (index >= 0) goTo(index, source);
+  });
+
+  // Router navigations: a link click (PUSH or REPLACE) steps like a link; Back and Forward (POP) like a hash.
+  const location = useLocation();
+  const navigationType = useNavigationType();
   useEffect(() => {
-    const onHashChange = () => {
-      const index = indexFromHash(sectionIds);
-      if (index >= 0) goTo(index, "hash");
-    };
+    followUrl(navigationType === "POP" ? "hash" : "route");
+  }, [location, navigationType]);
+
+  // An edited hash that matches the router's last known location leaves that location unchanged, so listen too.
+  useEffect(() => {
+    const onHashChange = () => followUrl("hash");
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
-  }, [goTo, sectionIds]);
+  }, []);
 
   useEffect(() => {
     if (!stage.moveFocus) return;
@@ -374,6 +399,5 @@ export function useHomeStage({
   return {
     index: stage.index,
     direction: stage.direction,
-    stepped: stage.stepped,
   };
 }

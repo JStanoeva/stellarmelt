@@ -2,8 +2,11 @@ import { discography } from "../../content/homeSections";
 import Dissolve from "../Dissolve";
 import StageSection from "../StageSection";
 
+// On the home stage the heading is an h2; the discography page, which shows this section alone, makes it the h1.
+type Props = { headingTag?: "h1" | "h2" };
+
 // A huge planet rises from below, lit from behind; the copy stands above its glowing limb.
-export default function DiscographySection() {
+export default function DiscographySection({ headingTag: Heading = "h2" }: Props) {
   const { heading, albumLabel, albumTitle, line } = discography;
   return (
     <StageSection
@@ -11,14 +14,14 @@ export default function DiscographySection() {
       className="flex flex-col items-start px-5 pt-[19dvh] wide:items-center wide:pt-[15dvh] wide:text-center"
     >
       <Dissolve order={0} tracking={-0.035} loosen blur>
-        <h2
+        <Heading
           id="discography-title"
           data-stage-heading
           tabIndex={-1}
           className="font-display text-[8.3vw] leading-[0.9] font-extrabold text-stardust-50 wide:text-[clamp(3.5rem,6.4vw,6.5rem)]"
         >
           {heading}
-        </h2>
+        </Heading>
       </Dissolve>
       <Dissolve order={1} className="mt-8 wide:mt-10">
         <p className="flex flex-col items-start gap-2 wide:items-center">

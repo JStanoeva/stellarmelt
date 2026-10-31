@@ -1,14 +1,11 @@
 import type { MouseEvent } from "react";
+import { focusPageHeading } from "../hooks/useRouteFocus";
 
-// It focuses the shown section's heading and leaves the URL hash alone, because the home stage reads the hash.
+// It focuses the page's heading and leaves the URL alone, because the router and the home stage read it.
 export default function SkipLink() {
   const skip = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    document
-      .querySelector<HTMLElement>(
-        "[data-stage-section]:not([inert]) [data-stage-heading]",
-      )
-      ?.focus();
+    focusPageHeading();
   };
 
   return (

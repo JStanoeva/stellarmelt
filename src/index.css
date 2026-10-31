@@ -92,12 +92,12 @@
 @custom-variant short (@media (max-height: 30rem));
 
 @layer base {
+  /* Pages scroll; the home stage locks the page scroll while it is mounted (useHomeStage). */
   html,
   body,
   #root {
     height: 100%;
     margin: 0;
-    overflow: hidden;
   }
 
   html {

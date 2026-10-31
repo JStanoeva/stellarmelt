@@ -6,11 +6,11 @@ import {
   sameAnchors,
   type Anchors,
 } from "../art/anchors";
-import ArtLayer from "../art/ArtLayer";
 import { createBurst, startBurst, type DustBurst } from "../art/dust";
 import DotNav from "../components/DotNav";
 import { homeSectionIds, type HomeSectionId } from "../content/homeSections";
 import { useHomeStage } from "../hooks/useHomeStage";
+import { useShowArt } from "../hooks/useShowArt";
 import AboutSection from "./about/AboutSection";
 import ContactSection from "./contact/ContactSection";
 import DiscographySection from "./discography/DiscographySection";
@@ -67,21 +67,16 @@ export default function HomeStage({ reduced, motionReady }: Props) {
     };
   }, [id]);
 
+  useShowArt(id, anchors, dust);
+
   return (
     <StageMotion value={{ reduced, direction: stage.direction, motionReady }}>
-      <ArtLayer
-        pose={id}
-        anchors={anchors}
-        glide={stage.stepped}
-        reduced={reduced}
-        dust={dust}
-      />
-      <main id="main" className="relative z-10 h-dvh overflow-hidden">
+      <div className="relative h-dvh overflow-hidden">
         {/* initial={false}: the section shown on load is visible at first paint. */}
         <AnimatePresence initial={false} custom={stage.direction}>
           <Section key={id} />
         </AnimatePresence>
-      </main>
+      </div>
       <DotNav activeIndex={stage.index} />
     </StageMotion>
   );
