@@ -27,5 +27,6 @@ export type TimelineEvent = {
   id: string;
   date: IsoDate;
   title: string;
-  summary: string;
+  // Optional until Tora writes one; the timeline leaves a missing summary out.
+  summary?: string;
 };

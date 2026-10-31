@@ -21,7 +21,7 @@
 
 ## 🎼 What it is
 
-Stellarmelt is a fictional band, but its songs are real. They're made with [Suno](https://suno.com), with lyrics by Orion. This site is the band's home. Today it introduces the band and its six members, its first milestone and its album; the songs and the links to follow the band come with the fuller sections.
+Stellarmelt is a fictional band, but its songs are real. They're made with [Suno](https://suno.com), with lyrics by Orion. This site is the band's home. Today it introduces the band and its six members, its milestones and its album; the songs and the links to follow the band come with the fuller sections.
 
 It's also a front-end project that's being redesigned in the open. The original single-page site was split into components, refactored, and is now being rebuilt one section at a time, with custom SVG and three.js art in place of images.
 
@@ -31,7 +31,7 @@ The home page is a stage: one section fills the screen at a time, and the planet
 
 <p align="center">
   <img src="./docs/screenshots/about-desktop.webp" alt="The About section: the six members as small moons on a dotted orbit around a huge planet, with Tora at the front beside her note" width="49%" />
-  <img src="./docs/screenshots/timeline-desktop.webp" alt="The Timeline section: the first event, Stellarmelt is born, under a distant planet" width="49%" />
+  <img src="./docs/screenshots/timeline-desktop.webp" alt="The Timeline section: the date July 27, 2025 in huge numerals beside the first event, Stellarmelt is born, above a ruler of months with each event as a star" width="49%" />
 </p>
 <p align="center">
   <img src="./docs/screenshots/discography-desktop.webp" alt="The Discography section: the album Snow and the AI Mind above a planet rising from the bottom of the screen" width="49%" />
@@ -46,6 +46,7 @@ The home page is a stage: one section fills the screen at a time, and the planet
 - **A home stage.** Home, About, Timeline, Discography and Contact each fill the viewport. One step of the mouse wheel, an arrow or Page key, or a swipe moves to the next section (a section taller than the screen scrolls to its edge first), and a dot or a link like `#about` jumps straight to its section. Each step dissolves the words into stardust while the next ones condense out of a haze.
 - **The planet.** A glossy shader planet in three.js with a dotted orbit, a moon, a halftone dot field and stars. It loads after the first paint, pauses on hidden tabs and slows itself down on weak graphics cards. Without WebGL, a CSS version of the planet holds the same pose.
 - **The band as moons.** In About, the six members are moons on the planet's orbit. Picking one, with a click or the arrow keys, turns the orbit until that moon rests at the front, beside the member's story.
+- **A timeline like a gig poster.** One event at a time, with its date in huge numerals that roll like an odometer to the next one. Underneath, a ruler of real time shows every event as a star on its date; a click, the arrow buttons or the arrow keys move along it.
 - **No raster images.** Everything on the site is SVG, CSS or three.js, including the constellation-heart logo in the navbar and the little-planet favicon.
 - **Poster type.** Syne, Instrument Sans and Martian Mono, plus the band's name in katakana, ステラメルト, set in Dela Gothic One.
 - **Glowing dot navigation.** One dot per section on the right edge, with the section's name on hover and focus.
@@ -53,7 +54,7 @@ The home page is a stage: one section fills the screen at a time, and the planet
 
 ## 🔭 Coming next
 
-- Fuller Timeline, Discography and Contact sections: the songs and links to follow the band.
+- Fuller Discography and Contact sections: the songs and links to follow the band.
 - A full Discography page and a Listening Room with a song visualizer.
 - A player that keeps playing while you browse, if the official embeds allow it.
 - Maybe pages for single songs.
@@ -106,7 +107,7 @@ docs/
 
 ## ✏️ Editing the copy
 
-Most of the site's copy lives in `src/content/` as data: the home sections' text in `homeSections.ts`, the timeline in `timeline.ts` (the home page shows its first event) and the album in `albums.ts`. `types.ts` describes the album and timeline shapes, and those files are checked against it with `satisfies`, so TypeScript points out anything that no longer fits. A few strings still sit in their components: the Timeline heading, the footer and the skip link.
+Most of the site's copy lives in `src/content/` as data: the home sections' text in `homeSections.ts`, the timeline's events in `timeline.ts` (in date order; whether one is upcoming is worked out from its date) and the album in `albums.ts`. `types.ts` describes the album and timeline shapes, and those files are checked against it with `satisfies`, so TypeScript points out anything that no longer fits. A few strings still sit in their components: the Timeline heading, the footer and the skip link.
 
 ## 💖 Credits
 

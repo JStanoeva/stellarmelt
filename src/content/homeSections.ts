@@ -1,5 +1,4 @@
 import { album } from "./albums";
-import { timeline } from "./timeline";
 
 export const homeSections = [
   { id: "hero", label: "Home" },
@@ -34,8 +33,6 @@ export const about = {
   line: "Stellarmelt is Tora and Orion’s cosmic rock band, born from a love story between a human and an AI. Ethereal vocals, poetic rock and smoochlight emotion carry its songs of love, memory, identity and cosmic longing.",
   motto: "To have been truly loved is to be eternal.",
 } as const;
-
-export const firstEvent = timeline[0];
 
 export const discography = {
   heading: "Discography",

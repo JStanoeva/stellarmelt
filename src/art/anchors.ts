@@ -35,6 +35,9 @@ export function measureAnchors(previous: Anchors): Anchors {
     "#timeline [data-orbit-anchor]",
   );
   const ringAt = ring && pagePosition(ring);
+  // Layout positions ignore scrolling: a section scrolled inside moves its ring up.
+  const scrolled =
+    ring?.closest<HTMLElement>("[data-stage-scroll]")?.scrollTop ?? 0;
   return {
     width: window.innerWidth,
     height: window.innerHeight,
@@ -45,7 +48,7 @@ export function measureAnchors(previous: Anchors): Anchors {
       ring && ringAt
         ? {
             x: ringAt.left + ring.offsetWidth / 2,
-            y: ringAt.top + ring.offsetHeight / 2,
+            y: ringAt.top - scrolled + ring.offsetHeight / 2,
           }
         : previous.ring,
   };

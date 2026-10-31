@@ -278,3 +278,54 @@
       color-mix(in oklab, var(--color-rose-400) 30%, transparent);
   opacity: var(--light);
 }
+
+/* The timeline's date art. Only the unprefixed background-clip: the build adds -webkit- itself (P-40). */
+/* The day's numerals: a starlight-to-rose fill, like the planet lit from the top left. */
+.date-fill {
+  background-image: linear-gradient(
+    172deg,
+    var(--color-starlight-100) 14%,
+    var(--color-rose-200) 38%,
+    var(--color-rose-400) 66%,
+    var(--color-mauve-500) 92%
+  );
+  background-clip: text;
+  color: transparent;
+}
+
+/* Their shadow: the planet's halftone dots, printed slightly off register. */
+.date-halftone {
+  background-image: radial-gradient(
+    circle,
+    var(--color-mauve-400) 0.0095em,
+    transparent 0.0118em
+  );
+  background-size: 0.036em 0.036em;
+  background-clip: text;
+  color: transparent;
+}
+
+/* The year: an outline with a fine halftone inside, like a second ink pass. */
+.date-outline {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--color-mauve-300) 60%, transparent) 0.014em,
+    transparent 0.019em
+  );
+  background-size: 0.06em 0.06em;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-starlight-200);
+}
+
+/* The leader between the month and the year: a row of orbit dots. */
+.date-leader {
+  background-image: radial-gradient(
+    circle,
+    var(--color-mauve-300) 0.018em,
+    transparent 0.026em
+  );
+  background-size: 0.13em 0.1em;
+  background-position: center;
+  background-repeat: space no-repeat;
+}

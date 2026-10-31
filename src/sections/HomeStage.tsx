@@ -49,20 +49,37 @@ export default function HomeStage({ reduced, motionReady }: Props) {
     startBurst(dust.current, stage.direction);
   }, [stage.index, stage.direction, reduced]);
 
-  // The art pins itself to the copy, so measure when a section mounts, the stage resizes or the fonts arrive.
+  // The art pins itself to the copy, so measure when a section mounts, the stage resizes or the fonts arrive,
+  // and when a section that scrolls inside is scrolled or its copy changes height.
   useLayoutEffect(() => {
     const measure = () =>
       setAnchors((previous) => {
         const next = measureAnchors(previous);
         return sameAnchors(previous, next) ? previous : next;
       });
+    let frame = 0;
+    const measureNextFrame = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measure);
+    };
     measure();
     const observer = new ResizeObserver(measure);
     const section = document.getElementById(id);
+    const scrollers = section
+      ? [...section.querySelectorAll<HTMLElement>("[data-stage-scroll]")]
+      : [];
     if (section) observer.observe(section);
+    for (const scroller of scrollers) {
+      for (const child of scroller.children) observer.observe(child);
+      scroller.addEventListener("scroll", measureNextFrame, { passive: true });
+    }
     document.fonts.addEventListener("loadingdone", measure);
     return () => {
+      cancelAnimationFrame(frame);
       observer.disconnect();
+      for (const scroller of scrollers) {
+        scroller.removeEventListener("scroll", measureNextFrame);
+      }
       document.fonts.removeEventListener("loadingdone", measure);
     };
   }, [id]);
