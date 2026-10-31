@@ -1,57 +1,44 @@
-import { album } from "../../content/albums";
-import { songs } from "../../content/songs";
-import TrackCard from "./TrackCard";
+import { discography } from "../../content/homeSections";
+import Dissolve from "../Dissolve";
+import SectionIndex from "../SectionIndex";
+import StageSection from "../StageSection";
 
+// A huge planet rises from below, lit from behind; the copy stands above its glowing limb.
 export default function DiscographySection() {
+  const { heading, albumLabel, albumTitle, line } = discography;
   return (
-    <section id="discography" className="scroll-mt-24 py-20 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-8">
-          <h2 className="text-3xl font-bold sm:text-4xl">Discography</h2>
-          <p className="mt-2 text-white/80">
-            <span className="font-semibold">Album:</span>{" "}
-            <span className="bg-linear-to-r from-v1-rose to-v1-plum bg-clip-text text-transparent">
-              {album.title}
-            </span>
-          </p>
-        </header>
-
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-1">
-            <div className="glass h-full rounded-2xl p-6">
-              <div className="relative aspect-square w-full overflow-hidden rounded-xl">
-                <img
-                  src={album.cover}
-                  alt={album.coverAlt}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                  draggable={false}
-                />
-                <div
-                  className="absolute inset-0"
-                  aria-hidden="true"
-                  style={{
-                    background:
-                      "radial-gradient(60% 60% at 30% 30%, rgba(221,129,156,.15) 0%, transparent 70%), radial-gradient(50% 60% at 70% 70%, rgba(160,89,135,.12) 0%, transparent 70%), linear-gradient(135deg, rgba(30,20,43,.10), rgba(59,31,82,.10))",
-                  }}
-                />
-              </div>
-
-              <div className="mt-4">
-                <h3 className="text-xl font-semibold">{album.title}</h3>
-                <p className="text-white/80">{album.blurb}</p>
-              </div>
-            </div>
-          </div>
-
-          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-2">
-            {songs.map((song, index) => (
-              <TrackCard key={song.slug} song={song} index={index} />
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
+    <StageSection
+      id="discography"
+      className="flex flex-col items-start px-5 pt-[19dvh] wide:items-center wide:pt-[15dvh] wide:text-center"
+    >
+      <Dissolve order={0} tracking={0.24} loosen>
+        <SectionIndex index={3} />
+      </Dissolve>
+      <Dissolve order={1} tracking={-0.035} loosen blur className="mt-5">
+        <h2
+          id="discography-title"
+          data-stage-heading
+          tabIndex={-1}
+          className="font-display text-[8.3vw] leading-[0.9] font-extrabold text-stardust-50 wide:text-[clamp(3.5rem,6.4vw,6.5rem)]"
+        >
+          {heading}
+        </h2>
+      </Dissolve>
+      <Dissolve order={2} className="mt-8 wide:mt-10">
+        <p className="flex flex-col items-start gap-2 wide:items-center">
+          <span className="font-mono text-[0.75rem] tracking-[0.24em] text-rose-300 uppercase">
+            {albumLabel}
+          </span>{" "}
+          <span className="font-display text-[1.6rem] leading-tight font-bold tracking-[-0.01em] text-stardust-50 wide:text-[clamp(1.75rem,2.7vw,2.6rem)]">
+            {albumTitle}
+          </span>
+        </p>
+      </Dissolve>
+      <Dissolve order={3} className="mt-4">
+        <p className="max-w-[40ch] pr-10 text-[clamp(1.0625rem,2.4vw,1.3rem)] leading-[1.6] text-mauve-100 wide:pr-0 wide:text-[clamp(1.05rem,1.35vw,1.25rem)]">
+          {line}
+        </p>
+      </Dissolve>
+    </StageSection>
   );
 }

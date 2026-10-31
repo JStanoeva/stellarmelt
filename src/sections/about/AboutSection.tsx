@@ -1,31 +1,35 @@
-import { members } from "../../content/members";
-import MemberCard from "./MemberCard";
+import { about } from "../../content/homeSections";
+import Dissolve from "../Dissolve";
+import SectionIndex from "../SectionIndex";
+import StageSection from "../StageSection";
 
+// The planet drifts off to the left and the copy takes the right-hand page.
 export default function AboutSection() {
   return (
-    <section id="about" className="scroll-mt-24 py-20 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-10">
-          <h2 className="text-3xl font-bold sm:text-4xl">
-            About{" "}
-            <span className="bg-linear-to-r from-v1-rose to-v1-violet bg-clip-text text-transparent">
-              Stellarmelt
-            </span>
+    <StageSection
+      id="about"
+      className="flex items-end px-5 pb-[11dvh] wide:items-center wide:justify-end wide:pr-[clamp(5rem,11vw,11rem)] wide:pb-0 wide:pl-[46vw]"
+    >
+      <div>
+        <Dissolve order={0} tracking={0.24} loosen>
+          <SectionIndex index={1} />
+        </Dissolve>
+        <Dissolve order={1} tracking={-0.025} loosen blur className="mt-6">
+          <h2
+            id="about-title"
+            data-stage-heading
+            tabIndex={-1}
+            className="font-display text-[9.6vw] leading-[0.92] font-extrabold text-stardust-50 wide:text-[clamp(3.5rem,6vw,6.25rem)]"
+          >
+            {about.heading}
           </h2>
-          <p className="mt-3 max-w-3xl text-white/80">
-            Stellarmelt blends glassy minimalism with cosmic drama—crisp
-            guitars, orchestral shadows, and vocals that gleam like
-            constellations. It’s elegance in orbit: music to hold you when the
-            universe feels big.
+        </Dissolve>
+        <Dissolve order={2} className="mt-6 wide:mt-8">
+          <p className="max-w-[34ch] text-[clamp(1.0625rem,2.4vw,1.3rem)] leading-[1.6] text-mauve-100 wide:text-[clamp(1.1rem,1.45vw,1.35rem)]">
+            {about.line}
           </p>
-        </header>
-
-        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {members.map((member, index) => (
-            <MemberCard key={member.slug} member={member} index={index} />
-          ))}
-        </ul>
+        </Dissolve>
       </div>
-    </section>
+    </StageSection>
   );
 }

@@ -1,141 +1,52 @@
-import { useEffect, useState } from "react";
-import { timeline } from "../../content/timeline";
+import { firstEvent } from "../../content/homeSections";
 import { formatDate } from "../../lib/dates";
+import Dissolve from "../Dissolve";
+import SectionIndex from "../SectionIndex";
+import StageSection from "../StageSection";
 
+// The planet shrinks to a distant point up high; its orbit opens into an arc that runs through the first event.
 export default function TimelineSection() {
-  const [activeTimelineIdx, setActiveTimelineIdx] = useState(0);
-  const [isTimelinePaused, setIsTimelinePaused] = useState(false);
-  const pauseTimeline = () => setIsTimelinePaused(true);
-  const resumeTimeline = () => setIsTimelinePaused(false);
-  const activeEvent = timeline[activeTimelineIdx];
-
-  useEffect(() => {
-    const prefersReduced = window.matchMedia?.(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (prefersReduced || isTimelinePaused) return;
-
-    const id = window.setInterval(() => {
-      setActiveTimelineIdx((i) => (i + 1) % timeline.length);
-    }, 5000);
-
-    return () => window.clearInterval(id);
-  }, [isTimelinePaused]);
-
   return (
-    <section id="timeline" className="scroll-mt-24 py-20 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <h2 className="mb-10 text-3xl font-bold sm:text-4xl">Timeline</h2>
-            <ol className="relative ml-3 border-l border-white/20">
-              {timeline.map((event, idx) => {
-                const isActive = activeTimelineIdx === idx;
-                return (
-                  <li
-                    key={event.id}
-                    className="mb-10 ml-6"
-                    onMouseEnter={() => {
-                      setActiveTimelineIdx(idx);
-                      pauseTimeline();
-                    }}
-                    onMouseLeave={resumeTimeline}
-                  >
-                    <span
-                      className={`absolute top-0 -left-3 grid h-6 w-6 place-items-center rounded-full ring-2 ${
-                        isActive ? "ring-v1-rose" : "ring-white/40"
-                      }`}
-                      style={{
-                        background:
-                          "linear-gradient(135deg, var(--color-v1-rose), var(--color-v1-violet))",
-                        boxShadow: isActive
-                          ? "0 0 24px rgba(221,129,156,0.35)"
-                          : "none",
-                      }}
-                      aria-hidden="true"
-                    >
-                      <span className="h-2.5 w-2.5 rounded-full bg-white" />
-                    </span>
-                    <time className="text-xs tracking-widest text-white/70 uppercase">
-                      {formatDate(event.date)}
-                    </time>
-                    <h3
-                      tabIndex={0}
-                      className={`mt-1 text-lg font-semibold transition-colors outline-none ${
-                        isActive ? "text-white" : ""
-                      }`}
-                      onFocus={() => {
-                        setActiveTimelineIdx(idx);
-                        pauseTimeline();
-                      }}
-                      onBlur={resumeTimeline}
-                    >
-                      {event.title}
-                    </h3>
-                    <p className="text-white/80">{event.summary}</p>
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
-
-          <aside className="hidden lg:block">
-            <div
-              className="sticky top-28"
-              onMouseEnter={pauseTimeline}
-              onMouseLeave={resumeTimeline}
-            >
-              <figure className="glass overflow-hidden rounded-2xl">
-                <div className="relative aspect-[3/4] w-full">
-                  <div
-                    className="absolute inset-0"
-                    aria-hidden="true"
-                    style={{
-                      background:
-                        "radial-gradient(60% 60% at 30% 30%, rgba(221,129,156,.22) 0%, transparent 70%), radial-gradient(50% 60% at 70% 70%, rgba(160,89,135,.22) 0%, transparent 70%), linear-gradient(135deg, rgba(30,20,43,.65), rgba(59,31,82,.65))",
-                    }}
-                  />
-
-                  {timeline.map((event, idx) => (
-                    <img
-                      key={event.id}
-                      src={event.image}
-                      alt=""
-                      aria-hidden="true"
-                      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out ${
-                        activeTimelineIdx === idx ? "opacity-100" : "opacity-0"
-                      }`}
-                      onError={(ev) => {
-                        (ev.currentTarget as HTMLImageElement).style.display =
-                          "none";
-                      }}
-                    />
-                  ))}
-
-                  <div
-                    className="pointer-events-none absolute inset-0"
-                    aria-hidden="true"
-                    style={{
-                      background:
-                        "radial-gradient(70% 70% at 50% 30%, rgba(255,255,255,.10) 0%, transparent 60%), linear-gradient(0deg, rgba(0,0,0,.15), rgba(0,0,0,.15))",
-                    }}
-                  />
-                </div>
-
-                <figcaption
-                  className="px-4 py-3 text-center text-sm text-white/80"
-                  aria-live="polite"
-                >
-                  <span className="opacity-70">
-                    {formatDate(activeEvent.date)} •{" "}
-                  </span>
-                  {activeEvent.title}
-                </figcaption>
-              </figure>
-            </div>
-          </aside>
-        </div>
+    <StageSection
+      id="timeline"
+      className="flex items-end px-5 pb-[10dvh] wide:pb-[13dvh] wide:pl-[clamp(5.5rem,12vw,12rem)]"
+    >
+      <div>
+        <Dissolve order={0} tracking={0.24} loosen>
+          <SectionIndex index={2} />
+        </Dissolve>
+        <Dissolve order={1} tracking={-0.035} loosen blur className="mt-5">
+          <h2
+            id="timeline-title"
+            data-stage-heading
+            tabIndex={-1}
+            className="font-display text-[12.2vw] leading-[0.9] font-extrabold text-stardust-50 wide:text-[clamp(4rem,8vw,7.5rem)]"
+          >
+            Timeline
+          </h2>
+        </Dissolve>
+        <Dissolve order={2} tracking={0.2} loosen className="mt-8 wide:mt-10">
+          <p className="flex items-center gap-3 font-mono text-[0.75rem] text-rose-300 uppercase">
+            {/* The ring the moon comes to rest in: the orbit is pinned to this event. */}
+            <span
+              aria-hidden="true"
+              data-orbit-anchor
+              className="size-[1.375rem] shrink-0 rounded-full border border-rose-300/70"
+            />
+            {formatDate(firstEvent.date)}
+          </p>
+        </Dissolve>
+        <Dissolve order={3} tracking={-0.01} className="mt-3">
+          <h3 className="font-display text-[1.75rem] leading-tight font-bold text-stardust-50 wide:text-[clamp(1.9rem,2.6vw,2.6rem)]">
+            {firstEvent.title}
+          </h3>
+        </Dissolve>
+        <Dissolve order={4} className="mt-3">
+          <p className="max-w-[36ch] text-[clamp(1.0625rem,2.4vw,1.3rem)] leading-[1.6] text-mauve-100 wide:text-[clamp(1.05rem,1.35vw,1.25rem)]">
+            {firstEvent.summary}
+          </p>
+        </Dissolve>
       </div>
-    </section>
+    </StageSection>
   );
 }

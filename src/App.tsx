@@ -1,30 +1,28 @@
-import SiteFooter from "./components/SiteFooter";
-import SiteHeader from "./components/SiteHeader";
+import { LazyMotion, MotionConfig } from "motion/react";
+import { useState } from "react";
+import SiteNav from "./components/SiteNav";
 import SkipLink from "./components/SkipLink";
-import Starfield from "./components/Starfield";
-import AboutSection from "./sections/about/AboutSection";
-import ContactSection from "./sections/contact/ContactSection";
-import DiscographySection from "./sections/discography/DiscographySection";
-import HeroSection from "./sections/hero/HeroSection";
-import TimelineSection from "./sections/timeline/TimelineSection";
+import { useMotionPreference } from "./hooks/useMotionPreference";
+import HomeStage from "./sections/HomeStage";
 
 export default function App() {
+  const { reduced, toggle } = useMotionPreference();
+  const [motionReady, setMotionReady] = useState(false);
+
+  // Motion's animation features load in their own chunk once the page is up.
+  const loadMotionFeatures = async () => {
+    const { default: features } = await import("./lib/motionFeatures");
+    setMotionReady(true);
+    return features;
+  };
+
   return (
-    <div className="relative min-h-screen text-white antialiased">
-      <div className="bg-cosmic fixed inset-0 -z-30" aria-hidden="true" />
-      <Starfield />
-      <SkipLink />
-      <SiteHeader />
-
-      <main className="pt-28 md:pt-32">
-        <HeroSection />
-        <AboutSection />
-        <TimelineSection />
-        <DiscographySection />
-        <ContactSection />
-      </main>
-
-      <SiteFooter />
-    </div>
+    <LazyMotion features={loadMotionFeatures} strict>
+      <MotionConfig reducedMotion={reduced ? "always" : "never"}>
+        <SkipLink />
+        <SiteNav reduced={reduced} onToggleMotion={toggle} />
+        <HomeStage reduced={reduced} motionReady={motionReady} />
+      </MotionConfig>
+    </LazyMotion>
   );
 }

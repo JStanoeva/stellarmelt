@@ -1,142 +1,281 @@
 @import "tailwindcss";
 
+/* Dela Gothic One sets only ステラメルト, and all six glyphs live in this one slice of the font. */
+@font-face {
+  font-family: "Dela Gothic One";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../node_modules/@fontsource/dela-gothic-one/files/dela-gothic-one-119-400-normal.woff2")
+    format("woff2");
+  unicode-range: U+30B9, U+30C6, U+30C8, U+30E1, U+30E9, U+30EB;
+}
+
 @theme {
-  --color-v1-rose: #dd819c;
-  --color-v1-violet: #a05987;
-  --color-v1-plum: #3b1f52;
-  --color-v1-midnight: #1e142b;
+  --color-*: initial;
+  --color-night-950: #07041a;
+  --color-night-900: #0c0822;
+  --color-night-800: #140d2d;
+  --color-night-700: #1d1338;
+  --color-plum-800: #422751;
+  --color-plum-600: #643769;
+  --color-mauve-500: #9a4f80;
+  --color-mauve-400: #b16691;
+  --color-mauve-300: #c98fb2;
+  --color-mauve-200: #d9aec8;
+  --color-mauve-100: #ecd5e3;
+  --color-rose-600: #bc5080;
+  --color-rose-500: #e37093;
+  --color-rose-400: #f48fa6;
+  --color-rose-300: #fbb0b6;
+  --color-rose-200: #fdd0d3;
+  --color-starlight-300: #eed4bc;
+  --color-starlight-200: #f5e2c8;
+  --color-starlight-100: #fbf1e1;
+  --color-stardust-50: #fbf3f8;
+
+  --font-display: "Syne Variable", "Arial Black", sans-serif;
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Martian Mono Variable", ui-monospace, monospace;
+  --font-kana: "Dela Gothic One", sans-serif;
+
+  /* Entrance curve; the stage's Motion variants use the same one as easeCondense. */
+  --ease-condense: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-orbit: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* The dots run once per step, so nothing on the stage moves for longer than 5 s; the motion toggle's moon is its own pause control. */
+  --animate-orbit: orbit 7s linear infinite;
+  --animate-orbit-once: orbit 3.2s var(--ease-condense);
+  --animate-breathe: breathe 2.4s ease-in-out 2;
+
+  @keyframes orbit {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Starts and ends on the active dot's resting glow. */
+  @keyframes breathe {
+    0%,
+    100% {
+      box-shadow:
+        0 0 0 2px var(--color-night-950),
+        0 0 8px 2px color-mix(in oklab, var(--color-rose-300) 55%, transparent);
+    }
+    50% {
+      box-shadow:
+        0 0 0 2px var(--color-night-950),
+        0 0 12px 3px color-mix(in oklab, var(--color-rose-300) 75%, transparent);
+    }
+  }
 }
 
-/* Unlayered on purpose: these rules must keep beating Tailwind's layered utilities. */
-html {
-  scroll-behavior: smooth;
-}
-::selection {
-  background: rgba(221, 129, 156, 0.3);
-  color: #ffffff;
-}
-
-.bg-cosmic {
-  background:
-    radial-gradient(60% 100% at 20% 10%, rgba(221, 129, 156, 0.12) 0%, transparent 60%),
-    radial-gradient(70% 90% at 80% 20%, rgba(160, 89, 135, 0.12) 0%, transparent 60%),
-    radial-gradient(80% 120% at 50% 120%, rgba(59, 31, 82, 0.2) 0%, transparent 70%),
-    linear-gradient(
-      135deg,
-      var(--color-v1-midnight),
-      var(--color-v1-plum),
-      var(--color-v1-violet),
-      var(--color-v1-rose)
-    );
-  background-size:
-    120% 120%,
-    120% 120%,
-    140% 140%,
-    400% 400%;
-  background-position:
-    20% 10%,
-    80% 20%,
-    50% 100%,
-    0% 50%;
-  animation: gradientShift 24s ease-in-out infinite;
-}
-@keyframes gradientShift {
-  0% {
-    background-position:
-      20% 10%,
-      80% 20%,
-      50% 100%,
-      0% 50%;
-  }
-  50% {
-    background-position:
-      30% 20%,
-      70% 30%,
-      50% 90%,
-      100% 50%;
-  }
-  100% {
-    background-position:
-      20% 10%,
-      80% 20%,
-      50% 100%,
-      0% 50%;
-  }
-}
-.twinkle {
-  animation-name: twinkle;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-@keyframes twinkle {
-  0%,
-  100% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.4);
-  }
-}
-.fade-in-up {
-  opacity: 0;
-  transform: translateY(12px);
-  animation: fadeInUp 0.9s ease-out forwards;
-}
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.glass {
-  backdrop-filter: blur(16px);
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-.btn {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
-  backdrop-filter: blur(8px);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-}
-.btn:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 0 2px rgba(221, 129, 156, 0.25),
-    0 8px 28px rgba(221, 129, 156, 0.25);
-  border-color: rgba(221, 129, 156, 0.6);
-}
-.btn:active {
-  transform: translateY(0);
+@theme inline {
+  --color-canvas: var(--color-night-950);
+  --color-canvas-alt: var(--color-night-900);
+  --color-surface: var(--color-night-800);
+  --color-ink: var(--color-stardust-50);
+  --color-ink-soft: var(--color-mauve-100);
+  --color-ink-muted: var(--color-mauve-200);
+  --color-accent: var(--color-rose-300);
+  --color-link: var(--color-rose-400);
+  --color-line: var(--color-starlight-300);
+  --color-focus: var(--color-starlight-200);
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  will-change: opacity, transform;
-  transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
-}
-.reveal-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    transition: none !important;
-    opacity: 1 !important;
-    transform: none !important;
+@custom-variant motion-ok (&:where([data-motion="full"], [data-motion="full"] *));
+@custom-variant motion-off (&:where([data-motion="reduce"], [data-motion="reduce"] *));
+
+/* The stage's two compositions (src/art/poses.ts → WIDE_QUERY): side by side, or stacked with the art on top. */
+@custom-variant wide (@media (min-width: 48rem) and (min-aspect-ratio: 4/5));
+@custom-variant narrow (@media not all and (min-width: 48rem) and (min-aspect-ratio: 4/5));
+/* Landscape phones and other short screens; declared after wide so it wins. */
+@custom-variant short (@media (max-height: 30rem));
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
   }
+
   html {
-    scroll-behavior: auto;
+    background-color: var(--color-canvas);
+    color-scheme: dark;
   }
+
+  body {
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-rose-300);
+    color: var(--color-night-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  /* After a keyboard step focus lands on the huge headings: the same ring, further out. */
+  [data-stage-heading]:focus-visible {
+    outline-offset: 10px;
+    border-radius: 6px;
+  }
+}
+
+/* The still planet (no WebGL, or before the scene loads), re-framed per section; registered so the numbers can glide. */
+@property --x {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --y {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --r {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --outer {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 2;
+}
+@property --light {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.fallback-art {
+  --side: min(100vw, 100dvh);
+  --cx: calc(var(--x) * 100vw);
+  --cy: calc(var(--y) * 100dvh);
+  --pr: calc(var(--r) * var(--side));
+}
+
+[data-motion="full"] .fallback-art[data-glide] {
+  transition:
+    --x 1.2s var(--ease-orbit),
+    --y 1.2s var(--ease-orbit),
+    --r 1.2s var(--ease-orbit),
+    --outer 1.2s var(--ease-orbit),
+    --light 1.2s var(--ease-orbit);
+}
+
+.fallback-orbits {
+  left: calc(var(--cx) - var(--pr) * var(--outer));
+  top: calc(var(--cy) - var(--pr) * var(--outer));
+  width: calc(var(--pr) * var(--outer) * 2);
+  height: calc(var(--pr) * var(--outer) * 2);
+}
+
+.fallback-stars {
+  background-image:
+    radial-gradient(
+      1px 1px at 12% 18%,
+      var(--color-stardust-50) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 72% 12%,
+      var(--color-stardust-50) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1.5px 1.5px at 38% 62%,
+      var(--color-rose-200) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 88% 44%,
+      var(--color-stardust-50) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 55% 30%,
+      var(--color-starlight-200) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 22% 78%,
+      var(--color-stardust-50) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1.5px 1.5px at 64% 84%,
+      var(--color-stardust-50) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 93% 88%,
+      var(--color-rose-200) 50%,
+      transparent 51%
+    );
+  background-size: 340px 300px;
+  opacity: 0.7;
+}
+
+.fallback-halftone {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--color-mauve-400) 40%, transparent) 1.1px,
+    transparent 1.7px
+  );
+  background-size: 13px 13px;
+  mask-image: radial-gradient(
+    circle calc(var(--pr) * 2.6) at var(--cx) var(--cy),
+    #000 0%,
+    #000 30%,
+    transparent 100%
+  );
+}
+
+.fallback-planet {
+  position: absolute;
+  left: calc(var(--cx) - var(--pr));
+  top: calc(var(--cy) - var(--pr));
+  width: calc(var(--pr) * 2);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 28%,
+    var(--color-rose-200) 0%,
+    var(--color-rose-400) 18%,
+    var(--color-mauve-400) 45%,
+    var(--color-plum-600) 75%,
+    var(--color-night-700) 100%
+  );
+  box-shadow:
+    inset calc(var(--pr) * -0.16) calc(var(--pr) * -0.2) calc(var(--pr) * 0.42)
+      var(--color-night-800),
+    0 0 calc(var(--pr) * 0.35)
+      color-mix(in oklab, var(--color-rose-400) 22%, transparent);
+}
+
+/* Lit from behind (the planetrise and the setting planet): a dark face under a glowing rose limb. */
+.fallback-backlit {
+  background: radial-gradient(
+    circle at 50% 8%,
+    var(--color-plum-800) 0%,
+    var(--color-night-800) 45%,
+    var(--color-night-900) 100%
+  );
+  box-shadow:
+    inset 0 calc(var(--pr) * 0.012) calc(var(--pr) * 0.03)
+      color-mix(in oklab, var(--color-rose-300) 85%, transparent),
+    inset 0 calc(var(--pr) * 0.04) calc(var(--pr) * 0.12)
+      color-mix(in oklab, var(--color-rose-600) 45%, transparent),
+    0 0 calc(var(--pr) * 0.22)
+      color-mix(in oklab, var(--color-rose-400) 30%, transparent);
+  opacity: var(--light);
 }
