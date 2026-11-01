@@ -23,6 +23,27 @@ export const router = createBrowserRouter([
                 (await import("../routes/DiscographyPage")).default,
             },
           },
+          {
+            path: "discography/:slug",
+            lazy: {
+              Component: async () =>
+                (await import("../routes/SongPage")).default,
+            },
+          },
+          {
+            path: "listen",
+            lazy: {
+              Component: async () =>
+                (await import("../routes/ListenPage")).default,
+            },
+          },
+          {
+            path: "listen/:slug",
+            lazy: {
+              Component: async () =>
+                (await import("../routes/ListenPage")).default,
+            },
+          },
           { path: "*", Component: NotFoundPage },
         ],
       },

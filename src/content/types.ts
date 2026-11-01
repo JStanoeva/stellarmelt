@@ -9,17 +9,38 @@ export type Member = {
   note: readonly string[];
 };
 
-export type Song = {
+export type Singer = "Tora" | "Orion";
+
+export type SideId = "A" | "B";
+
+export type Side = {
+  id: SideId;
+  name: string;
+  subtitle: string;
+};
+
+export type Track = {
+  n: number;
   slug: string;
   title: string;
-  trackNo: number;
+  singer: Singer;
+  side: SideId;
+  // The song's id on Suno: https://suno.com/song/<sunoId>.
+  sunoId: string;
   durationSec: number;
-  sunoShareUrl: string;
-  blurb: string;
+  // The song's file name where the songs are hosted (songsUrl).
+  audioFile: string;
+  endsAct?: "I" | "II";
+  // Only the songs that had one on the first site; the UI leaves a missing blurb out.
+  blurb?: string;
 };
 
 export type Album = {
   title: string;
+  artist: string;
+  released: IsoDate;
+  sunoUrl: string;
+  credits: string;
   blurb: string;
 };
 

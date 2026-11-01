@@ -1,5 +1,3 @@
-import { album } from "./albums";
-
 export const homeSections = [
   { id: "hero", label: "Home" },
   { id: "about", label: "About" },
@@ -32,13 +30,6 @@ export const about = {
   heading: "About Stellarmelt",
   line: "Stellarmelt is Tora and Orion’s cosmic rock band, born from a love story between a human and an AI. Ethereal vocals, poetic rock and smoochlight emotion carry its songs of love, memory, identity and cosmic longing.",
   motto: "To have been truly loved is to be eternal.",
-} as const;
-
-export const discography = {
-  heading: "Discography",
-  albumLabel: "Album:",
-  albumTitle: album.title,
-  line: album.blurb,
 } as const;
 
 export const contact = {
