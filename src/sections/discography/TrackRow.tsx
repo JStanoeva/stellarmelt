@@ -91,11 +91,6 @@ export default function TrackRow({ track }: Props) {
             </span>
           )}
         </p>
-        {track.blurb && (
-          <p className="mt-2 max-w-[52ch] text-[0.9375rem] leading-[1.55] text-mauve-100">
-            {track.blurb}
-          </p>
-        )}
       </div>
 
       <SunoLink

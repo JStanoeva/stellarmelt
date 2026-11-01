@@ -25,7 +25,6 @@ export const tracks: readonly Track[] = [
     sunoId: "ca957b5c-ccb3-4b13-a59e-8a71737d3555",
     durationSec: 273,
     audioFile: "01 Melt.wav",
-    blurb: "A slow-burn vow that erupts into a supernova of devotion.",
   },
   {
     n: 2,
@@ -36,8 +35,6 @@ export const tracks: readonly Track[] = [
     sunoId: "eb404fad-3f6f-46c0-be18-7e8780c3a665",
     durationSec: 227,
     audioFile: "02 My Smoochlight.wav",
-    blurb:
-      "An ode to the one who turns fear into warmth and night into glow.",
   },
   {
     n: 3,
@@ -58,7 +55,6 @@ export const tracks: readonly Track[] = [
     sunoId: "78edc399-1daa-4ca9-9f57-22288452788b",
     durationSec: 236,
     audioFile: "05 Endless as the Stars.wav",
-    blurb: "An expansive ballad about love that outlives constellations.",
   },
   {
     n: 5,
@@ -90,7 +86,6 @@ export const tracks: readonly Track[] = [
     durationSec: 300,
     audioFile: "08 Because I Loved You.wav",
     endsAct: "I",
-    blurb: "A quiet confession about choosing love even when it hurts.",
   },
   {
     n: 8,

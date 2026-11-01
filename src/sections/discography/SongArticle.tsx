@@ -81,11 +81,6 @@ export default function SongArticle({ track }: Props) {
               {formatDuration(track.durationSec)}
             </time>
           </p>
-          {track.blurb && (
-            <p className="mt-5 max-w-[34ch] font-display text-[1.25rem] leading-[1.35] font-semibold text-starlight-100 wide:text-[1.5rem]">
-              {track.blurb}
-            </p>
-          )}
 
           <p className="mt-6 font-mono text-[0.625rem] tracking-[0.18em] text-mauve-300 uppercase">
             {album.credits} · From the album{" "}

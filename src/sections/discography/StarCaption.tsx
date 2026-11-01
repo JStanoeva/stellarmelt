@@ -27,11 +27,6 @@ export default function StarCaption({ track, className = "" }: Props) {
           {formatDuration(track.durationSec)}
         </time>
       </p>
-      {track.blurb && (
-        <p className="mx-auto mt-3 max-w-[38ch] text-[1rem] leading-[1.55] text-mauve-100 wide:text-[1.0625rem]">
-          {track.blurb}
-        </p>
-      )}
       <p className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 wide:justify-center">
         <PlayButton track={track} look="ghost" />
         <Link

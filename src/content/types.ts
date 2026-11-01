@@ -31,8 +31,6 @@ export type Track = {
   // The song's file name where the songs are hosted (songsUrl).
   audioFile: string;
   endsAct?: "I" | "II";
-  // Only the songs that had one on the first site; the UI leaves a missing blurb out.
-  blurb?: string;
 };
 
 export type Album = {
