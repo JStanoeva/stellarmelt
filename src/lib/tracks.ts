@@ -9,9 +9,9 @@ export function sunoSongUrl(track: Track): string {
   return `https://suno.com/song/${track.sunoId}`;
 }
 
-// Undefined until the songs are hosted. encodeURI keeps commas: Vite's dev server leaves %2C undecoded.
-export function songAudioUrl(track: Track): string | undefined {
-  return songsUrl && encodeURI(`${songsUrl}/${track.audioFile}`);
+// encodeURI keeps commas: Vite's dev server leaves %2C undecoded.
+export function songAudioUrl(track: Track): string {
+  return encodeURI(`${songsUrl}/${track.audioFile}`);
 }
 
 // The Listening Room plays the whole album at /listen, or one song at /listen/<slug>.

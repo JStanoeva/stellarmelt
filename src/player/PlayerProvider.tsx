@@ -6,7 +6,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { songsUrl, tracks } from "../content/album";
+import { tracks } from "../content/album";
 import type { Track } from "../content/types";
 import { songAudioUrl } from "../lib/tracks";
 import {
@@ -18,7 +18,6 @@ import {
 
 const LEAVE_GRACE_MS = 600;
 const FADE_MS = 900;
-const canPlay = songsUrl !== undefined;
 
 function isAbort(error: unknown): boolean {
   return error instanceof DOMException && error.name === "AbortError";
@@ -62,11 +61,10 @@ export default function PlayerProvider({ children }: Props) {
   const play = useCallback(
     (track: Track, nextMode: PlayMode = "album") => {
       const media = audio.current;
-      const url = songAudioUrl(track);
-      if (!media || !url) return;
+      if (!media) return;
       cancelAnimationFrame(fadeFrame.current);
       media.volume = 1;
-      media.src = url;
+      media.src = songAudioUrl(track);
       setCurrent(track);
       setMode(nextMode);
       setStatus("loading");
@@ -209,7 +207,6 @@ export default function PlayerProvider({ children }: Props) {
       current,
       status,
       mode,
-      canPlay,
       play,
       pause,
       resume,

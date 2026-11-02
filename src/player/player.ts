@@ -10,8 +10,6 @@ export type PlayerValue = {
   current: Track | null;
   status: PlayerStatus | null;
   mode: PlayMode;
-  // False until the songs are hosted (songsUrl): the play controls link to Suno instead.
-  canPlay: boolean;
   play: (track: Track, mode?: PlayMode) => void;
   pause: () => void;
   resume: () => void;

@@ -16,7 +16,7 @@ type Props = {
 
 // The way into the Listening Room: a plain click starts the music and dives into the nebula (FlightLayer); a modified click only follows the link.
 export default function NebulaCue({ track, className, artClassName }: Props) {
-  const { canPlay, startFromCue } = usePlayer();
+  const { startFromCue } = usePlayer();
   const to = listenPath(track);
   const { onPointerDown, warp } = useWarp(to);
 
@@ -28,7 +28,7 @@ export default function NebulaCue({ track, className, artClassName }: Props) {
       event.shiftKey ||
       event.altKey;
     if (modified) return;
-    if (canPlay) startFromCue(track ?? null);
+    startFromCue(track ?? null);
     if (warp(event.currentTarget)) event.preventDefault();
   }
 

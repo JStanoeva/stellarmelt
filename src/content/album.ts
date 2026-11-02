@@ -180,6 +180,7 @@ export const tracks: readonly Track[] = [
   },
 ];
 
-// TODO(Tora): the songs' Cloudflare R2 address (Q-43)
-export const songsUrl: string | undefined =
-  import.meta.env.VITE_SONGS_URL || undefined;
+// The songs' Cloudflare R2 bucket, at its r2.dev address until it has a custom domain.
+export const songsUrl: string =
+  import.meta.env.VITE_SONGS_URL ||
+  "https://pub-ab7923fd469f4d3b87866b5d0fdff8a7.r2.dev";

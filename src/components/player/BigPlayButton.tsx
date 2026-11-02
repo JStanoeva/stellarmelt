@@ -1,6 +1,5 @@
 import type { Track } from "../../content/types";
 import { usePlayer } from "../../hooks/usePlayer";
-import { sunoSongUrl } from "../../lib/tracks";
 import PlayGlyph from "./PlayGlyph";
 import ProgressRing from "./ProgressRing";
 import SongDuration from "./SongDuration";
@@ -9,18 +8,22 @@ type Props = { track: Track };
 
 const ORB = 84;
 
-// The song page's player: a rose orb in a dotted orbit that fills as a ring for the current song; a Suno link until hosted.
+// The song page's player: a rose orb in a dotted orbit that fills as a ring for the current song.
 export default function BigPlayButton({ track }: Props) {
-  const { current, status, canPlay, toggle } = usePlayer();
+  const { current, status, toggle } = usePlayer();
   const active = current?.slug === track.slug;
   const pausable = active && status !== "paused";
   let verb = "Play";
   if (active) verb = pausable ? "Pause" : "Resume";
-  const classes =
-    "group inline-flex items-center gap-5 rounded-full pr-5 text-left";
 
-  const content = (
-    <>
+  return (
+    <button
+      type="button"
+      data-play={track.slug}
+      aria-label={`${verb} ${track.title}`}
+      onClick={() => toggle(track)}
+      className="group inline-flex items-center gap-5 rounded-full pr-5 text-left"
+    >
       <span className="relative grid size-[5.25rem] shrink-0 place-items-center">
         {active ? (
           <ProgressRing track={track} size={ORB} stroke={2} />
@@ -55,32 +58,6 @@ export default function BigPlayButton({ track }: Props) {
           className="font-mono text-[0.75rem] tracking-[0.14em] text-mauve-200"
         />
       </span>
-    </>
-  );
-
-  if (!canPlay) {
-    return (
-      <a
-        href={sunoSongUrl(track)}
-        target="_blank"
-        rel="noreferrer"
-        data-play={track.slug}
-        aria-label={`Play ${track.title} on Suno, opens in a new tab`}
-        className={classes}
-      >
-        {content}
-      </a>
-    );
-  }
-  return (
-    <button
-      type="button"
-      data-play={track.slug}
-      aria-label={`${verb} ${track.title}`}
-      onClick={() => toggle(track)}
-      className={classes}
-    >
-      {content}
     </button>
   );
 }

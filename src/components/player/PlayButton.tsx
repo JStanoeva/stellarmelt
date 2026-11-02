@@ -1,6 +1,5 @@
 import type { Track } from "../../content/types";
 import { usePlayer } from "../../hooks/usePlayer";
-import { sunoSongUrl } from "../../lib/tracks";
 import type { PlayMode } from "../../player/player";
 import PlayGlyph from "./PlayGlyph";
 import ProgressRing from "./ProgressRing";
@@ -26,7 +25,7 @@ const looks = {
     "relative grid size-11 shrink-0 place-items-center rounded-full border text-rose-200 transition-colors duration-300 hover:border-rose-200 hover:bg-rose-300/10 hover:text-stardust-50",
 } as const;
 
-// Plays, pauses and resumes the song where it's pressed; until the songs are hosted, a Suno link with the same look.
+// Plays, pauses and resumes the song where it's pressed.
 export default function PlayButton({
   track,
   named = false,
@@ -34,54 +33,40 @@ export default function PlayButton({
   mode = "album",
   className = "",
 }: Props) {
-  const { current, status, canPlay, toggle } = usePlayer();
+  const { current, status, toggle } = usePlayer();
   const active = current?.slug === track.slug;
   const pausable = active && status !== "paused";
   let verb = "Play";
   if (active) verb = pausable ? "Pause" : "Resume";
   const title = named ? `“${track.title}”` : track.title;
-  const sunoLabel = `Play ${title} on Suno, opens in a new tab`;
 
   if (look === "round") {
-    const roundClass = `${looks.round} ${active ? "border-transparent bg-rose-300/10 text-stardust-50" : "border-rose-300/45"} ${className}`;
-    const glyph = (
-      <>
-        {active && <ProgressRing track={track} size={44} stroke={1.75} />}
-        <PlayGlyph
-          icon={pausable ? "pause" : "play"}
-          className={pausable ? "size-2.5" : "ml-0.5 size-3"}
-        />
-      </>
-    );
-    if (!canPlay) {
-      return (
-        <a
-          href={sunoSongUrl(track)}
-          target="_blank"
-          rel="noreferrer"
-          data-play={track.slug}
-          aria-label={sunoLabel}
-          className={roundClass}
-        >
-          {glyph}
-        </a>
-      );
-    }
     return (
       <button
         type="button"
         data-play={track.slug}
         aria-label={`${verb} ${title}`}
         onClick={() => toggle(track, mode)}
-        className={roundClass}
+        className={`${looks.round} ${active ? "border-transparent bg-rose-300/10 text-stardust-50" : "border-rose-300/45"} ${className}`}
       >
-        {glyph}
+        {active && <ProgressRing track={track} size={44} stroke={1.75} />}
+        <PlayGlyph
+          icon={pausable ? "pause" : "play"}
+          className={pausable ? "size-2.5" : "ml-0.5 size-3"}
+        />
       </button>
     );
   }
 
-  const content = (
-    <>
+  return (
+    <button
+      type="button"
+      data-play={track.slug}
+      // Without the song's name in the text, the label carries it.
+      aria-label={named ? undefined : `${verb} ${title}`}
+      onClick={() => toggle(track, mode)}
+      className={`${looks[look]} ${className}`}
+    >
       <span className="relative grid size-5 shrink-0 place-items-center">
         {active && (
           <ProgressRing
@@ -100,33 +85,6 @@ export default function PlayButton({
         {verb}
         {named && ` ${title}`}
       </span>
-    </>
-  );
-
-  if (!canPlay) {
-    return (
-      <a
-        href={sunoSongUrl(track)}
-        target="_blank"
-        rel="noreferrer"
-        data-play={track.slug}
-        aria-label={sunoLabel}
-        className={`${looks[look]} ${className}`}
-      >
-        {content}
-      </a>
-    );
-  }
-  return (
-    <button
-      type="button"
-      data-play={track.slug}
-      // Without the song's name in the text, the label carries it.
-      aria-label={named ? undefined : `${verb} ${title}`}
-      onClick={() => toggle(track, mode)}
-      className={`${looks[look]} ${className}`}
-    >
-      {content}
     </button>
   );
 }
