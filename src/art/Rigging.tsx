@@ -5,7 +5,9 @@ import type { Anchors } from "./anchors";
 import { DUST_RECTS, type DustBurst } from "./dust";
 import { backLight, frontLight } from "./palette";
 import {
+  discographyY,
   heroY,
+  isShort,
   isTall,
   MOON_HOLD_SWING,
   MOON_SPEED,
@@ -139,6 +141,7 @@ export default function Rigging({
     const { size, viewport } = state;
     const now = performance.now();
     const tallScreen = isTall(size.width, size.height);
+    const shortScreen = isShort(size.height);
 
     const hold = held.current;
     if (pose !== hold.next) {
@@ -162,9 +165,18 @@ export default function Rigging({
     const slide = PLANET_PARALLAX * viewport.width;
 
     const target = rig.target;
-    writePose(poseFor(shown, tallScreen), target);
+    writePose(poseFor(shown, tallScreen, shortScreen), target);
     if (shown === "hero" && !tallScreen)
       target[P.y] = heroY(target[P.y], target[P.radius], anchors);
+    if (shown === "discography")
+      target[P.y] = discographyY(
+        target[P.y],
+        target[P.radius],
+        size.width,
+        size.height,
+        tallScreen,
+        shortScreen,
+      );
     let parkAt: number | null = null;
     if (shown === "timeline" && anchors.ring) {
       const centreX =

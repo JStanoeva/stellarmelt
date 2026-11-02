@@ -20,14 +20,14 @@ export default function StarCaption({ track, className = "" }: Props) {
       <h3 className="mt-2 font-display text-[1.75rem] leading-[1.02] font-extrabold tracking-[-0.02em] text-stardust-50 wide:text-[2.25rem]">
         {track.title}
       </h3>
-      <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.625rem] tracking-[0.18em] text-mauve-200 uppercase wide:justify-center">
+      <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.625rem] tracking-[0.18em] text-mauve-200 uppercase wide:justify-center short:justify-center">
         <SingerMark singer={track.singer} prefix="Sung by " />
         <span aria-hidden="true">·</span>
         <time dateTime={isoDuration(track.durationSec)}>
           {formatDuration(track.durationSec)}
         </time>
       </p>
-      <p className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 wide:justify-center">
+      <p className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 wide:justify-center short:justify-center">
         <PlayButton track={track} look="ghost" />
         <Link
           to={`/discography/${track.slug}`}

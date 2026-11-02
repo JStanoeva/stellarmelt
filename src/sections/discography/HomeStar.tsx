@@ -106,7 +106,7 @@ export default function HomeStar({
         </span>
         <span
           aria-hidden="true"
-          className={`pointer-events-none absolute ${across} ${along} flex items-baseline gap-2 font-mono text-[0.625rem] tracking-[0.16em] whitespace-nowrap text-mauve-200 uppercase opacity-0 [text-shadow:0_0_12px_var(--color-night-950),0_0_4px_var(--color-night-950)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100`}
+          className={`pointer-events-none absolute ${across} ${along} flex items-baseline gap-2 font-mono text-[0.625rem] tracking-[0.16em] whitespace-nowrap text-mauve-200 uppercase opacity-0 [text-shadow:0_0_12px_var(--color-night-950),0_0_4px_var(--color-night-950)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 narrow:w-max narrow:max-w-[10rem] narrow:flex-wrap narrow:gap-y-0.5 narrow:whitespace-normal`}
         >
           <span className="text-rose-300">{pad2(track.n)}</span>
           <span className="font-display text-[1rem] font-bold tracking-normal text-stardust-50 normal-case">

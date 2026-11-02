@@ -1,7 +1,15 @@
 import type { CSSProperties } from "react";
+import { useIsShort } from "../hooks/useIsShort";
 import { useIsTall } from "../hooks/useIsTall";
 import type { Anchors } from "./anchors";
-import { heroY, MOON_START, poseFor, type Pose, type PoseName } from "./poses";
+import {
+  discographyY,
+  heroY,
+  MOON_START,
+  poseFor,
+  type Pose,
+  type PoseName,
+} from "./poses";
 
 type OrbitProps = {
   orbit: number;
@@ -112,10 +120,23 @@ type Props = {
 // The planet at rest (the specimen's panel D) in the scene's pose: before the scene loads, without WebGL, or on an error.
 export default function FallbackArt({ pose: name, anchors, glide }: Props) {
   const tall = useIsTall();
-  let pose = poseFor(name, tall);
+  const short = useIsShort();
+  let pose = poseFor(name, tall, short);
   let moonAngle = MOON_START;
   if (name === "hero" && !tall)
     pose = { ...pose, y: heroY(pose.y, pose.radius, anchors) };
+  if (name === "discography")
+    pose = {
+      ...pose,
+      y: discographyY(
+        pose.y,
+        pose.radius,
+        anchors.width,
+        anchors.height,
+        tall,
+        short,
+      ),
+    };
   const ring = name === "timeline" ? throughRing(pose, anchors) : null;
   if (ring) {
     pose = {

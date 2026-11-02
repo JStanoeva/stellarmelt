@@ -9,11 +9,12 @@ type Props = { track: Track | undefined; direction: 1 | -1 };
 export default function NeighbourLink({ track, direction }: Props) {
   const next = direction > 0;
   if (!track) return <span className="flex-1" />;
+  // On the narrowest phones each side takes a whole row instead of squeezing its title into one-word lines.
   return (
     <Link
       to={`/discography/${track.slug}`}
       rel={next ? "next" : "prev"}
-      className={`group block flex-1 rounded-md py-5 ${next ? "text-right" : ""}`}
+      className={`group block flex-1 rounded-md py-5 max-[24rem]:basis-full ${next ? "text-right" : ""}`}
     >
       <span
         className={`flex items-center gap-2 font-mono text-[0.625rem] tracking-[0.22em] text-mauve-300 uppercase ${next ? "justify-end" : ""}`}

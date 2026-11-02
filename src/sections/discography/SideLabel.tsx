@@ -6,14 +6,14 @@ type Props = { side: Side; className?: string };
 export default function SideLabel({ side, className = "" }: Props) {
   return (
     <p className={`[text-shadow:0_0_12px_var(--color-night-950)] ${className}`}>
-      <span className="block font-mono text-[0.625rem] tracking-[0.16em] whitespace-nowrap text-starlight-200 uppercase wide:tracking-[0.3em]">
+      <span className="block font-mono text-[0.625rem] tracking-[0.16em] whitespace-nowrap text-starlight-200 uppercase wide:tracking-[0.3em] short:tracking-[0.16em]">
         <span className="text-rose-300">
-          <span className="narrow:hidden">Side </span>
+          <span className="narrow:hidden short:hidden">Side </span>
           {side.id}
         </span>{" "}
         · {side.name}
       </span>
-      <span className="mt-1 block text-[0.75rem] whitespace-nowrap text-mauve-200 italic wide:text-[0.8125rem]">
+      <span className="mt-1 block text-[0.75rem] text-mauve-200 italic wide:text-[0.8125rem] wide:whitespace-nowrap short:text-[0.75rem] short:whitespace-normal">
         {side.subtitle}
       </span>
     </p>

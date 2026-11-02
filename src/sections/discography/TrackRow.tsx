@@ -48,7 +48,7 @@ export default function TrackRow({ track }: Props) {
         </span>
       </span>
 
-      <div className="min-w-0 [grid-area:main]">
+      <div className="min-w-0 text-balance [grid-area:main]">
         <Link
           to={`/discography/${track.slug}`}
           className={`font-display text-[1.25rem] leading-tight font-bold decoration-rose-300/70 decoration-1 underline-offset-[0.2em] transition-colors duration-300 hover:text-rose-200 hover:underline wide:text-[1.5rem] ${active ? "text-rose-100" : "text-stardust-50"}`}

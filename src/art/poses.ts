@@ -244,7 +244,20 @@ export function isTall(width: number, height: number): boolean {
   return width < 768 || width / height < 0.8;
 }
 
-export function poseFor(name: PoseName, tallScreen: boolean): Pose {
+// The short: variant in index.css: landscape phones.
+export const SHORT_QUERY = "(max-height: 30rem)";
+
+export function isShort(height: number): boolean {
+  return height <= 480;
+}
+
+export function poseFor(
+  name: PoseName,
+  tallScreen: boolean,
+  shortScreen = false,
+): Pose {
+  // Narrow landscape phones get the tall poses, but the tall contact planet would fill them.
+  if (name === "contact" && shortScreen) return wide.contact;
   return (tallScreen ? tall : wide)[name];
 }
 
@@ -259,4 +272,18 @@ export function heroY(y: number, radius: number, anchors: Anchors): number {
   const { wordmarkMiddle, width, height } = anchors;
   if (wordmarkMiddle === undefined) return y;
   return (wordmarkMiddle + radius * Math.min(width, height)) / height;
+}
+
+// On tall and short screens the home Discography's planetrise keeps its top edge at a set share of the height, under the song sky.
+export function discographyY(
+  y: number,
+  radius: number,
+  width: number,
+  height: number,
+  tallScreen: boolean,
+  shortScreen: boolean,
+): number {
+  if (!tallScreen && !shortScreen) return y;
+  const horizon = shortScreen ? 0.82 : 0.75;
+  return horizon + (radius * Math.min(width, height)) / height;
 }

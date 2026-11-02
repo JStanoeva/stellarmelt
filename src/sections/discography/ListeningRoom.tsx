@@ -47,7 +47,7 @@ export default function ListeningRoom({ track }: Props) {
   if (isCurrent) state = status === "paused" ? "Paused" : "Now playing";
 
   return (
-    <div className="relative flex min-h-dvh flex-col justify-end px-5 pt-28 pb-8 wide:px-[clamp(1.25rem,3.4vw,3.5rem)] wide:pb-[clamp(2.25rem,7dvh,4.5rem)]">
+    <div className="relative flex min-h-dvh flex-col justify-end px-5 pt-24 pb-8 wide:px-[clamp(1.25rem,3.4vw,3.5rem)] wide:pb-[clamp(2.25rem,7dvh,4.5rem)] short:pt-16 short:pb-5">
       <title>
         {track
           ? `${track.title} · Listening Room · Stellarmelt`
@@ -59,7 +59,7 @@ export default function ListeningRoom({ track }: Props) {
       />
 
       <div
-        className={`relative max-w-[26rem] wide:max-w-[32rem] [text-shadow:0_0_14px_var(--color-night-950),0_0_4px_var(--color-night-950)] ${arrived ? "flight-arrive" : ""}`}
+        className={`relative max-w-[26rem] wide:max-w-[32rem] short:max-w-[42rem] [text-shadow:0_0_14px_var(--color-night-950),0_0_4px_var(--color-night-950)] ${arrived ? "flight-arrive" : ""}`}
       >
         <p className="font-mono text-[0.6875rem] tracking-[0.24em] text-rose-300 uppercase">
           {track ? (
@@ -74,14 +74,16 @@ export default function ListeningRoom({ track }: Props) {
         </p>
         <h1
           tabIndex={-1}
-          className="mt-3 font-display text-[clamp(2.5rem,12vw,3.25rem)] leading-[0.9] font-extrabold tracking-[-0.035em] text-stardust-50 wide:text-[clamp(2.75rem,4.6vw,4.5rem)]"
+          className="mt-3 font-display text-[clamp(2.5rem,12vw,3.25rem)] leading-[0.9] font-extrabold tracking-[-0.035em] text-stardust-50 wide:text-[clamp(2.75rem,4.6vw,4.5rem)] short:mt-2 short:text-[2rem]"
         >
-          <span className="block">Listening</span>{" "}
-          <span className="block">Room</span>
+          {/* Short screens set the name on one line so the whole block fits above the fold. */}
+          <span className="block short:inline">Listening</span>{" "}
+          <span className="block short:inline">Room</span>
         </h1>
 
-        <div className="mt-8">
-          <p className="flex min-h-4 items-center gap-2 font-mono text-[0.625rem] tracking-[0.24em] text-starlight-200 uppercase">
+        <div className="mt-6 wide:mt-8 short:mt-4">
+          {/* Short screens drop the empty line's reserved height so a second Pause row still fits. */}
+          <p className="flex min-h-4 items-center gap-2 font-mono text-[0.625rem] tracking-[0.24em] text-starlight-200 uppercase short:min-h-0">
             {isCurrent && (
               <svg
                 viewBox="0 0 10 9"
@@ -106,7 +108,7 @@ export default function ListeningRoom({ track }: Props) {
             {!track && state && " · "}
             {state}
           </p>
-          <h2 className="mt-2 font-display text-[1.75rem] leading-[1.05] font-bold text-balance text-stardust-50 wide:text-[2rem]">
+          <h2 className="mt-2 font-display text-[1.75rem] leading-[1.05] font-bold text-balance text-stardust-50 wide:text-[2rem] short:mt-1 short:text-[1.5rem]">
             {song.title}
           </h2>
           <p className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.625rem] tracking-[0.18em] text-mauve-200 uppercase">
@@ -117,7 +119,7 @@ export default function ListeningRoom({ track }: Props) {
               className={isCurrent ? "text-starlight-100" : ""}
             />
           </p>
-          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 short:mt-3">
             <PlayButton
               track={song}
               named
@@ -132,7 +134,7 @@ export default function ListeningRoom({ track }: Props) {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 short:mt-2.5">
           <Link
             to={track ? `/discography/${track.slug}` : "/discography"}
             className="group inline-flex min-h-11 items-center gap-2.5 rounded-full border border-starlight-200/45 px-5 text-[0.9rem] font-semibold text-starlight-100 transition-colors duration-300 hover:border-starlight-100 hover:text-stardust-50"

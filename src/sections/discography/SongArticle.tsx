@@ -26,9 +26,9 @@ export default function SongArticle({ track }: Props) {
   const side = sides.find((entry) => entry.id === track.side);
 
   return (
-    <article className="px-5 pt-[5.25rem] pb-12 wide:px-[clamp(1.25rem,3.4vw,3.5rem)] wide:pt-[clamp(5.5rem,12dvh,7.5rem)] wide:pb-16">
+    <article className="px-5 pt-[5.25rem] pb-12 wide:px-[clamp(1.25rem,3.4vw,3.5rem)] wide:pt-[clamp(5.5rem,12dvh,7.5rem)] wide:pb-16 short:pt-16">
       <title>{`${track.title} · Stellarmelt`}</title>
-      <div className="mx-auto grid max-w-[78rem] grid-cols-[minmax(0,1fr)] [grid-template-areas:'head'_'art'_'body'] wide:grid-cols-[minmax(0,1fr)_minmax(0,min(36rem,44vw))] wide:grid-rows-[auto_1fr] wide:gap-x-[clamp(2rem,5vw,5rem)] wide:[grid-template-areas:'head_art'_'body_art']">
+      <div className="mx-auto grid max-w-[78rem] grid-cols-[minmax(0,1fr)] [grid-template-areas:'head'_'art'_'body'] wide:grid-cols-[minmax(0,1fr)_minmax(0,min(36rem,44vw))] wide:grid-rows-[auto_1fr] wide:gap-x-[clamp(2rem,5vw,5rem)] wide:[grid-template-areas:'head_art'_'body_art'] short:grid-cols-[minmax(0,1fr)_min(42vw,calc(100dvh-4rem))] short:grid-rows-[auto_1fr] short:gap-x-[clamp(1.5rem,4vw,3rem)] short:[grid-template-areas:'head_art'_'body_art']">
         <header className="[grid-area:head]">
           <Link
             to="/discography"
@@ -42,7 +42,7 @@ export default function SongArticle({ track }: Props) {
             </span>
             Back to the discography
           </Link>
-          <p className="mt-6 font-mono text-[0.6875rem] tracking-[0.24em] text-rose-300 uppercase wide:mt-10">
+          <p className="mt-6 font-mono text-[0.6875rem] tracking-[0.24em] text-rose-300 uppercase wide:mt-10 short:mt-1">
             Star {pad2(track.n)} / {tracks.length}
             {side && (
               <>
@@ -54,16 +54,17 @@ export default function SongArticle({ track }: Props) {
           </p>
           <h1
             tabIndex={-1}
-            className="mt-3 font-display text-[9vw] leading-[0.92] font-extrabold tracking-[-0.03em] text-balance text-stardust-50 wide:text-[clamp(3rem,5.4vw,5.75rem)]"
+            className="mt-3 font-display text-[9vw] leading-[0.92] font-extrabold tracking-[-0.03em] text-balance text-stardust-50 wide:text-[clamp(3rem,5.4vw,5.75rem)] short:mt-1.5 short:text-[clamp(1.625rem,7.5dvh,2.25rem)]"
           >
             {track.title}
           </h1>
         </header>
 
-        <div className="relative -mx-2 mt-4 [grid-area:art] wide:mx-0 wide:mt-0 wide:self-start">
+        {/* On phones the art shrinks with the screen height so the orb reaches the first screen, and the body tucks under its faded edge. */}
+        <div className="relative -mx-2 mt-4 @container [grid-area:art] narrow:-mb-[10%] narrow:w-[min(calc(100%+1rem),max(14rem,calc(100dvh-27rem-10vw)))] narrow:justify-self-end wide:mx-0 wide:mt-0 wide:self-start short:mx-0 short:mt-0 short:mb-0 short:w-auto short:justify-self-stretch short:self-start">
           <span
             aria-hidden="true"
-            className="song-numeral pointer-events-none absolute top-[2%] left-[2%] font-display text-[32vw] leading-none font-extrabold tracking-[-0.04em] wide:text-[clamp(9rem,15vw,15rem)]"
+            className="song-numeral pointer-events-none absolute top-[2%] left-[2%] font-display text-[34cqw] leading-none font-extrabold tracking-[-0.04em] wide:text-[clamp(9rem,15vw,15rem)] short:text-[34cqw]"
           >
             {pad2(track.n)}
           </span>
@@ -73,7 +74,8 @@ export default function SongArticle({ track }: Props) {
           <SongStar track={track} className="relative block w-full" />
         </div>
 
-        <div className="mt-2 [grid-area:body] wide:mt-8">
+        {/* Phones and short screens move the credits below the orb. */}
+        <div className="relative mt-2 flex flex-col [grid-area:body] wide:mt-8 short:mt-3">
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.6875rem] tracking-[0.18em] text-mauve-200 uppercase">
             <SingerMark singer={track.singer} prefix="Sung by " />
             <span aria-hidden="true">·</span>
@@ -82,13 +84,13 @@ export default function SongArticle({ track }: Props) {
             </time>
           </p>
 
-          <p className="mt-6 font-mono text-[0.625rem] tracking-[0.18em] text-mauve-300 uppercase">
+          <p className="mt-6 font-mono text-[0.625rem] tracking-[0.18em] text-mauve-300 uppercase narrow:order-1 short:order-1">
             {album.credits} · From the album{" "}
             <span className="text-starlight-200">{album.title}</span>
           </p>
 
           {/* Two ways to listen: right here, or alone in the Listening Room. */}
-          <div className="mt-8 flex flex-col items-start gap-2">
+          <div className="mt-8 flex flex-col items-start gap-2 short:mt-3">
             <BigPlayButton track={track} />
             {/* The galaxy lines up under the orb and its label under "Play". */}
             <NebulaCue
@@ -109,7 +111,7 @@ export default function SongArticle({ track }: Props) {
 
       <nav
         aria-label="Previous and next song"
-        className="sky-rule mx-auto mt-16 flex max-w-[78rem] items-start justify-between gap-6 pb-1 wide:mt-20"
+        className="sky-rule mx-auto mt-16 flex max-w-[78rem] flex-wrap items-start justify-between gap-x-6 pb-1 wide:mt-20"
       >
         <NeighbourLink track={tracks[index - 1]} direction={-1} />
         <NeighbourLink track={tracks[index + 1]} direction={1} />
