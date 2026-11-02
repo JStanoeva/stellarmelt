@@ -42,6 +42,16 @@ export type Album = {
   blurb: string;
 };
 
+// The platforms Contact links to; each has a Simple Icons glyph (src/components/BrandGlyph.tsx).
+export type Brand = "suno" | "youtube" | "github";
+
+export type Channel = {
+  brand: Brand;
+  name: string;
+  handle: string;
+  href: string;
+};
+
 export type TimelineEvent = {
   id: string;
   date: IsoDate;

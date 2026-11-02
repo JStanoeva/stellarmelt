@@ -59,7 +59,11 @@ function textBoxes(root: Element): Box[] {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   for (let node = walker.nextNode(); node; node = walker.nextNode()) {
     const parent = node.parentElement;
-    if (!node.textContent?.trim() || parent?.closest("[data-dust-box]"))
+    // Screen-reader-only text is clipped but still reports full-width boxes, so it would shed dust from empty sky.
+    if (
+      !node.textContent?.trim() ||
+      parent?.closest("[data-dust-box], .sr-only")
+    )
       continue;
     const drift = driftOf(parent, root);
     range.selectNodeContents(node);

@@ -21,7 +21,7 @@
 
 ## 🎼 What it is
 
-Stellarmelt is a fictional band, but its songs are real. They're made with [Suno](https://suno.com), with lyrics by Orion. This site is the band's home. Today it introduces the band and its six members, its milestones and its first album, *Snow and the AI Mind*, whose sixteen songs play right here on the site; the links to follow the band come with the fuller Contact section.
+Stellarmelt is a fictional band, but its songs are real. They're made with [Suno](https://suno.com), with lyrics by Orion. This site is the band's home. Today it introduces the band and its six members, its milestones and its first album, *Snow and the AI Mind*, whose sixteen songs play right here on the site; Contact links to the band on Suno and YouTube.
 
 It's also a front-end project that's being redesigned in the open. The original single-page site was split into components, refactored, and is now being rebuilt one section at a time, with custom SVG and three.js art in place of images.
 
@@ -35,7 +35,7 @@ The home page is a stage: one section fills the screen at a time, and the planet
 </p>
 <p align="center">
   <img src="./docs/screenshots/discography-desktop.webp" alt="The Discography section: the album Snow and the AI Mind with a Play “Melt” button, its sixteen songs as two constellations of stars arching over the planet's rim, and a small galaxy leading to the Listening Room" width="49%" />
-  <img src="./docs/screenshots/contact-desktop.webp" alt="The Contact section: Follow Stellarmelt across the cosmos, above a setting planet" width="49%" />
+  <img src="./docs/screenshots/contact-desktop.webp" alt="The Contact section: Follow Stellarmelt across the cosmos, with the Suno and YouTube links and the small print above a setting planet" width="49%" />
 </p>
 <p align="center">
   <img src="./docs/screenshots/discography-page-desktop.webp" alt="The Discography page: the album's two constellations as a sky map, with the star for Melt picked and a Play button under its name" width="49%" />
@@ -53,6 +53,7 @@ The home page is a stage: one section fills the screen at a time, and the planet
 - **A timeline like a gig poster.** One event at a time, with its date in huge numerals that roll like an odometer to the next one. Underneath, a ruler of real time shows every event as a star on its date; a click, the arrow buttons or the arrow keys move along it.
 - **An album in the sky.** In the Discography section, *Snow and the AI Mind* is two constellations over the planet, one star per song in the colour of who sings it: Side A, Becoming, and Side B, Remembering. The full Discography page adds a sky map, the album's cover and details, and the tracklist, and every song has a page of its own.
 - **Songs that play right here.** Every song's play button plays it on the site, with play, pause and resume, and the album plays on in order (a song's own Listening Room plays just that song). The music keeps going as you move between the Discography section, its pages and the Listening Room, and fades to a pause when you leave them. Each song also links to its page on Suno.
+- **An end card.** Contact closes the home page like the last frame of a film: Stellarmelt's Suno and YouTube channels with their logos, then the website credit and the copyright, each line condensing out of the stardust. Every other page ends on the small heart over the copyright.
 - **A flight into the Listening Room.** Pressing a galaxy beside the songs dives into a three.js galaxy and flies on through the stars into the Listening Room, playing the whole album or a single song.
 - **No raster images.** Everything on the site is SVG, CSS or three.js, including the constellation-heart logo in the navbar and the little-planet favicon.
 - **Poster type.** Syne, Instrument Sans and Martian Mono, plus the band's name in katakana, ステラメルト, set in Dela Gothic One.
@@ -61,7 +62,6 @@ The home page is a stage: one section fills the screen at a time, and the planet
 
 ## 🔭 Coming next
 
-- A fuller Contact section with the links to follow the band.
 - A song visualizer in the Listening Room that moves with the music.
 
 ## 🛠️ Tech stack
@@ -101,7 +101,7 @@ Then open http://localhost:5173.
 src/
   app/          the router, the layout every page shares and the error page
   art/          the three.js planet scene and its CSS fallback
-  components/   the navbar, the logo, the dot nav, the skip link, the footer and the play controls
+  components/   the navbar, the logo, the dot nav, the skip link, the footer, the platform glyphs and the play controls
   content/      the site's copy as typed data
   flight/       the three.js star flight into the Listening Room
   hooks/        the home stage, the planet's pose per page, the player, the flight, motion, focus on navigation, page visibility and sizes
@@ -118,7 +118,7 @@ docs/
 
 ## ✏️ Editing the copy
 
-Most of the site's copy lives in `src/content/` as data: the home sections' text in `homeSections.ts`, the members in `members.ts`, the timeline's events in `timeline.ts` (in date order; whether one is upcoming is worked out from its date), the navbar's links in `navLinks.ts`, and the album with its two sides and sixteen tracks in `album.ts`, which also holds `songsUrl`, the address the songs stream from. `types.ts` describes the members, the album with its sides and tracks, and the timeline's events, so TypeScript points out anything in those files that no longer fits. Headings, labels and buttons that belong to one view still sit in their components, such as the Timeline heading, the footer and the skip link.
+Most of the site's copy lives in `src/content/` as data: the home sections' text in `homeSections.ts` (with Contact's channels and the website credit), the members in `members.ts`, the timeline's events in `timeline.ts` (in date order; whether one is upcoming is worked out from its date), the navbar's links in `navLinks.ts`, and the album with its two sides and sixteen tracks in `album.ts`, which also holds `songsUrl`, the address the songs stream from. `types.ts` describes the members, the album with its sides and tracks, the timeline's events and Contact's channels, so TypeScript points out anything in those files that no longer fits. Headings, labels and buttons that belong to one view still sit in their components, such as the Timeline heading, the footer and the skip link.
 
 ## 💖 Credits
 

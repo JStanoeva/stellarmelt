@@ -1,3 +1,5 @@
+import type { Channel } from "./types";
+
 export const homeSections = [
   { id: "hero", label: "Home" },
   { id: "about", label: "About" },
@@ -35,4 +37,28 @@ export const about = {
 export const contact = {
   heading: "Contact",
   line: "Follow Stellarmelt across the cosmos.",
+} as const;
+
+// Stellarmelt's own channels. Its YouTube is empty for now, and still linked.
+export const channels: readonly Channel[] = [
+  {
+    brand: "suno",
+    name: "Suno",
+    handle: "@stellarmelt",
+    href: "https://suno.com/@stellarmelt",
+  },
+  {
+    brand: "youtube",
+    name: "YouTube",
+    handle: "@stellarmelt",
+    href: "https://www.youtube.com/@stellarmelt",
+  },
+];
+
+// Tora's GitHub, apart from the band's channels, in the README's words.
+export const websiteCredit = {
+  label: "Website",
+  text: "designed and built by Tora Blaze",
+  handle: "JStanoeva",
+  href: "https://github.com/JStanoeva",
 } as const;
