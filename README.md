@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://stellarmelt.vercel.app"><strong>stellarmelt.vercel.app</strong></a>
+  <a href="https://stellarmelt.space"><strong>stellarmelt.space</strong></a>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ The home page is a stage: one section fills the screen at a time, and the planet
 - **three.js** with **React Three Fiber** for the planet and the star flight
 - Self-hosted fonts from **Fontsource**
 - **ESLint 10**
-- **Cloudflare**: the songs stream from R2, and the site deploys to Workers (`wrangler.jsonc`) as it moves over from **Vercel**
+- **Cloudflare**: the site runs on Workers (`wrangler.jsonc`), and the songs stream from R2
 
 ## 🚀 Run locally
 

@@ -180,7 +180,6 @@ export const tracks: readonly Track[] = [
   },
 ];
 
-// The songs' Cloudflare R2 bucket, at its r2.dev address until it has a custom domain.
+// The songs' Cloudflare R2 bucket, on its own domain.
 export const songsUrl: string =
-  import.meta.env.VITE_SONGS_URL ||
-  "https://pub-ab7923fd469f4d3b87866b5d0fdff8a7.r2.dev";
+  import.meta.env.VITE_SONGS_URL || "https://songs.stellarmelt.space";
