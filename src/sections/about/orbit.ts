@@ -1,4 +1,4 @@
-import { poseFor } from "../../art/poses";
+import { aboutRadius, poseFor } from "../../art/poses";
 import { members } from "../../content/members";
 
 // The band's orbit: a circle round the About pose's planet, in CSS px from the viewport's top left.
@@ -24,33 +24,32 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
 
-// nameY: where the selected member's name sits on wide screens, so the front moon can line up with it.
-export function orbitFor(width: number, height: number, tall: boolean, nameY?: number): Orbit {
+export function orbitFor(width: number, height: number, tall: boolean): Orbit {
   const pose = poseFor("about", tall);
   const cx = pose.x * width;
   const cy = pose.y * height;
-  const planet = pose.radius * Math.min(width, height);
+  const planet = aboutRadius(pose.radius, width, height, tall) * Math.min(width, height);
 
   if (tall) {
-    // Phones: the front moon rests under the planet and the last one stays clear of the dots.
+    // Phones: the front moon rests under the planet and the last one stays clear of the dots; on small ones the moons spread out, so a two-line name clears the next moon.
     const radius = planet * 1.12;
     const front = -90;
-    const last = -Math.acos(clamp((width - 92 - cx) / radius, -1, 1)) / degree;
-    const step = Math.min((last - front) / (count - 1), 14);
+    const small = width <= 360;
+    const last = -Math.acos(clamp((width - (small ? 80 : 92) - cx) / radius, -1, 1)) / degree;
+    const step = Math.min((last - front) / (count - 1), small ? 16 : 14);
     return { cx, cy, radius, front, step, turn: 1, before: 0 };
   }
 
-  // Wide screens: two moons above the front and three below, kept clear of the navbar and the bottom edge.
+  // Wide screens: the front moon rests level with the planet's middle, beside the copy, with two moons above and three below.
   const radius = planet * 1.16;
-  const front =
-    nameY === undefined ? 0 : clamp(Math.asin(clamp((cy - nameY) / radius, -1, 1)) / degree, -20, 20);
+  const front = 0;
   const before = 2;
   const after = count - 1 - before;
   const top = Math.asin(clamp((cy - 120) / radius, -1, 1)) / degree;
   const bottom = Math.asin(clamp((height - 64 - cy) / radius, -1, 1)) / degree;
   // At least a 48 px arc between moons (their targets are 44 px); on short screens the outer ones run off the edge.
   const step = Math.max(
-    Math.min(16, (top - front) / before, (bottom + front) / after),
+    Math.min(16, top / before, bottom / after),
     48 / radius / degree,
   );
   return { cx, cy, radius, front, step, turn: -1, before };
@@ -77,13 +76,13 @@ export function endFade(orbit: Orbit, offset: number): number {
   return clamp(Math.min(offset - first, last - offset) * 2 + 1, 0, 1);
 }
 
-// The front moon is full size and the others shrink with distance; the parents stay a little larger.
-export function moonScale(offset: number, parent: boolean): number {
+// With nobody selected (lift 0) all six rest at one size; once someone is (lift 1), the front moon grows and the parents stay a little larger.
+export function moonScale(offset: number, parent: boolean, lift: number): number {
   const near = clamp(1 - Math.abs(offset), 0, 1);
   const eased = near * near * (3 - 2 * near);
-  const rest = parent ? 0.5 : 0.4;
+  const rest = parent ? 0.5 : 0.5 - 0.1 * lift;
   const full = parent ? 1 : 0.86;
-  return rest + (full - rest) * eased;
+  return rest + (full - rest) * eased * lift;
 }
 
 // Where the moons rise from as the section arrives: past the lower end on wide screens, behind the planet on phones.

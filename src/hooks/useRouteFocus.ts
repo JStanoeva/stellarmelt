@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 
-// The shown stage section's heading on the home page, the page's h1 elsewhere; a leaving (inert) section never counts.
+// The shown stage section's heading on the home page, the page's h1 elsewhere; anything leaving (inert) never counts.
 const pageHeading =
-  "[data-stage-section]:not([inert]) [data-stage-heading], main h1:not([inert] *)";
+  "[data-stage-heading]:not([inert] *), main h1:not([inert] *)";
 
 export function focusPageHeading() {
   document

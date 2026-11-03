@@ -1,6 +1,10 @@
-// The moon tabs and the one panel they control.
+// The panel the moons control, each moon's button and each member's name.
 export const memberPanelId = "about-member-panel";
 
-export function memberTabId(slug: string): string {
-  return `about-tab-${slug}`;
+export function moonId(slug: string): string {
+  return `about-moon-${slug}`;
+}
+
+export function memberTitleId(slug: string): string {
+  return `about-name-${slug}`;
 }

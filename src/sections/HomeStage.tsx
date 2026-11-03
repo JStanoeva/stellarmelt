@@ -1,5 +1,11 @@
 import { AnimatePresence } from "motion/react";
-import { useLayoutEffect, useRef, useState, type ComponentType } from "react";
+import {
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ComponentType,
+} from "react";
 import {
   measureAnchors,
   noAnchors,
@@ -15,7 +21,12 @@ import AboutSection from "./about/AboutSection";
 import ContactSection from "./contact/ContactSection";
 import DiscographySection from "./discography/DiscographySection";
 import HeroSection from "./hero/HeroSection";
-import { REDUCED_STEP_MS, STEP_MS, StageMotion } from "./stageMotion";
+import {
+  REDUCED_STEP_MS,
+  STEP_MS,
+  StageDust,
+  StageMotion,
+} from "./stageMotion";
 import TimelineSection from "./timeline/TimelineSection";
 
 const sectionViews: Record<HomeSectionId, ComponentType> = {
@@ -48,6 +59,16 @@ export default function HomeStage({ reduced, motionReady }: Props) {
     dust.current ??= createBurst();
     startBurst(dust.current, stage.direction);
   }, [stage.index, stage.direction, reduced]);
+
+  // A swap inside a section (About's moons) sheds the same stardust.
+  const shedDust = useCallback(
+    (marker: string) => {
+      if (reduced) return;
+      dust.current ??= createBurst();
+      startBurst(dust.current, stage.direction, marker);
+    },
+    [reduced, stage.direction],
+  );
 
   // The art pins itself to the copy, so measure when a section mounts, the stage resizes or the fonts arrive,
   // and when a section that scrolls inside is scrolled or its copy changes height.
@@ -88,12 +109,14 @@ export default function HomeStage({ reduced, motionReady }: Props) {
 
   return (
     <StageMotion value={{ reduced, direction: stage.direction, motionReady }}>
-      <div className="relative h-dvh overflow-hidden">
-        {/* initial={false}: the section shown on load is visible at first paint. */}
-        <AnimatePresence initial={false} custom={stage.direction}>
-          <Section key={id} />
-        </AnimatePresence>
-      </div>
+      <StageDust value={shedDust}>
+        <div className="relative h-dvh overflow-hidden">
+          {/* initial={false}: the section shown on load is visible at first paint. */}
+          <AnimatePresence initial={false} custom={stage.direction}>
+            <Section key={id} />
+          </AnimatePresence>
+        </div>
+      </StageDust>
       <DotNav activeIndex={stage.index} />
     </StageMotion>
   );

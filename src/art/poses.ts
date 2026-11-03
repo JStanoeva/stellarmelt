@@ -162,8 +162,8 @@ const tall: PoseTable = {
   },
   about: {
     x: 0.12,
-    y: 0.27,
-    radius: 0.66,
+    y: 0.12,
+    radius: 0.56,
     orbit: 1.4,
     outer: 1.9,
     tilt: 1.36,
@@ -272,6 +272,19 @@ export function heroY(y: number, radius: number, anchors: Anchors): number {
   const { wordmarkMiddle, width, height } = anchors;
   if (wordmarkMiddle === undefined) return y;
   return (wordmarkMiddle + radius * Math.min(width, height)) / height;
+}
+
+// In half-snapped or nearly square windows the About planet shrinks, so the moons' names and at least 260 px of copy fit beside it (the grid in AboutSection).
+export function aboutRadius(
+  radius: number,
+  width: number,
+  height: number,
+  tallScreen: boolean,
+): number {
+  if (tallScreen) return radius;
+  const rightColumn = Math.min(Math.max(72, width * 0.08), 128);
+  const room = width - rightColumn - 260 - 180 - wide.about.x * width;
+  return Math.min(radius, room / 1.16 / Math.min(width, height));
 }
 
 // On tall and short screens the home Discography's planetrise keeps its top edge at a set share of the height, under the song sky.

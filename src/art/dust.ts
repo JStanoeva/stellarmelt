@@ -136,11 +136,14 @@ function collect(
   return true;
 }
 
-export function startBurst(burst: DustBurst, direction: 1 | -1) {
-  const leaving = document.querySelector("main [data-stage-section][inert]");
-  const entering = document.querySelector(
-    "main [data-stage-section]:not([inert])",
-  );
+// The leaving copy is the inert one: a whole section on a stage step, or marked copy inside one.
+export function startBurst(
+  burst: DustBurst,
+  direction: 1 | -1,
+  marker = "data-stage-section",
+) {
+  const leaving = document.querySelector(`main [${marker}][inert]`);
+  const entering = document.querySelector(`main [${marker}]:not([inert])`);
   burst.hasExit = collect(leaving, burst.exit, burst.exitShare);
   burst.hasEnter = collect(entering, burst.enter, burst.enterShare);
   burst.direction = direction;

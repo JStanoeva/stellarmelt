@@ -30,7 +30,7 @@ It's also a front-end project that's being redesigned in the open. The original 
 The home page is a stage: one section fills the screen at a time, and the planet flies to a new framing for each one. The Discography opens onto pages of its own: the whole album and a page for every song.
 
 <p align="center">
-  <img src="./docs/screenshots/about-desktop.webp" alt="The About section: the six members as small moons on a dotted orbit around a huge planet, with Tora at the front beside her note" width="49%" />
+  <img src="./docs/screenshots/about-desktop.webp" alt="The About section: the six members as small moons on a dotted orbit around a huge planet, beside the band's intro" width="49%" />
   <img src="./docs/screenshots/timeline-desktop.webp" alt="The Timeline section: the date July 27, 2025 in huge numerals beside the first event, Stellarmelt is born, above a ruler of months with each event as a star" width="49%" />
 </p>
 <p align="center">
@@ -49,7 +49,7 @@ The home page is a stage: one section fills the screen at a time, and the planet
 
 - **A home stage.** Home, About, Timeline, Discography and Contact each fill the viewport. One step of the mouse wheel, an arrow or Page key, or a swipe moves to the next section (a section taller than the screen scrolls to its edge first), and a dot or a link like `#about` jumps straight to its section. Each step dissolves the words into stardust while the next ones condense out of a haze.
 - **The planet.** A glossy shader planet in three.js with a dotted orbit, a moon, a halftone dot field and stars. It loads after the first paint, pauses on hidden tabs and slows itself down on weak graphics cards. Without WebGL, a CSS version of the planet holds the same pose.
-- **The band as moons.** In About, the six members are moons on the planet's orbit. Picking one, with a click or the arrow keys, turns the orbit until that moon rests at the front, beside the member's story.
+- **The band as moons.** In About, the six members are moons on the planet's orbit. Pressing one turns the orbit until that moon rests at the front, and its story replaces the intro in a drift of stardust; pressing it again, the way-back link or Escape brings the intro back. The arrow keys move between the moons.
 - **A timeline like a gig poster.** One event at a time, with its date in huge numerals that roll like an odometer to the next one. Underneath, a ruler of real time shows every event as a star on its date; a click, the arrow buttons or the arrow keys move along it.
 - **An album in the sky.** In the Discography section, *Snow and the AI Mind* is two constellations over the planet, one star per song in the colour of who sings it: Side A, Becoming, and Side B, Remembering. The full Discography page adds a sky map, the album's cover and details, and the tracklist, and every song has a page of its own.
 - **Songs that play right here.** Every song's play button plays it on the site, with play, pause and resume, and the album plays on in order (a song's own Listening Room plays just that song). The music keeps going as you move between the Discography section, its pages and the Listening Room, and fades to a pause when you leave them. Each song also links to its page on Suno.

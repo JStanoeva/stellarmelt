@@ -18,7 +18,7 @@ import {
   StageMotion,
 } from "../stageMotion";
 import type { Member } from "../../content/types";
-import { memberPanelId, memberTabId } from "./memberIds";
+import { memberPanelId, moonId } from "./memberIds";
 import MoonArt from "./MoonArt";
 import { moonLooks } from "./moonLooks";
 import {
@@ -38,12 +38,23 @@ type Props = {
   // Its slot relative to the front when the section arrives.
   slot: number;
   selected: boolean;
+  // The one moon the Tab key stops at.
+  tabStop: boolean;
+  // Until a moon is pressed, a soft glow runs along them once to show they can be.
+  hint: boolean;
   orbit: Orbit;
   // How far the orbit has turned, in moons (see MoonOrbit).
   spin: MotionValue<number>;
-  onSelect: (index: number) => void;
+  // 1 while any member is selected (see MoonOrbit).
+  lift: MotionValue<number>;
+  onPress: (index: number) => void;
+  onFocus: (index: number) => void;
   ref: Ref<HTMLButtonElement>;
 };
+
+// The hint waits for the moons to finish rising, and it's over within 5 s of the section arriving.
+const HINT_START_S = 1.9;
+const HINT_STEP_S = 0.13;
 
 // The rise happens on the button's position; the content only fades as the section leaves.
 const leave: Variants = {
@@ -52,7 +63,7 @@ const leave: Variants = {
   gone: { opacity: 0, transition: { duration: EXIT_DURATION, ease: easeFade } },
 };
 
-export default function MoonTab({ member, index, slot, selected, orbit, spin, onSelect, ref }: Props) {
+export default function MoonButton({ member, index, slot, selected, tabStop, hint, orbit, spin, lift, onPress, onFocus, ref }: Props) {
   const { reduced, motionReady } = use(StageMotion);
   const isPresent = useIsPresent();
   const look = moonLooks[member.slug];
@@ -80,28 +91,35 @@ export default function MoonTab({ member, index, slot, selected, orbit, spin, on
   const x = useTransform(() => slotPoint(orbit, offset.get()).x);
   const y = useTransform(() => slotPoint(orbit, offset.get()).y);
   const opacity = useTransform(() => endFade(orbit, offset.get()));
-  const scale = useTransform(() => moonScale(offset.get(), look.parent));
+  const scale = useTransform(() => moonScale(offset.get(), look.parent, lift.get()));
 
   return (
     <m.button
       ref={ref}
       type="button"
-      role="tab"
-      id={memberTabId(member.slug)}
-      aria-selected={selected}
+      id={moonId(member.slug)}
+      aria-pressed={selected}
       aria-controls={memberPanelId}
-      tabIndex={selected ? 0 : -1}
-      onClick={() => onSelect(index)}
+      tabIndex={tabStop ? 0 : -1}
+      onClick={() => onPress(index)}
+      onFocus={() => onFocus(index)}
       style={{ x, y, opacity }}
-      className="group pointer-events-auto absolute top-0 left-0 -mt-5.5 rounded-full wide:-ml-5.5 wide:pr-3 narrow:-ml-7 narrow:w-14"
+      className="group absolute top-0 left-0 -mt-5.5 cursor-pointer rounded-full wide:pointer-events-auto wide:-ml-5.5 wide:pr-3 narrow:-ml-7 narrow:w-14"
     >
       <m.span variants={reduced ? fade : leave} className="flex items-center narrow:flex-col">
-        {/* A 44 px target round the moon; the moon itself grows past it at the front. */}
-        <span className="relative size-11 shrink-0">
+        {/* A 44 px target round the moon; the moon itself grows past it at the front. On phones only this takes taps, because a two-line name can reach over the next moon. */}
+        <span className="pointer-events-auto relative size-11 shrink-0">
           <m.span
             style={{ scale }}
             className="absolute top-1/2 left-1/2 size-16 -translate-x-1/2 -translate-y-1/2 narrow:size-14"
           >
+            {hint && (
+              <span
+                aria-hidden="true"
+                style={{ animationDelay: `${HINT_START_S + (slot + orbit.before) * HINT_STEP_S}s` }}
+                className="absolute inset-2 rounded-full opacity-0 shadow-[0_0_22px_8px_var(--color-rose-300)] motion-ok:animate-moon-hint"
+              />
+            )}
             {selected && (
               <span aria-hidden="true" className="absolute inset-0.5 rounded-full border border-rose-200/55">
                 <span className="absolute inset-[-1px] motion-ok:animate-orbit-once">

@@ -3,6 +3,7 @@ import { useIsShort } from "../hooks/useIsShort";
 import { useIsTall } from "../hooks/useIsTall";
 import type { Anchors } from "./anchors";
 import {
+  aboutRadius,
   discographyY,
   heroY,
   MOON_START,
@@ -125,6 +126,11 @@ export default function FallbackArt({ pose: name, anchors, glide }: Props) {
   let moonAngle = MOON_START;
   if (name === "hero" && !tall)
     pose = { ...pose, y: heroY(pose.y, pose.radius, anchors) };
+  if (name === "about")
+    pose = {
+      ...pose,
+      radius: aboutRadius(pose.radius, anchors.width, anchors.height, tall),
+    };
   if (name === "discography")
     pose = {
       ...pose,

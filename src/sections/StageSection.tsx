@@ -6,17 +6,23 @@ import { StageMotion } from "./stageMotion";
 // The section itself doesn't animate; its lines inherit these labels and cascade.
 const cascade = { hidden: {}, shown: {}, gone: {} };
 
-type Props = { id: HomeSectionId; className?: string; children: ReactNode };
+type Props = {
+  id: HomeSectionId;
+  // The heading that names the section, when it isn't the usual `${id}-title`.
+  labelledBy?: string;
+  className?: string;
+  children: ReactNode;
+};
 
 // While a section leaves it turns inert, so focus and clicks pass to the one arriving.
-export default function StageSection({ id, className = "", children }: Props) {
+export default function StageSection({ id, labelledBy, className = "", children }: Props) {
   const isPresent = useIsPresent();
   const { motionReady } = use(StageMotion);
   return (
     <m.section
       id={id}
       data-stage-section={id}
-      aria-labelledby={`${id}-title`}
+      aria-labelledby={labelledBy ?? `${id}-title`}
       inert={!isPresent}
       variants={cascade}
       initial={motionReady ? "hidden" : false}

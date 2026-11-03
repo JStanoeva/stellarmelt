@@ -5,6 +5,7 @@ import type { Anchors } from "./anchors";
 import { DUST_RECTS, type DustBurst } from "./dust";
 import { backLight, frontLight } from "./palette";
 import {
+  aboutRadius,
   discographyY,
   heroY,
   isShort,
@@ -168,6 +169,13 @@ export default function Rigging({
     writePose(poseFor(shown, tallScreen, shortScreen), target);
     if (shown === "hero" && !tallScreen)
       target[P.y] = heroY(target[P.y], target[P.radius], anchors);
+    if (shown === "about")
+      target[P.radius] = aboutRadius(
+        target[P.radius],
+        size.width,
+        size.height,
+        tallScreen,
+      );
     if (shown === "discography")
       target[P.y] = discographyY(
         target[P.y],

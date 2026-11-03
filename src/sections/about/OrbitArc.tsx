@@ -10,7 +10,7 @@ import {
 } from "../stageMotion";
 import { arcPath, frontGlowLength, slotPoint, type Orbit } from "./orbit";
 
-type Props = { orbit: Orbit; spin: MotionValue<number> };
+type Props = { orbit: Orbit; spin: MotionValue<number>; lift: MotionValue<number> };
 
 const arrive: Variants = {
   hidden: { opacity: 0 },
@@ -18,8 +18,8 @@ const arrive: Variants = {
   gone: { opacity: 0, transition: { duration: EXIT_DURATION, ease: easeFade } },
 };
 
-// The dotted orbit round the planet's limb, brightest at the front where the selected moon rests.
-export default function OrbitArc({ orbit, spin }: Props) {
+// The dotted orbit round the planet's limb, brightest at the front; that stretch glows while a member rests there.
+export default function OrbitArc({ orbit, spin, lift }: Props) {
   const { reduced } = use(StageMotion);
   const maskId = useId();
   const front = slotPoint(orbit, 0);
@@ -82,10 +82,10 @@ export default function OrbitArc({ orbit, spin }: Props) {
           />
         </g>
         {/* The stretch of orbit at the front glows, a soft wide stroke under a fine one. */}
-        <g mask={`url(#${maskId}-front-mask)`} fill="none" strokeLinecap="round" className="stroke-rose-300">
+        <m.g style={{ opacity: lift }} mask={`url(#${maskId}-front-mask)`} fill="none" strokeLinecap="round" className="stroke-rose-300">
           <path d={arcPath(orbit, -1, 1)} strokeWidth={7} strokeOpacity={0.16} />
           <path d={arcPath(orbit, -1, 1)} strokeWidth={1.5} strokeOpacity={0.85} />
-        </g>
+        </m.g>
       </m.g>
     </svg>
   );

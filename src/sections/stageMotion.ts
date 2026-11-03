@@ -32,6 +32,9 @@ export const StageMotion = createContext<StageMotionValue>({
   motionReady: true,
 });
 
+// Plays the stage's stardust for a swap inside a section; the marker is an attribute on the leaving and arriving copy.
+export const StageDust = createContext<(marker: string) => void>(() => {});
+
 // Reduced motion: a 200 ms cross-fade. `rest` lists the element's other animated values at rest,
 // because Motion sends a value missing from new variants back to its hidden state (blurred or invisible).
 export function fadeVariants(rest: Target = {}): Variants {

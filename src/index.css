@@ -46,10 +46,18 @@
   /* Both run once per step, so nothing on the stage moves for longer than 5 s. */
   --animate-orbit-once: orbit 3.2s var(--ease-condense);
   --animate-breathe: breathe 2.4s ease-in-out 2;
+  --animate-moon-hint: moon-hint 1s ease-in-out;
 
   @keyframes orbit {
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  /* A soft glow that swells and fades, once, round each moon in turn. */
+  @keyframes moon-hint {
+    45% {
+      opacity: 0.55;
     }
   }
 
