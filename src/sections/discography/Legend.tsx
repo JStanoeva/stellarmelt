@@ -2,7 +2,7 @@ import SingerMark from "./SingerMark";
 
 type Props = { className?: string };
 
-// The sky map's key: each singer's star colour and the dotted line where an act ends.
+// The sky map's key: each singer's star colour.
 export default function Legend({ className = "" }: Props) {
   return (
     <p
@@ -10,19 +10,6 @@ export default function Legend({ className = "" }: Props) {
     >
       <SingerMark singer="Tora" prefix="Sung by " />
       <SingerMark singer="Orion" prefix="Sung by " />
-      <span className="inline-flex items-center gap-2">
-        <svg
-          viewBox="0 0 24 4"
-          aria-hidden="true"
-          className="w-6 stroke-mauve-300"
-          strokeLinecap="round"
-          strokeWidth="1.6"
-          strokeDasharray="0 6"
-        >
-          <line x1="2" y1="2" x2="24" y2="2" />
-        </svg>
-        An act ends
-      </span>
     </p>
   );
 }

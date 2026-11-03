@@ -46,14 +46,13 @@ export default function DiscographySection() {
           <p className="flex max-w-full items-center gap-x-4 whitespace-nowrap wide:gap-x-6">
             <PlayButton
               track={current ?? tracks[0]}
-              named
               className="narrow:px-4"
             />
             <Link
               to="/discography"
               className="group inline-flex min-h-11 shrink-0 items-center gap-2 font-mono text-[0.6875rem] tracking-[0.16em] text-starlight-100 uppercase underline-offset-[0.6em] hover:underline wide:tracking-[0.22em]"
             >
-              {/* Phones keep both on one line; a long title in the pill truncates instead. */}
+              {/* Phones keep both on one line. */}
               <span>
                 <span className="narrow:hidden">Full </span>tracklist
               </span>

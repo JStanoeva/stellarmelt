@@ -85,11 +85,6 @@ export default function TrackRow({ track }: Props) {
               {status === "paused" ? "Paused" : "Now playing"}
             </span>
           )}
-          {track.endsAct && (
-            <span className="text-mauve-300">
-              <span aria-hidden="true">┈ </span>Act {track.endsAct} ends
-            </span>
-          )}
         </p>
       </div>
 

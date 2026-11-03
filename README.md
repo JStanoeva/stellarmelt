@@ -34,7 +34,7 @@ The home page is a stage: one section fills the screen at a time, and the planet
   <img src="./docs/screenshots/timeline-desktop.webp" alt="The Timeline section: the date July 27, 2025 in huge numerals beside the first event, Stellarmelt is born, above a ruler of months with each event as a star" width="49%" />
 </p>
 <p align="center">
-  <img src="./docs/screenshots/discography-desktop.webp" alt="The Discography section: the album Snow and the AI Mind with a Play “Melt” button, its sixteen songs as two constellations of stars arching over the planet's rim, and a small galaxy leading to the Listening Room" width="49%" />
+  <img src="./docs/screenshots/discography-desktop.webp" alt="The Discography section: the album Snow and the AI Mind with a Play button, its sixteen songs as two constellations of stars arching over the planet's rim, and a small galaxy leading to the Listening Room" width="49%" />
   <img src="./docs/screenshots/contact-desktop.webp" alt="The Contact section: Follow Stellarmelt across the cosmos, with the Suno and YouTube links and the small print above a setting planet" width="49%" />
 </p>
 <p align="center">
