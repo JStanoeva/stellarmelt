@@ -89,20 +89,21 @@ export default function HomeSky({ className = "" }: Props) {
         >
           <SideLabel
             side={sides[0]}
-            className="absolute top-[24%] left-0 narrow:top-[100%] narrow:max-w-[calc(50%-0.5rem)] short:top-auto short:right-[calc(100%+1.75rem)] short:bottom-[4%] short:left-auto short:max-w-[calc((100cqw-100%)/2-1.75rem)] short:text-right"
+            className="absolute top-[20%] left-0 narrow:top-[100%] narrow:max-w-[calc(50%-0.5rem)] short:top-auto short:right-[calc(100%+1.75rem)] short:bottom-[4%] short:left-auto short:max-w-[calc((100cqw-100%)/2-1.75rem)] short:text-right"
           />
           <SideLabel
             side={sides[1]}
-            className="absolute top-[22%] right-0 text-right narrow:top-[100%] narrow:max-w-[calc(50%-0.5rem)] short:top-auto short:right-auto short:bottom-[4%] short:left-[calc(100%+1.75rem)] short:max-w-[calc((100cqw-100%)/2-1.75rem)] short:text-left"
+            className="absolute top-[min(18%,42%-3rem)] right-0 text-right narrow:top-[100%] narrow:max-w-[calc(50%-0.5rem)] short:top-auto short:right-auto short:bottom-[4%] short:left-[calc(100%+1.75rem)] short:max-w-[calc((100cqw-100%)/2-1.75rem)] short:text-left"
           />
         </m.div>
+        {/* Wide and landscape screens: the cue stands just above the planet's edge (the discography pose in src/art/poses.ts), and the galaxy shrinks with the height to stay under the stars. */}
         <m.div
           variants={reduced ? fade : late}
-          className="absolute top-[33%] left-1/2 -translate-1/2 narrow:top-[60%] short:top-[58%]"
+          className="absolute bottom-[calc(var(--sky-end)_+_min(115vw,115dvh)_-_172dvh_+_0.75rem)] left-1/2 -translate-x-1/2 narrow:top-[60%] narrow:bottom-auto narrow:-translate-y-1/2 short:top-auto short:bottom-[calc(14.5dvh_-_1.5rem)] short:translate-y-0"
         >
           <NebulaCue
-            artClassName="w-[clamp(6.5rem,12vw,11rem)] narrow:w-[clamp(4.5rem,33cqw,9rem)] short:w-[min(6rem,40cqh)]"
-            className="flex-col narrow:flex-col-reverse short:flex-col-reverse"
+            artClassName="w-[clamp(4.5rem,min(12vw,14dvh),11rem)] narrow:w-[clamp(4.5rem,33cqw,9rem)] short:w-[min(6rem,40cqh)]"
+            className="flex-col-reverse"
           />
         </m.div>
       </div>

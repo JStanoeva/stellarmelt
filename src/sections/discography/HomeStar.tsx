@@ -76,7 +76,7 @@ export default function HomeStar({
   return (
     <m.div
       variants={reduced ? still : ignite(order)}
-      className="absolute size-0"
+      className="absolute z-10 size-0"
       style={{ left: point.x, top: point.y }}
     >
       <Link

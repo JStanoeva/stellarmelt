@@ -42,7 +42,7 @@ export default function DiscographySection() {
             </p>
           </Dissolve>
         </div>
-        <Dissolve order={2} className="mt-4 max-w-full wide:mt-5 short:mt-3">
+        <Dissolve order={2} className="relative z-10 mt-4 max-w-full wide:mt-5 short:mt-3">
           <p className="flex max-w-full items-center gap-x-4 whitespace-nowrap wide:gap-x-6">
             <PlayButton
               track={current ?? tracks[0]}
@@ -67,7 +67,8 @@ export default function DiscographySection() {
           </p>
         </Dissolve>
 
-        <HomeSky className="relative mt-5 min-h-0 w-full flex-1 wide:absolute wide:top-[max(37dvh,15.5rem)] wide:left-1/2 wide:mt-0 wide:h-[41dvh] wide:w-[min(100vw-7.5rem,136dvh)] wide:flex-none wide:-translate-x-1/2 short:relative short:top-auto short:left-auto short:mt-3 short:h-auto short:w-full short:flex-1 short:translate-x-0" />
+        {/* On short laptops the sky starts below the play button; on squarer screens it ends higher, so the arch's feet clear the planet. */}
+        <HomeSky className="relative mt-5 min-h-0 w-full flex-1 wide:absolute wide:top-(--sky-top) wide:left-1/2 wide:mt-0 wide:h-[calc(var(--sky-end)_-_var(--sky-top))] wide:w-[min(100vw-7.5rem,max(136dvh,52rem))] wide:[--sky-end:min(78dvh,24vw_+_41dvh)] wide:[--sky-top:max(37dvh,16dvh_+_11rem)] wide:flex-none wide:-translate-x-1/2 short:relative short:top-auto short:left-auto short:mt-3 short:h-auto short:w-full short:flex-1 short:translate-x-0" />
       </div>
 
       <Dissolve
