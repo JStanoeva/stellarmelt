@@ -59,16 +59,19 @@ export default function RootLayout() {
                   dust={art.dust}
                 />
               )}
-              <main id="main" className="relative z-10">
-                <Outlet />
-              </main>
-              {/* On the home page the footer sits in the contact section; other pages end on a tiny end card, above the planet's rim on phones. */}
-              {pathname !== "/" && !inRoom && (
-                <div className="relative z-10 flex flex-col items-center gap-3 px-5 pb-8 text-[0.6875rem] tracking-[0.24em] narrow:pb-[max(2rem,calc(min(95vw,95dvh)_-_38dvh_+_3rem))] short:pb-[calc(21dvh_+_1.5rem)]">
-                  <LogoMark className="h-5 w-auto text-mauve-200" />
-                  <SiteFooter />
-                </div>
-              )}
+              {/* A page shorter than the screen still has its footer at the bottom. */}
+              <div className="grid min-h-dvh grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto]">
+                <main id="main" className="relative z-10">
+                  <Outlet />
+                </main>
+                {/* On the home page the footer sits in the contact section; other pages end on a tiny end card, above the planet's rim on phones. */}
+                {pathname !== "/" && !inRoom && (
+                  <div className="relative z-10 flex flex-col items-center gap-3 px-5 pb-8 text-[0.6875rem] tracking-[0.24em] narrow:pb-[max(2rem,calc(min(95vw,95dvh)_-_38dvh_+_3rem))] short:pb-[calc(21dvh_+_1.5rem)]">
+                    <LogoMark className="h-5 w-auto text-mauve-200" />
+                    <SiteFooter />
+                  </div>
+                )}
+              </div>
               <FlightLayer />
               <ScrollRestoration />
             </FlightProvider>

@@ -1,12 +1,13 @@
-import { Link } from "react-router";
+import { m, useIsPresent } from "motion/react";
+import { use, useEffectEvent, useLayoutEffect, useRef } from "react";
+import { Link, useNavigationType } from "react-router";
+import { Site } from "../../app/site";
 import BigPlayButton from "../../components/player/BigPlayButton";
 import PlayButton from "../../components/player/PlayButton";
 import PlayingHalo from "../../components/player/PlayingHalo";
 import { album, sides, tracks } from "../../content/album";
 import type { Track } from "../../content/types";
 import { usePlayer } from "../../hooks/usePlayer";
-import { usePlayerView } from "../../hooks/usePlayerView";
-import { useShowArt } from "../../hooks/useShowArt";
 import { formatDuration, isoDuration, sunoSongUrl } from "../../lib/tracks";
 import NebulaCue from "./NebulaCue";
 import NeighbourLink from "./NeighbourLink";
@@ -14,21 +15,52 @@ import { pad2 } from "./sky";
 import SingerMark from "./SingerMark";
 import SongStar from "./SongStar";
 import SunoLink from "./SunoLink";
+import { easeCondense, easeFade } from "../stageMotion";
 
-type Props = { track: Track };
+const FADE_OUT = 0.28;
+const FADE_IN = 0.6;
+
+// `moved`: this page came from another song's, so it takes the scroll and the focus itself once it's in.
+type Props = { track: Track; moved: boolean };
 
 // One song as a close-up of its star; it plays here, or alone in the Listening Room from its galaxy.
-export default function SongArticle({ track }: Props) {
-  useShowArt("contact");
-  usePlayerView();
+export default function SongArticle({ track, moved }: Props) {
+  const { reduced } = use(Site);
+  const isPresent = useIsPresent();
+  const navigationType = useNavigationType();
+  const heading = useRef<HTMLHeadingElement>(null);
   const { current } = usePlayer();
   const index = tracks.indexOf(track);
   const side = sides.find((entry) => entry.id === track.side);
 
+  const arrive = useEffectEvent(() => {
+    if (!moved) return;
+    // Back and Forward keep the scroll position the router restored.
+    if (navigationType !== "POP") window.scrollTo(0, 0);
+    heading.current?.focus({ preventScroll: true });
+  });
+  useLayoutEffect(() => arrive(), []);
+
   return (
-    <article className="px-5 pt-[5.25rem] pb-12 wide:px-[clamp(1.25rem,3.4vw,3.5rem)] wide:pt-[clamp(5.5rem,12dvh,7.5rem)] wide:pb-16 short:pt-16">
+    <m.article
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+        transition: {
+          duration: reduced ? 0 : FADE_IN,
+          ease: easeCondense,
+        },
+      }}
+      exit={{
+        opacity: 0,
+        transition: { duration: reduced ? 0 : FADE_OUT, ease: easeFade },
+      }}
+      inert={!isPresent}
+      className="flex h-full flex-col px-5 pt-[5.25rem] pb-12 [--song-title:9vw] wide:px-[clamp(1.25rem,3.4vw,3.5rem)] wide:pt-[clamp(5.5rem,12dvh,7.5rem)] wide:pb-16 wide:[--song-title:clamp(3rem,5.4vw,5.75rem)] short:pt-16 short:[--song-title:clamp(1.625rem,7.5dvh,2.25rem)]"
+    >
       <title>{`${track.title} · Stellarmelt`}</title>
-      <div className="mx-auto grid max-w-[78rem] grid-cols-[minmax(0,1fr)] [grid-template-areas:'head'_'art'_'body'] wide:grid-cols-[minmax(0,1fr)_minmax(0,min(36rem,44vw))] wide:grid-rows-[auto_1fr] wide:gap-x-[clamp(2rem,5vw,5rem)] wide:[grid-template-areas:'head_art'_'body_art'] short:grid-cols-[minmax(0,1fr)_min(42vw,calc(100dvh-4rem))] short:grid-rows-[auto_1fr] short:gap-x-[clamp(1.5rem,4vw,3rem)] short:[grid-template-areas:'head_art'_'body_art']">
+      {/* Wide screens keep room for the longest title (four lines), so the navigation sits in the same place for every song; the others do it in the h1. */}
+      <div className="mx-auto mb-16 grid w-full max-w-[78rem] grid-cols-[minmax(0,1fr)] content-start [grid-template-areas:'head'_'art'_'body'] wide:mb-20 wide:min-h-[calc(var(--song-title)*3.68+30rem)] wide:grid-cols-[minmax(0,1fr)_minmax(0,min(36rem,44vw))] wide:grid-rows-[auto_1fr] wide:gap-x-[clamp(2rem,5vw,5rem)] wide:[grid-template-areas:'head_art'_'body_art'] short:min-h-0 short:grid-cols-[minmax(0,1fr)_min(42vw,calc(100dvh-4rem))] short:grid-rows-[auto_1fr] short:gap-x-[clamp(1.5rem,4vw,3rem)] short:[grid-template-areas:'head_art'_'body_art']">
         <header className="[grid-area:head]">
           <Link
             to="/discography"
@@ -53,8 +85,9 @@ export default function SongArticle({ track }: Props) {
             )}
           </p>
           <h1
+            ref={heading}
             tabIndex={-1}
-            className="mt-3 font-display text-[9vw] leading-[0.92] font-extrabold tracking-[-0.03em] text-balance text-stardust-50 wide:text-[clamp(3rem,5.4vw,5.75rem)] short:mt-1.5 short:text-[clamp(1.625rem,7.5dvh,2.25rem)]"
+            className="mt-3 font-display text-[length:var(--song-title)] leading-[0.92] font-extrabold tracking-[-0.03em] text-balance text-stardust-50 narrow:min-h-[calc(var(--song-title)*2.76)] short:mt-1.5 short:min-h-[calc(var(--song-title)*1.84)]"
           >
             {track.title}
           </h1>
@@ -111,11 +144,11 @@ export default function SongArticle({ track }: Props) {
 
       <nav
         aria-label="Previous and next song"
-        className="sky-rule mx-auto mt-16 flex max-w-[78rem] flex-wrap items-start justify-between gap-x-6 pb-1 wide:mt-20"
+        className="sky-rule mx-auto mt-auto flex w-full max-w-[78rem] flex-wrap items-start justify-between gap-x-6 pb-1"
       >
         <NeighbourLink track={tracks[index - 1]} direction={-1} />
         <NeighbourLink track={tracks[index + 1]} direction={1} />
       </nav>
-    </article>
+    </m.article>
   );
 }

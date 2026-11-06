@@ -27,6 +27,11 @@ export function isListenPath(pathname: string): boolean {
   return trackBySlug(slug) !== undefined;
 }
 
+export function isSongPath(pathname: string): boolean {
+  const slug = matchPath("/discography/:slug", pathname)?.params.slug;
+  return trackBySlug(slug) !== undefined;
+}
+
 // The next or previous song on the album, going round at its ends.
 export function neighbourTrack(track: Track, step: 1 | -1): Track {
   const index = tracks.findIndex((other) => other.slug === track.slug);

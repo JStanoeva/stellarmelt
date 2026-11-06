@@ -13,6 +13,8 @@ export default function NeighbourLink({ track, direction }: Props) {
   return (
     <Link
       to={`/discography/${track.slug}`}
+      // The next song scrolls to the top itself, once this one has faded out.
+      preventScrollReset
       rel={next ? "next" : "prev"}
       className={`group block flex-1 rounded-md py-5 max-[24rem]:basis-full ${next ? "text-right" : ""}`}
     >
