@@ -95,6 +95,10 @@ export function createStreakMaterial({
       uFar: { value: new Vector2(...far) },
       uBoost: { value: new Vector2(...boost) },
       uIntensity: { value: 1 },
+      uGlint: { value: 0 },
+      uBeatCount: { value: 0 },
+      // Above 1.1 every star is out.
+      uFill: { value: 1.2 },
     },
     ...addLight,
   });
@@ -115,4 +119,12 @@ export function syncStreaks(
   uniforms.uExposure.value = rig.exposure;
   uniforms.uCamera.value.copy(state.camera.position);
   uniforms.uIntensity.value = intensity;
+}
+
+// The flight's own stars carry the song; the dive's galaxy leaves these alone.
+export function syncSongStars(material: ShaderMaterial, rig: Rig) {
+  const uniforms = material.uniforms;
+  uniforms.uGlint.value = rig.song.glint;
+  uniforms.uBeatCount.value = rig.song.beats;
+  uniforms.uFill.value = rig.song.fill;
 }

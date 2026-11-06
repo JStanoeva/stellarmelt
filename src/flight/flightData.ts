@@ -48,7 +48,7 @@ function pick<T>(random: Random, items: readonly T[]): T {
   return items[Math.floor(random() * items.length)];
 }
 
-function gaussian(random: Random): number {
+export function gaussian(random: Random): number {
   return (
     Math.sqrt(-2 * Math.log(Math.max(random(), 1e-7))) *
     Math.cos(Math.PI * 2 * random())
@@ -134,7 +134,7 @@ export function makeSky(seed: string, count: number, radius: number): StarData {
   return stars;
 }
 
-export type GalaxyLook = {
+type GalaxyLook = {
   arms: number;
   perArm: number;
   dust: number;

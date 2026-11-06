@@ -1,5 +1,6 @@
 import { MathUtils, Quaternion, Vector2, Vector3 } from "three";
 import type { DiveStart } from "./flight";
+import { createSongPulse, type SongPulse } from "./songPulse";
 
 // The flight's timing and camera path, in seconds and world units; the camera flies along -z.
 
@@ -73,7 +74,9 @@ export function fovFor(aspect: number): number {
 
 // The live state of the flight, written by FlightCamera each frame and read by every layer.
 export type Rig = {
+  // The flight's own clock, which `pace` scales, and the seconds since it began.
   t: number;
+  age: number;
   z: number;
   speed: number;
   velocity: Vector3;
@@ -83,11 +86,14 @@ export type Rig = {
   still: boolean;
   diving: boolean;
   landed: boolean;
+  // What the song is doing right now (SongFollower).
+  song: SongPulse;
 };
 
 export function createRig(diving: boolean, still: boolean): Rig {
   return {
     t: 0,
+    age: 0,
     z: 0,
     speed: 0,
     velocity: new Vector3(),
@@ -96,13 +102,16 @@ export function createRig(diving: boolean, still: boolean): Rig {
     still,
     diving,
     landed: false,
+    song: createSongPulse(still),
   };
 }
 
-// One frame of travel: speed, position along -z, motion blur and the sky's fade.
-export function advance(rig: Rig, delta: number) {
+// One frame of travel: speed, position along -z, motion blur and the sky's fade. `pace` scales all of it, so a pause eases the whole flight to a stop.
+export function advance(rig: Rig, delta: number, pace: number) {
   if (rig.still) return;
-  const step = Math.min(delta, MAX_STEP);
+  const frame = Math.min(delta, MAX_STEP);
+  const step = frame * pace;
+  rig.age += frame;
   rig.t += step;
   const { t } = rig;
   // A direct visit eases up to speed as the sky fades in.
@@ -111,9 +120,9 @@ export function advance(rig: Rig, delta: number) {
     : cruiseSpeed(t) * MathUtils.lerp(0.5, 1, MathUtils.smoothstep(t, 0, 1.6));
   rig.z -= rig.speed * step;
   if (rig.z < -2 * LOOP_DEPTH) rig.z += LOOP_DEPTH;
-  rig.velocity.set(0, 0, -rig.speed);
+  rig.velocity.set(0, 0, -rig.speed * pace);
   rig.exposure = Math.min(EXPOSURE, MAX_TRAIL / Math.max(rig.speed, 1));
-  rig.bg = MathUtils.smoothstep(t, 0, rig.diving ? BG_DIVE : BG_CRUISE);
+  rig.bg = MathUtils.smoothstep(rig.age, 0, rig.diving ? BG_DIVE : BG_CRUISE);
 }
 
 export type Drift = {

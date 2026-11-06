@@ -16,6 +16,7 @@ type Props = {
   pose: PoseName;
   anchors: Anchors;
   reduced: boolean;
+  paused: boolean;
   dust?: RefObject<DustBurst | null>;
   onReady: () => void;
 };
@@ -25,6 +26,7 @@ export default function Scene({
   pose,
   anchors,
   reduced,
+  paused,
   dust,
   onReady,
 }: Props) {
@@ -33,7 +35,7 @@ export default function Scene({
   const [paced, setPaced] = useState(false);
 
   let frameloop: "always" | "demand" | "never" = "always";
-  if (!visible) frameloop = "never";
+  if (!visible || paused) frameloop = "never";
   else if (reduced || paced) frameloop = "demand";
 
   return (

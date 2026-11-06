@@ -18,6 +18,9 @@ export const streakVertex = /* glsl */ `
   uniform vec2 uFar;
   uniform vec2 uBoost;
   uniform float uIntensity;
+  uniform float uGlint;
+  uniform float uBeatCount;
+  uniform float uFill;
   varying vec3 vColor;
   varying vec2 vLocal;
   varying float vLength;
@@ -48,7 +51,11 @@ export const streakVertex = /* glsl */ `
     float radius = aSize * uPixelRatio * clamp(uBoost.x / depth, 1.0, uBoost.y);
     float spread = (2.0 * radius) / (2.0 * radius + trailLength);
     float twinkle = 1.0 - uTwinkle * (0.5 + 0.5 * sin(uTime * (0.5 + aPhase * 1.3) + aPhase * 40.0));
-    vColor = aColor * (uIntensity * fade * twinkle * mix(spread, 1.0, 0.12));
+    // About one star in ten glints on each beat, a different set every time; a fixed share goes out first as the sky thins.
+    float pick = fract(aPhase * 97.13 + uBeatCount * 0.61803);
+    float glint = 1.0 + uGlint * 1.8 * smoothstep(0.86, 0.98, pick);
+    float reveal = 1.0 - smoothstep(uFill - 0.1, uFill + 0.1, fract(aPhase * 13.37));
+    vColor = aColor * (uIntensity * fade * twinkle * glint * reveal * mix(spread, 1.0, 0.12));
 
     float reach = radius + 1.0;
     vec2 across = vec2(-along.y, along.x);
@@ -79,6 +86,15 @@ export const streakFragment = /* glsl */ `
   }
 `;
 
+// A little noise per pixel against banding in the dark gradients.
+export const grainChunk = /* glsl */ `
+  float grain(vec2 p) {
+    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+  }
+`;
+
 // The sky sphere: DeepSky's per-vertex colours interpolate, and the fragment only adds a grain against banding.
 export const skyVertex = /* glsl */ `
   attribute vec3 aColor;
@@ -92,11 +108,7 @@ export const skyVertex = /* glsl */ `
 export const skyFragment = /* glsl */ `
   uniform float uOpacity;
   varying vec3 vColor;
-  float grain(vec2 p) {
-    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
-    p3 += dot(p3, p3.yzx + 33.33);
-    return fract((p3.x + p3.y) * p3.z);
-  }
+  ${grainChunk}
   void main() {
     vec3 color = vColor + (grain(gl_FragCoord.xy) - 0.5) / 255.0;
     gl_FragColor = vec4(color * uOpacity, uOpacity);
@@ -157,39 +169,5 @@ export const discFragment = /* glsl */ `
     vec3 color = r < uMiddle ? mix(uColor0, uColor1, inner) : mix(uColor1, uColor2, outer);
     float alpha = (r < uMiddle ? mix(uAlphas.x, uAlphas.y, inner) : mix(uAlphas.y, uAlphas.z, outer)) * uOpacity;
     gl_FragColor = vec4(color * alpha, alpha);
-  }
-`;
-
-// A nebula cloud drifting past: a billboard that always faces the camera.
-export const cloudVertex = /* glsl */ `
-  uniform float uSize;
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    vec4 center = modelViewMatrix * vec4(0.0, 0.0, 0.0, 1.0);
-    center.xy += position.xy * uSize;
-    gl_Position = projectionMatrix * center;
-  }
-`;
-
-// Shaped by flightNoise's tiling texture; each cloud reads its own patch of it and drifts slowly through it.
-export const cloudFragment = /* glsl */ `
-  uniform sampler2D uNoise;
-  uniform vec3 uColorA;
-  uniform vec3 uColorB;
-  uniform vec2 uPatch;
-  uniform float uTime;
-  uniform float uOpacity;
-  varying vec2 vUv;
-  void main() {
-    vec2 p = vUv * 2.0 - 1.0;
-    vec2 q = vUv * 0.55 + uPatch;
-    float shape = texture2D(uNoise, q + vec2(uTime * 0.0015, 0.0)).r;
-    float detail = texture2D(uNoise, q * 1.7 + shape * 0.25 - vec2(0.0, uTime * 0.002)).g;
-    float body = smoothstep(1.0, 0.1, length(p) + (shape - 0.5) * 0.9);
-    float density = body * smoothstep(0.25, 0.75, detail);
-    vec3 color = mix(uColorA, uColorB, smoothstep(0.35, 0.8, detail));
-    float alpha = density * uOpacity;
-    gl_FragColor = vec4(color * alpha, alpha * 0.6);
   }
 `;

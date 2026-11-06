@@ -5,6 +5,7 @@ import { LOOP_DEPTH, type Rig } from "./flightPlan";
 import {
   createStreakGeometry,
   createStreakMaterial,
+  syncSongStars,
   syncStreaks,
 } from "./streaks";
 
@@ -63,9 +64,10 @@ export default function StarStream({ rig, layer }: Props) {
   );
 
   // The stars come out with the deep sky, a beat behind it.
-  useFrame((state) =>
-    syncStreaks(field.material, state, rig, rig.bg * rig.bg),
-  );
+  useFrame((state) => {
+    syncStreaks(field.material, state, rig, rig.bg * rig.bg);
+    syncSongStars(field.material, rig);
+  });
 
   return (
     <mesh

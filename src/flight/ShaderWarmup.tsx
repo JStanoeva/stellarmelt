@@ -6,7 +6,7 @@ const GIVE_UP_MS = 1500;
 
 type Props = { warm: boolean; onWarm: () => void };
 
-// Compiles every layer's shaders before the first frame, so neither the dive's start nor a later cloud stalls; rendered last.
+// Compiles every layer's shaders before the first frame, so the dive's start doesn't stall; rendered last.
 export default function ShaderWarmup({ warm, onWarm }: Props) {
   const gl = useThree((state) => state.gl);
   const scene = useThree((state) => state.scene);

@@ -14,6 +14,8 @@ type Props = {
   anchors?: Anchors;
   glide?: boolean;
   reduced: boolean;
+  // Covered by the Listening Room's sky: it stays loaded for the next page, but draws nothing.
+  paused: boolean;
   dust?: RefObject<DustBurst | null>;
 };
 
@@ -23,6 +25,7 @@ export default function ArtLayer({
   anchors = noAnchors,
   glide = false,
   reduced,
+  paused,
   dust,
 }: Props) {
   const [webgl] = useState(canUseWebGL2);
@@ -54,6 +57,7 @@ export default function ArtLayer({
                 pose={pose}
                 anchors={anchors}
                 reduced={reduced}
+                paused={paused}
                 dust={dust}
                 onReady={() => setReady(true)}
               />

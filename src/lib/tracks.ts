@@ -1,3 +1,4 @@
+import { matchPath } from "react-router";
 import { songsUrl, tracks } from "../content/album";
 import type { Track } from "../content/types";
 
@@ -19,8 +20,17 @@ export function listenPath(track?: Track): string {
   return track ? `/listen/${track.slug}` : "/listen";
 }
 
+// By the router's own matching rules; a slug that isn't on the album is the 404 page, not a room.
 export function isListenPath(pathname: string): boolean {
-  return pathname === "/listen" || pathname.startsWith("/listen/");
+  if (matchPath("/listen", pathname)) return true;
+  const slug = matchPath("/listen/:slug", pathname)?.params.slug;
+  return trackBySlug(slug) !== undefined;
+}
+
+// The next or previous song on the album, going round at its ends.
+export function neighbourTrack(track: Track, step: 1 | -1): Track {
+  const index = tracks.findIndex((other) => other.slug === track.slug);
+  return tracks[(index + step + tracks.length) % tracks.length];
 }
 
 // "4:33"

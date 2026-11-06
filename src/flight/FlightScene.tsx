@@ -5,6 +5,9 @@ import type { DiveStart } from "./flight";
 import FlightWorld from "./FlightWorld";
 import ShaderWarmup from "./ShaderWarmup";
 
+const HIGHEST_DPR = 1.5;
+const LOWEST_DPR = 0.75;
+
 type Props = {
   dive: DiveStart | null;
   reduced: boolean;
@@ -23,6 +26,7 @@ export default function FlightScene({
 }: Props) {
   const visible = usePageVisible();
   const [warm, setWarm] = useState(false);
+  const [maxDpr, setMaxDpr] = useState(HIGHEST_DPR);
   // "demand" keeps the last frame and redraws only on a resize.
   let frameloop: "always" | "demand" | "never" =
     reduced || paused ? "demand" : "always";
@@ -31,7 +35,7 @@ export default function FlightScene({
   return (
     <Canvas
       flat
-      dpr={[1, 1.5]}
+      dpr={[Math.min(1, maxDpr), maxDpr]}
       gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       camera={{ fov: 60, near: 0.05, far: 4000, position: [0, 0, 0] }}
       frameloop={frameloop}
@@ -40,6 +44,7 @@ export default function FlightScene({
       <FlightWorld
         dive={reduced ? null : dive}
         still={reduced}
+        onSlow={() => setMaxDpr((dpr) => (dpr > 1 ? 1 : LOWEST_DPR))}
         onReady={onReady}
         onLand={onLand}
       />

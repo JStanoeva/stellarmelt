@@ -1,5 +1,3 @@
-import { DataTexture, LinearFilter, RepeatWrapping, RGBAFormat } from "three";
-
 // Value noise on the CPU, once at load, keeps the shaders tiny: a noisy shader can take ~120 ms to compile on some drivers.
 
 function hash(x: number, y: number, z: number): number {
@@ -57,29 +55,4 @@ export function fbm(
     amplitude *= 0.5;
   }
   return sum;
-}
-
-// A tiling noise texture for the clouds: soft shapes in red, finer detail in green.
-export function makeCloudTexture(size: number): DataTexture {
-  const data = new Uint8Array(size * size * 4);
-  const cells = 4;
-  for (let y = 0; y < size; y++) {
-    for (let x = 0; x < size; x++) {
-      const u = (x / size) * cells;
-      const v = (y / size) * cells;
-      const index = (y * size + x) * 4;
-      data[index] = Math.round(fbm(u, v, 0.5, 4, cells) * 255);
-      data[index + 1] = Math.round(
-        fbm(u * 2 + 7.3, v * 2 + 1.9, 3.5, 4, cells * 2) * 255,
-      );
-      data[index + 3] = 255;
-    }
-  }
-  const texture = new DataTexture(data, size, size, RGBAFormat);
-  texture.wrapS = RepeatWrapping;
-  texture.wrapT = RepeatWrapping;
-  texture.magFilter = LinearFilter;
-  texture.minFilter = LinearFilter;
-  texture.needsUpdate = true;
-  return texture;
 }

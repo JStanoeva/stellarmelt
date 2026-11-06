@@ -11,9 +11,6 @@ export type FlightValue = {
   cruising: boolean;
   // Without WebGL 2 the cue is a plain link and the room shows a still sky.
   canFly: boolean;
-  // The visitor froze the room's flight.
-  paused: boolean;
-  setPaused: (paused: boolean) => void;
   // `to` is the Listening Room path the dive lands on.
   startDive: (start: DiveStart, to: string) => void;
   markReady: () => void;

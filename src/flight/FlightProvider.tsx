@@ -21,7 +21,8 @@ type Dive = {
   landed: boolean;
 };
 
-// If the scene never reports in (slow network, lost GPU), the visitor still arrives.
+// If the scene never reports in (slow network, lost GPU), the visitor still arrives; building the sky can take seconds on a slow phone, so the long wait ends at the scene's first frame.
+const READY_FALLBACK_MS = 7000;
 const LAND_FALLBACK_MS = 2600;
 
 type Props = { children: ReactNode };
@@ -34,7 +35,6 @@ export default function FlightProvider({ children }: Props) {
   const [id, setId] = useState(0);
   const [dive, setDive] = useState<Dive | null>(null);
   const [cruising, setCruising] = useState(false);
-  const [paused, setPaused] = useState(false);
 
   // A link or Back pressed during the dive takes the visitor elsewhere, so the dive ends there.
   if (dive && key !== dive.from && !isListenPath(pathname)) setDive(null);
@@ -70,7 +70,6 @@ export default function FlightProvider({ children }: Props) {
     return () => {
       setCruising(false);
       setDive(null);
-      setPaused(false);
     };
   }, []);
 
@@ -80,11 +79,15 @@ export default function FlightProvider({ children }: Props) {
     if (landedAt) navigate(landedAt);
   }, [landedAt, navigate]);
 
+  const sceneReady = dive?.ready === true;
   useEffect(() => {
     if (!diving) return;
-    const timer = window.setTimeout(land, LAND_FALLBACK_MS);
+    const timer = window.setTimeout(
+      land,
+      sceneReady ? LAND_FALLBACK_MS : READY_FALLBACK_MS,
+    );
     return () => window.clearTimeout(timer);
-  }, [diving, land]);
+  }, [diving, sceneReady, land]);
 
   // Back or Forward ends the dive too, even onto the page it started from while the room is still opening.
   const hasDive = dive !== null;
@@ -113,8 +116,6 @@ export default function FlightProvider({ children }: Props) {
       dive: start,
       cruising,
       canFly,
-      paused,
-      setPaused,
       startDive,
       markReady,
       land,
@@ -125,7 +126,6 @@ export default function FlightProvider({ children }: Props) {
       start,
       cruising,
       canFly,
-      paused,
       startDive,
       markReady,
       land,

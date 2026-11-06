@@ -8,7 +8,7 @@ import {
 } from "react";
 import { tracks } from "../content/album";
 import type { Track } from "../content/types";
-import { songAudioUrl } from "../lib/tracks";
+import { neighbourTrack, songAudioUrl } from "../lib/tracks";
 import {
   Player,
   type PlayerStatus,
@@ -48,15 +48,12 @@ export default function PlayerProvider({ children }: Props) {
     setStatus(null);
   }, []);
 
-  // A newer src or a pause() interrupts play() with an AbortError; only a real failure stops the song.
-  const start = useCallback(
-    (media: HTMLAudioElement) => {
-      media.play().catch((error: unknown) => {
-        if (!isAbort(error)) stop();
-      });
-    },
-    [stop],
-  );
+  // A newer src or a pause() interrupts play() with an AbortError; a real failure keeps the song's place, so a press can try again.
+  const start = useCallback((media: HTMLAudioElement) => {
+    media.play().catch((error: unknown) => {
+      if (!isAbort(error)) setStatus("paused");
+    });
+  }, []);
 
   const play = useCallback(
     (track: Track, nextMode: PlayMode = "album") => {
@@ -87,31 +84,32 @@ export default function PlayerProvider({ children }: Props) {
     const media = audio.current;
     if (!media) return;
     media.volume = 1;
+    if (media.error) media.load();
     const ready = media.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA;
     setStatus(ready ? "playing" : "loading");
     start(media);
   }, [start]);
 
   const toggle = useCallback(
-    (track: Track, nextMode: PlayMode = "album") => {
-      if (current?.slug !== track.slug) play(track, nextMode);
+    (track: Track) => {
+      if (current?.slug !== track.slug) play(track, "album");
       else if (status === "paused") resume();
       else pause();
     },
     [current, status, play, pause, resume],
   );
 
-  // Album cue: go on with an album-mode song, else start track 1. Song cue: go on with that song, else play it alone.
+  // Album cue: go on with what's on unless it's a lone song, else start track 1. Song cue: go on with that song, else play it alone.
   const startFromCue = useCallback(
     (track: Track | null) => {
       const goesOn = track
         ? current?.slug === track.slug
-        : current !== null && mode === "album";
+        : current !== null && mode !== "single";
       if (!goesOn) {
-        play(track ?? tracks[0], track ? "single" : "album");
+        play(track ?? tracks[0], track ? "single" : "endless");
         return;
       }
-      if (track) setMode("single");
+      setMode(track ? "single" : "endless");
       if (status === "paused") resume();
     },
     [current, mode, status, play, resume],
@@ -189,15 +187,22 @@ export default function PlayerProvider({ children }: Props) {
   );
 
   function playNext() {
-    const next =
-      mode === "album" && current
-        ? tracks.find((track) => track.n === current.n + 1)
-        : undefined;
+    // A lone song goes back to its start and rests, so its room keeps its controls.
+    if (mode === "single" && audio.current) {
+      audio.current.currentTime = 0;
+      pause();
+      return;
+    }
+    let next: Track | undefined;
+    if (current && mode === "endless") next = neighbourTrack(current, 1);
+    else if (current && mode === "album") {
+      next = tracks.find((track) => track.n === current.n + 1);
+    }
     if (!next) {
       stop();
       return;
     }
-    play(next, "album");
+    play(next, mode);
     // It ended while no view was left (mid-fade): the next song waits, paused, for a control to come back.
     if (views.current === 0) pause();
   }
@@ -206,7 +211,7 @@ export default function PlayerProvider({ children }: Props) {
     () => ({
       current,
       status,
-      mode,
+      setMode,
       play,
       pause,
       resume,
@@ -219,7 +224,6 @@ export default function PlayerProvider({ children }: Props) {
     [
       current,
       status,
-      mode,
       play,
       pause,
       resume,
@@ -245,9 +249,9 @@ export default function PlayerProvider({ children }: Props) {
           if (!media.ended && media.getAttribute("src")) setStatus("paused");
         }}
         onEnded={playNext}
-        // Stopping empties the element, which some browsers report as an error; only a real source counts.
+        // Stopping empties the element, which some browsers report as an error; only a real source counts, and it keeps its place.
         onError={(event) => {
-          if (event.currentTarget.getAttribute("src")) stop();
+          if (event.currentTarget.getAttribute("src")) setStatus("paused");
         }}
       />
     </Player>

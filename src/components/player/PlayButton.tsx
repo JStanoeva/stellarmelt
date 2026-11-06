@@ -1,6 +1,5 @@
 import type { Track } from "../../content/types";
 import { usePlayer } from "../../hooks/usePlayer";
-import type { PlayMode } from "../../player/player";
 import PlayGlyph from "./PlayGlyph";
 import ProgressRing from "./ProgressRing";
 
@@ -10,8 +9,6 @@ type Props = {
   named?: boolean;
   // "pill" for calls to action, "ghost" under a star's caption, "round" for the tracklist's rows.
   look?: "pill" | "ghost" | "round";
-  // A song room plays its song alone ("single"); everywhere else the album plays on.
-  mode?: PlayMode;
   className?: string;
 };
 
@@ -30,7 +27,6 @@ export default function PlayButton({
   track,
   named = false,
   look = "pill",
-  mode = "album",
   className = "",
 }: Props) {
   const { current, status, toggle } = usePlayer();
@@ -46,7 +42,7 @@ export default function PlayButton({
         type="button"
         data-play={track.slug}
         aria-label={`${verb} ${title}`}
-        onClick={() => toggle(track, mode)}
+        onClick={() => toggle(track)}
         className={`${looks.round} ${active ? "border-transparent bg-rose-300/10 text-stardust-50" : "border-rose-300/45"} ${className}`}
       >
         {active && <ProgressRing track={track} size={44} stroke={1.75} />}
@@ -64,7 +60,7 @@ export default function PlayButton({
       data-play={track.slug}
       // Without the song's name in the text, the label carries it.
       aria-label={named ? undefined : `${verb} ${title}`}
-      onClick={() => toggle(track, mode)}
+      onClick={() => toggle(track)}
       className={`${looks[look]} ${className}`}
     >
       <span className="relative grid size-5 shrink-0 place-items-center">

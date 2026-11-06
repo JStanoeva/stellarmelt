@@ -20,7 +20,7 @@ type Props = {
   onLand: () => void;
 };
 
-// The dive's turn from the pressed nebula onto the flight path, then the endless cruise; first child, so every layer reads this frame's rig.
+// The dive's turn from the pressed nebula onto the flight path, then the endless cruise; it runs right after SongFollower, so every layer reads this frame's rig.
 export default function FlightCamera({
   rig: sharedRig,
   plan,
@@ -49,7 +49,7 @@ export default function FlightCamera({
       camera.updateProjectionMatrix();
     }
 
-    advance(rig, delta);
+    advance(rig, delta, rig.song.pace);
     const share = driftShare(rig);
     const { x, y, yaw, pitch, roll } = drift(rig.t, scratch.drift);
     camera.position.set(x * share, y * share, rig.z);

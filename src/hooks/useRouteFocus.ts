@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router";
+import { isListenPath } from "../lib/tracks";
 
 // The shown stage section's heading on the home page, the page's h1 elsewhere; anything leaving (inert) never counts.
 const pageHeading =
@@ -18,7 +19,10 @@ export function useRouteFocus() {
 
   useEffect(() => {
     if (shownPathname.current === pathname) return;
+    // From one song's room to another, the same room stays on screen and the pressed button keeps focus.
+    const sameRoom =
+      isListenPath(shownPathname.current) && isListenPath(pathname);
     shownPathname.current = pathname;
-    focusPageHeading();
+    if (!sameRoom) focusPageHeading();
   }, [pathname]);
 }

@@ -27,7 +27,7 @@ It's also a front-end project that's being redesigned in the open. The original 
 
 ## 🌌 A look around
 
-The home page is a stage: one section fills the screen at a time, and the planet flies to a new framing for each one. The Discography opens onto pages of its own: the whole album and a page for every song.
+The home page is a stage: one section fills the screen at a time, and the planet flies to a new framing for each one. The Discography opens onto pages of its own: the whole album and a page for every song. Its galaxies dive into the Listening Room.
 
 <p align="center">
   <img src="./docs/screenshots/about-desktop.webp" alt="The About section: the six members as small moons on a dotted orbit around a huge planet, beside the band's intro" width="49%" />
@@ -40,6 +40,9 @@ The home page is a stage: one section fills the screen at a time, and the planet
 <p align="center">
   <img src="./docs/screenshots/discography-page-desktop.webp" alt="The Discography page: the album's two constellations as a sky map, with the star for Melt picked and a Play button under its name" width="49%" />
   <img src="./docs/screenshots/song-desktop.webp" alt="The song page for Melt, sung by Tora: a big Play button, a galaxy leading to the Listening Room, and a large dotted 01 above the song's bursting star" width="49%" />
+</p>
+<p align="center">
+  <img src="./docs/screenshots/listening-room-desktop.webp" alt="The Listening Room: a pink and purple galaxy band crossing the night sky on a long diagonal, torn by dark dust, with big flared stars, and the name of the song, Melt, above its small controls" width="100%" />
 </p>
 <p align="center">
   <img src="./docs/screenshots/home-phone.webp" alt="The home page on a phone: the planet on top, the wordmark and buttons below" width="280" />
@@ -55,14 +58,11 @@ The home page is a stage: one section fills the screen at a time, and the planet
 - **Songs that play right here.** Every song's play button plays it on the site, with play, pause and resume, and the album plays on in order (a song's own Listening Room plays just that song). The music keeps going as you move between the Discography section, its pages and the Listening Room, and fades to a pause when you leave them. Each song also links to its page on Suno.
 - **An end card.** Contact closes the home page like the last frame of a film: Stellarmelt's Suno and YouTube channels with their logos, then the website credit and the copyright, each line condensing out of the stardust. Every other page ends on the small heart over the copyright.
 - **A flight into the Listening Room.** Pressing a galaxy beside the songs dives into a three.js galaxy and flies on through the stars into the Listening Room, playing the whole album or a single song.
+- **The Listening Room.** The whole screen becomes the sky: a huge galaxy band in the site's pinks and purples hangs far away and big stars twinkle at its edge, while the stars keep streaming past. The song moves all of it: stars glint on the beat, more of them come out as a chorus grows, slow light rolls along the band with each bar, and the band warms when a song lifts. The song's name and its previous, pause and next buttons, a link back to the Discography and a full-screen button fade away when idle, and come back with a mouse move or a tap. Space, the arrow keys and F work too.
 - **No raster images.** Everything on the site is SVG, CSS or three.js, including the constellation-heart logo in the navbar and the little-planet favicon.
 - **Poster type.** Syne, Instrument Sans and Martian Mono, plus the band's name in katakana, ステラメルト, set in Dela Gothic One.
 - **Glowing dot navigation.** One dot per section on the right edge, with the section's name on hover and focus.
 - **Accessible.** A skip link, a visible focus ring, and keyboard steps that move focus to the new section's heading. With reduced motion turned on in the system settings, the stage swaps sections without the flight and the stardust, the planet stays still, and a galaxy simply opens the Listening Room under a still sky (as it does without WebGL).
-
-## 🔭 Coming next
-
-- A song visualizer in the Listening Room that moves with the music.
 
 ## 🛠️ Tech stack
 
@@ -103,12 +103,12 @@ src/
   art/          the three.js planet scene and its CSS fallback
   components/   the navbar, the logo, the dot nav, the skip link, the footer, the platform glyphs and the play controls
   content/      the site's copy as typed data
-  flight/       the three.js star flight into the Listening Room
-  hooks/        the home stage, the planet's pose per page, the player, the flight, motion, focus on navigation, page visibility and sizes
+  flight/       the three.js star flight into the Listening Room, its galaxy and the song's pulse
+  hooks/        the home stage, the planet's pose per page, the player, the flight, the Listening Room's controls, motion, focus on navigation, page visibility and sizes
   lib/          small helpers (dates, tracks, Motion features)
   player/       the site's one audio player
   routes/       the pages: home, discography, song, Listening Room and not found
-  sections/     the home stage, its five sections and the Discography views
+  sections/     the home stage, its five sections, the Discography views and the Listening Room
   index.css     the theme (colours, fonts, easings), custom variants, the CSS planet and the keyframes
 public/
   favicon.svg   the little-planet favicon
@@ -118,7 +118,7 @@ docs/
 
 ## ✏️ Editing the copy
 
-Most of the site's copy lives in `src/content/` as data: the home sections' text in `homeSections.ts` (with Contact's channels and the website credit), the members in `members.ts`, the timeline's events in `timeline.ts` (in date order; whether one is upcoming is worked out from its date), the navbar's links in `navLinks.ts`, and the album with its two sides and sixteen tracks in `album.ts`, which also holds `songsUrl`, the address the songs stream from. `types.ts` describes the members, the album with its sides and tracks, the timeline's events and Contact's channels, so TypeScript points out anything in those files that no longer fits. Headings, labels and buttons that belong to one view still sit in their components, such as the Timeline heading, the footer and the skip link.
+Most of the site's copy lives in `src/content/` as data: the home sections' text in `homeSections.ts` (with Contact's channels and the website credit), the members in `members.ts`, the timeline's events in `timeline.ts` (in date order; whether one is upcoming is worked out from its date), the navbar's links in `navLinks.ts`, and the album with its two sides and sixteen tracks in `album.ts`, which also holds `songsUrl`, the address the songs stream from. `song-maps/` holds each song's beats, bars, loudness and big lifts, which the Listening Room follows against the song's clock. `types.ts` describes the members, the album with its sides and tracks, the timeline's events and Contact's channels, so TypeScript points out anything in those files that no longer fits. Headings, labels and buttons that belong to one view still sit in their components, such as the Timeline heading, the footer and the skip link.
 
 ## 💖 Credits
 
