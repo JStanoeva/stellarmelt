@@ -33,6 +33,19 @@ export type Track = {
   endsAct?: "I" | "II";
 };
 
+export type Stanza = {
+  lines: readonly string[];
+  chorus?: true;
+};
+
+export type SongWords = {
+  // "ja" for the songs written in Japanese.
+  lang: "en" | "ja";
+  // One string per line.
+  description: readonly string[];
+  stanzas: readonly Stanza[];
+};
+
 export type Album = {
   title: string;
   artist: string;

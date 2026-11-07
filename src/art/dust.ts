@@ -55,6 +55,8 @@ function textBoxes(root: Element): Box[] {
   const boxes: Box[] = [];
   for (const filled of root.querySelectorAll("[data-dust-box]"))
     push(boxes, filled.getBoundingClientRect(), driftOf(filled, root));
+  // Lines scrolled out of a song's words shed no dust: they would drift over the rest of the page.
+  const pane = root.closest("[data-words]")?.getBoundingClientRect();
   const range = document.createRange();
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   for (let node = walker.nextNode(); node; node = walker.nextNode()) {
@@ -67,7 +69,14 @@ function textBoxes(root: Element): Box[] {
       continue;
     const drift = driftOf(parent, root);
     range.selectNodeContents(node);
-    for (const rect of range.getClientRects()) push(boxes, rect, drift);
+    for (const rect of range.getClientRects()) {
+      if (
+        pane &&
+        (rect.bottom - drift < pane.top || rect.top - drift > pane.bottom)
+      )
+        continue;
+      push(boxes, rect, drift);
+    }
   }
   return boxes;
 }

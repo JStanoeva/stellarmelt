@@ -18,6 +18,7 @@
     "@fontsource-variable/martian-mono": "^5.3.0",
     "@fontsource-variable/syne": "^5.3.0",
     "@fontsource/dela-gothic-one": "^5.3.0",
+    "@fontsource/zen-maru-gothic": "^5.3.1",
     "@react-three/fiber": "^9.8.2",
     "@tailwindcss/vite": "^4.3.3",
     "motion": "^14.9.0",
