@@ -7,7 +7,7 @@ import SongDuration from "../../components/player/SongDuration";
 import type { Track } from "../../content/types";
 import { usePlayer } from "../../hooks/usePlayer";
 import { sunoSongUrl } from "../../lib/tracks";
-import { magnitude, pad2 } from "./sky";
+import { pad2, rowMagnitude } from "./sky";
 import SingerMark from "./SingerMark";
 import StarDot from "./StarDot";
 import SunoLink from "./SunoLink";
@@ -42,7 +42,7 @@ export default function TrackRow({ track }: Props) {
           {active && <PlayingHalo singer={track.singer} className="size-10" />}
           <StarDot
             singer={track.singer}
-            magnitude={Math.min(magnitude(track), 1.2)}
+            magnitude={rowMagnitude(track)}
             scale={5}
           />
         </span>

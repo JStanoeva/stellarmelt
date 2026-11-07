@@ -6,6 +6,7 @@ import {
   magnitude,
   pad2,
   segments,
+  singerFill,
   sparklePath,
   starPoint,
   trimmed,
@@ -18,10 +19,6 @@ const VIEW = 300;
 const stops: Record<Singer, readonly [string, string]> = {
   Tora: ["var(--color-rose-300)", "var(--color-rose-500)"],
   Orion: ["var(--color-starlight-100)", "var(--color-starlight-300)"],
-};
-const fill: Record<Singer, string> = {
-  Tora: "fill-rose-200",
-  Orion: "fill-starlight-100",
 };
 
 type Spike = { id: string; angle: number; length: number; width: number };
@@ -72,10 +69,19 @@ function flareFor(slug: string): Flare {
   return { base, spikes, rings, glints };
 }
 
-type Props = { track: Track; className?: string };
+type Props = {
+  track: Track;
+  className?: string;
+  // Only the star's own flare, without its neighbours: the phone's calmer page.
+  alone?: boolean;
+};
 
 // A close-up of one song's star: its own flare, the constellation line through it and its neighbouring stars.
-export default function SongStar({ track, className = "" }: Props) {
+export default function SongStar({
+  track,
+  className = "",
+  alone = false,
+}: Props) {
   const id = useId();
   const flare = useMemo(() => flareFor(track.slug), [track.slug]);
   const origin = starPoint(track, field);
@@ -133,62 +139,64 @@ export default function SongStar({ track, className = "" }: Props) {
           width={VIEW * 2}
           height={VIEW * 2}
           fill={`url(#${id}-dots)`}
-          opacity="0.4"
+          opacity={alone ? 0.32 : 0.4}
         />
-        {segments.map((segment) => {
-          const own = segment.from.side === track.side;
-          const through =
-            segment.from.n === track.n || segment.to.n === track.n;
-          let tone = "stroke-mauve-200/20";
-          if (through) tone = "stroke-rose-200/85";
-          else if (own) tone = "stroke-mauve-200/45";
-          let width = 1.2;
-          if (segment.dotted) width = 2.6;
-          else if (through) width = 1.8;
-          return (
-            <line
-              key={segment.id}
-              {...trimmed(at(segment.from), at(segment.to), through ? 34 : 12)}
-              strokeDasharray={segment.dotted ? "0 9" : undefined}
-              strokeLinecap="round"
-              strokeWidth={width}
-              className={tone}
-            />
-          );
-        })}
-        {tracks
-          .filter((other) => other.n !== track.n)
-          .map((other) => {
-            const point = at(other);
-            const near = neighbours.has(other.n);
+        {!alone &&
+          segments.map((segment) => {
+            const own = segment.from.side === track.side;
+            const through =
+              segment.from.n === track.n || segment.to.n === track.n;
+            let tone = "stroke-mauve-200/20";
+            if (through) tone = "stroke-rose-200/85";
+            else if (own) tone = "stroke-mauve-200/45";
+            let width = 1.2;
+            if (segment.dotted) width = 2.6;
+            else if (through) width = 1.8;
             return (
-              <g key={other.slug} opacity={near ? 1 : 0.6}>
-                <circle
-                  cx={point.x}
-                  cy={point.y}
-                  r={magnitude(other) * 9}
-                  opacity="0.18"
-                  className={fill[other.singer]}
-                />
-                <circle
-                  cx={point.x}
-                  cy={point.y}
-                  r={magnitude(other) * (near ? 4 : 3)}
-                  className={fill[other.singer]}
-                />
-                {near && (
-                  <text
-                    x={point.x + 14}
-                    y={point.y - 12}
-                    className="fill-mauve-200 font-mono"
-                    style={{ fontSize: 17, letterSpacing: "0.1em" }}
-                  >
-                    {pad2(other.n)}
-                  </text>
-                )}
-              </g>
+              <line
+                key={segment.id}
+                {...trimmed(at(segment.from), at(segment.to), through ? 34 : 12)}
+                strokeDasharray={segment.dotted ? "0 9" : undefined}
+                strokeLinecap="round"
+                strokeWidth={width}
+                className={tone}
+              />
             );
           })}
+        {!alone &&
+          tracks
+            .filter((other) => other.n !== track.n)
+            .map((other) => {
+              const point = at(other);
+              const near = neighbours.has(other.n);
+              return (
+                <g key={other.slug} opacity={near ? 1 : 0.6}>
+                  <circle
+                    cx={point.x}
+                    cy={point.y}
+                    r={magnitude(other) * 9}
+                    opacity="0.18"
+                    className={singerFill[other.singer]}
+                  />
+                  <circle
+                    cx={point.x}
+                    cy={point.y}
+                    r={magnitude(other) * (near ? 4 : 3)}
+                    className={singerFill[other.singer]}
+                  />
+                  {near && (
+                    <text
+                      x={point.x + 14}
+                      y={point.y - 12}
+                      className="fill-mauve-200 font-mono"
+                      style={{ fontSize: 17, letterSpacing: "0.1em" }}
+                    >
+                      {pad2(other.n)}
+                    </text>
+                  )}
+                </g>
+              );
+            })}
       </g>
 
       <circle r="170" fill={`url(#${id}-glow)`} />
@@ -210,7 +218,7 @@ export default function SongStar({ track, className = "" }: Props) {
             cx={Math.cos(ring.moon) * ring.radius}
             cy={Math.sin(ring.moon) * ring.radius}
             r="4"
-            className={fill[track.singer]}
+            className={singerFill[track.singer]}
           />
         </g>
       ))}
@@ -232,7 +240,7 @@ export default function SongStar({ track, className = "" }: Props) {
           d={sparklePath}
           transform={`translate(${glint.x} ${glint.y}) rotate(${glint.angle}) scale(${glint.scale})`}
           opacity="0.75"
-          className={fill[track.singer]}
+          className={singerFill[track.singer]}
         />
       ))}
       <g className="flare-core" style={{ transformOrigin: "0px 0px" }}>

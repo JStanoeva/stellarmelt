@@ -1,19 +1,25 @@
 import { Link } from "react-router";
 import { album } from "../content/album";
+import { useIsPhone } from "../hooks/useIsPhone";
+import { useKeepSongInSight } from "../hooks/useKeepSongInSight";
 import { usePlayerView } from "../hooks/usePlayerView";
 import { useShowArt } from "../hooks/useShowArt";
 import { formatDate } from "../lib/dates";
 import AlbumInfo from "../sections/discography/AlbumInfo";
 import Legend from "../sections/discography/Legend";
+import PhoneDiscography from "../sections/discography/phone/PhoneDiscography";
 import SkyMap from "../sections/discography/SkyMap";
 import TrackList from "../sections/discography/TrackList";
 
 const released = formatDate(album.released);
 
-// /discography: the sky map on top (the planet sinks lower to open the sky), then the album and its tracklist.
+// /discography: the sky map on top (the planet sinks lower to open the sky), then the album and its tracklist. Phones have their own calmer page.
 export default function DiscographyPage() {
   useShowArt("contact");
   usePlayerView();
+  const phone = useIsPhone();
+  useKeepSongInSight(phone);
+  if (phone) return <PhoneDiscography />;
   return (
     <div className="px-4 pt-[5.5rem] pb-20 wide:px-[clamp(1.25rem,3.4vw,3.5rem)] wide:pt-[clamp(5.5rem,12dvh,7.5rem)] wide:pb-28 short:pt-[3.75rem]">
       <title>Discography · Stellarmelt</title>

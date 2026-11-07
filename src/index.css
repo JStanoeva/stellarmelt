@@ -374,8 +374,10 @@
   }
 }
 
-/* The Listening Room cue's nebula turns while it's hovered or focused. */
-[data-motion="full"] .group:is(:hover, :focus-visible) .nebula-arms {
+/* The Listening Room cue's nebula turns while it's hovered or focused; the phone's turns once as it arrives instead. */
+[data-motion="full"]
+  .group:not(.galaxy-cue):is(:hover, :focus-visible)
+  .nebula-arms {
   animation: nebula-turn 9s linear infinite;
 }
 @keyframes nebula-turn {
@@ -440,6 +442,80 @@
   background-size: 7px 3px;
   background-repeat: repeat-x;
   background-position: left bottom;
+}
+
+/* The phone Discography's list rises over the planet like a dark tide, soft at both ends, so the planet returns under the footer's heart. */
+@property --tide-reach {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 320px;
+}
+.tide {
+  --tide-reach: 21rem;
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--tide-reach) * 0.25),
+    color-mix(in oklab, var(--color-night-950) 38%, transparent)
+      calc(var(--tide-reach) * 0.6),
+    color-mix(in oklab, var(--color-night-950) 90%, transparent)
+      var(--tide-reach),
+    color-mix(in oklab, var(--color-night-950) 90%, transparent)
+      calc(100% - 7rem),
+    transparent 100%
+  );
+}
+/* Opening the fold brings the tide up, so the album's words never sit on the planet's bright edge. */
+.tide:has(.album-fold[open]) {
+  --tide-reach: 8rem;
+}
+[data-motion="full"] .tide {
+  transition: --tide-reach 0.45s var(--ease-condense);
+}
+/* Stepping back with the keyboard, a focused row stops clear of the navbar and its fade. */
+html:has(.tide) {
+  scroll-padding-top: 4.75rem;
+}
+
+/* The fold opens by sliding; a browser that can't animate to height: auto just opens it. */
+.album-fold {
+  interpolate-size: allow-keywords;
+}
+/* The side room keeps the focus ring of the link inside from being clipped. */
+.album-fold::details-content {
+  height: 0;
+  overflow: hidden;
+  content-visibility: hidden;
+  margin-inline: -0.5rem;
+  padding-inline: 0.5rem;
+}
+/* Tab skips the link while the fold is still sliding shut. */
+.album-fold:not([open])::details-content {
+  interactivity: inert;
+}
+.album-fold[open]::details-content {
+  height: auto;
+  content-visibility: visible;
+}
+[data-motion="full"] .album-fold::details-content {
+  transition:
+    height 0.45s var(--ease-condense),
+    content-visibility 0.45s allow-discrete;
+}
+.album-fold > summary {
+  list-style: none;
+}
+.album-fold > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Phones have no hover, so the galaxy turns once as it arrives, to say it's alive. */
+[data-motion="full"] .galaxy-cue .nebula-arms {
+  animation: galaxy-arrive 4.5s var(--ease-condense) 0.3s both;
+}
+@keyframes galaxy-arrive {
+  from {
+    rotate: -80deg;
+  }
 }
 
 /* The playing song's glow, in its singer's colour. */

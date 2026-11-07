@@ -1,5 +1,5 @@
 import type { Track } from "../../content/types";
-import { usePlayer } from "../../hooks/usePlayer";
+import { usePlayState } from "../../hooks/usePlayState";
 import PlayGlyph from "./PlayGlyph";
 import ProgressRing from "./ProgressRing";
 
@@ -29,11 +29,7 @@ export default function PlayButton({
   look = "pill",
   className = "",
 }: Props) {
-  const { current, status, toggle } = usePlayer();
-  const active = current?.slug === track.slug;
-  const pausable = active && status !== "paused";
-  let verb = "Play";
-  if (active) verb = pausable ? "Pause" : "Resume";
+  const { active, pausable, verb, toggle } = usePlayState(track);
   const title = named ? `“${track.title}”` : track.title;
 
   if (look === "round") {
@@ -42,7 +38,7 @@ export default function PlayButton({
         type="button"
         data-play={track.slug}
         aria-label={`${verb} ${title}`}
-        onClick={() => toggle(track)}
+        onClick={toggle}
         className={`${looks.round} ${active ? "border-transparent bg-rose-300/10 text-stardust-50" : "border-rose-300/45"} ${className}`}
       >
         {active && <ProgressRing track={track} size={44} stroke={1.75} />}
@@ -60,7 +56,7 @@ export default function PlayButton({
       data-play={track.slug}
       // Without the song's name in the text, the label carries it.
       aria-label={named ? undefined : `${verb} ${title}`}
-      onClick={() => toggle(track)}
+      onClick={toggle}
       className={`${looks[look]} ${className}`}
     >
       <span className="relative grid size-5 shrink-0 place-items-center">

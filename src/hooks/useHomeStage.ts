@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import { useLocation, useNavigationType } from "react-router";
+import { isPlainClick } from "../lib/clicks";
 
 // "route" is a router link (such as the logo); "hash" is Back, Forward or an edited URL.
 type StepSource = "wheel" | "key" | "swipe" | "link" | "route" | "hash";
@@ -340,16 +341,7 @@ export function useHomeStage({
   // Handled here rather than by hashchange, so a link step moves focus and adds no history entry.
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
-      if (
-        event.defaultPrevented ||
-        event.button !== 0 ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.shiftKey ||
-        event.altKey
-      ) {
-        return;
-      }
+      if (event.defaultPrevented || !isPlainClick(event)) return;
       const link =
         event.target instanceof Element
           ? event.target.closest("a[href^='#']")

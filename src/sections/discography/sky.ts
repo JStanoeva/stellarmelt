@@ -1,5 +1,5 @@
 import { tracks } from "../../content/album";
-import type { SideId, Track } from "../../content/types";
+import type { Singer, SideId, Track } from "../../content/types";
 import { hash } from "./seed";
 
 // Side A rises from the left horizon, Side B sets on the right: unit coordinates (y down), placed to clear the planet's limb.
@@ -51,6 +51,16 @@ export function magnitude(track: Track): number {
   if (track.n === 1 || track.n === tracks.length) return 1.55;
   return 0.85 + ((hash(track.slug) % 1000) / 1000) * 0.35;
 }
+
+// In a row of text a star stays a plain dot: the sparkle only starts above this.
+export function rowMagnitude(track: Track): number {
+  return Math.min(magnitude(track), 1.2);
+}
+
+export const singerFill: Record<Singer, string> = {
+  Tora: "fill-rose-200",
+  Orion: "fill-starlight-100",
+};
 
 // A segment shortened at both ends, so the line stops just short of each star like on a printed chart.
 export function trimmed(

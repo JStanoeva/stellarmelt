@@ -1,5 +1,5 @@
 import type { Track } from "../../content/types";
-import { usePlayer } from "../../hooks/usePlayer";
+import { usePlayState } from "../../hooks/usePlayState";
 import PlayGlyph from "./PlayGlyph";
 import ProgressRing from "./ProgressRing";
 import SongDuration from "./SongDuration";
@@ -10,18 +10,14 @@ const ORB = 84;
 
 // The song page's player: a rose orb in a dotted orbit that fills as a ring for the current song.
 export default function BigPlayButton({ track }: Props) {
-  const { current, status, toggle } = usePlayer();
-  const active = current?.slug === track.slug;
-  const pausable = active && status !== "paused";
-  let verb = "Play";
-  if (active) verb = pausable ? "Pause" : "Resume";
+  const { active, pausable, verb, toggle } = usePlayState(track);
 
   return (
     <button
       type="button"
       data-play={track.slug}
       aria-label={`${verb} ${track.title}`}
-      onClick={() => toggle(track)}
+      onClick={toggle}
       className="group inline-flex items-center gap-5 rounded-full pr-5 text-left"
     >
       <span className="relative grid size-[5.25rem] shrink-0 place-items-center">

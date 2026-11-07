@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import type { Track } from "../../content/types";
 import { usePlayer } from "../../hooks/usePlayer";
 import { useWarp } from "../../hooks/useWarp";
+import { isPlainClick } from "../../lib/clicks";
 import { listenPath } from "../../lib/tracks";
 import NebulaArt from "./NebulaArt";
 
@@ -21,13 +22,7 @@ export default function NebulaCue({ track, className, artClassName }: Props) {
   const { onPointerDown, warp } = useWarp(to);
 
   function onClick(event: MouseEvent<HTMLAnchorElement>) {
-    const modified =
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey;
-    if (modified) return;
+    if (!isPlainClick(event)) return;
     startFromCue(track ?? null);
     if (warp(event.currentTarget)) event.preventDefault();
   }

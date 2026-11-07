@@ -3,7 +3,7 @@ import { album, tracks } from "../../content/album";
 import { kana } from "../../content/homeSections";
 import type { Track } from "../../content/types";
 import { seeded } from "./seed";
-import { magnitude, segments, starPoint, trimmed } from "./sky";
+import { magnitude, segments, singerFill, starPoint, trimmed } from "./sky";
 
 // The dome of sixteen stars, scaled into the cover above the planet's limb.
 const dome = { width: 330, height: 98 } as const;
@@ -22,7 +22,6 @@ const snow = Array.from({ length: 46 }, (_, id) => ({
   opacity: 0.25 + random() * 0.6,
 }));
 
-const tone = { Tora: "fill-rose-200", Orion: "fill-starlight-100" } as const;
 
 type Props = { className?: string };
 
@@ -129,13 +128,13 @@ export default function AlbumCover({ className = "" }: Props) {
               cy={point.y}
               r={magnitude(track) * 4.5}
               opacity="0.22"
-              className={tone[track.singer]}
+              className={singerFill[track.singer]}
             />
             <circle
               cx={point.x}
               cy={point.y}
               r={magnitude(track) * 1.8}
-              className={tone[track.singer]}
+              className={singerFill[track.singer]}
             />
           </g>
         );
