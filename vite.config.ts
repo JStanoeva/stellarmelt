@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -7,4 +8,6 @@ export default defineConfig({
   plugins: [tailwindcss(), react()],
   // Scan only the site's entry for deps, not untracked local prototypes.
   optimizeDeps: { entries: ["index.html"] },
+  // An allowlist, so Vitest never runs anything under local-notes/.
+  test: { include: ["src/**/*.test.ts"] },
 });

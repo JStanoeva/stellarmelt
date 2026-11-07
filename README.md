@@ -94,6 +94,7 @@ Then open http://localhost:5173.
 | `npm run build` | Type-checks and builds the site into `dist/` |
 | `npm run lint` | Runs ESLint |
 | `npm run preview` | Serves the built site locally |
+| `npm test` | Runs the unit tests |
 
 ## 🗂️ Project structure
 
